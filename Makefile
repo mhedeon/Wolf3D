@@ -6,14 +6,13 @@
 #    By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 16:01:48 by mhedeon           #+#    #+#              #
-#    Updated: 2018/12/13 21:01:24 by mhedeon          ###   ########.fr        #
+#    Updated: 2019/01/10 17:21:25 by mhedeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = test
 
-SRC = main.c rotation.c event.c cast.c draw.c init.c other.c map.c trash.c \
-		create_map.c sprite.c animation.c
+SRC = main.c init.c other.c
 
 OBJ = $(SRC:.c=.o)
 
