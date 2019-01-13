@@ -12,41 +12,76 @@
 
 #include "Wolf3D.h"
 
+void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < SCREEN_HEIGHT)
+	{
+		x = -1;
+		while (++x < SCREEN_WIDTH)
+			wolf->buff[y * SCREEN_WIDTH + x] = 0;
+	}
+	y = - 1;
+	while (++y < SCREEN_HEIGHT)
+	{
+		x =  - 1;
+		while (++x < SCREEN_WIDTH)
+			wolf->buff[y * SCREEN_WIDTH + x] = tex->pixels[y * tex->sur->w + x];
+	}
+}
+
+void		intro_anim(t_wolf *wolf, t_texture *intro)
+{
+	int	x;
+	int	y;
+	int	count;
+
+	count = 256;
+	while (count > 0)
+	{
+		count -= 1;
+		y = 199;
+		while (++y < SCREEN_HEIGHT)
+		{
+			x = 199;
+			while (++x < 900)
+			{
+				get_color(intro, &wolf->color, x, y);
+				wolf->color.r = wolf->color.r > 0 ? (Uint8)(wolf->color.r * (count / 255.0)) : 0;
+				wolf->color.g = wolf->color.g > 0 ? (Uint8)(wolf->color.g * (count / 255.0)) : 0;
+				wolf->color.b = wolf->color.b > 0 ? (Uint8)(wolf->color.b * (count / 255.0)) : 0;
+				set_pixel_s(wolf, &wolf->color, x, y);
+			}
+		}
+		screen_upd(wolf);
+	}
+}
+
 void		intro(t_wolf *wolf)
 {
 	t_texture intro;
 	int count = 255;
 
-	load_texture(wolf, &intro, "resource/img/menu/intro.jpg");
-	for (int y = 0; y < intro.sur->h; y++)
+	load_texture(wolf, &intro, "resource/img/menu/intro-1.jpg");
+	cp_tex_to_buff(wolf, &intro);
+	intro_anim(wolf, &intro);
+	destroy_texture(&intro);
+	load_texture(wolf, &intro, "resource/img/menu/intro-2.jpg");
+	cp_tex_to_buff(wolf, &intro);
+	intro_anim(wolf, &intro);
+	destroy_texture(&intro);
+	
+	SDL_Event event;
+	while (1)
 	{
-		printf("[%d]dfhfgh\n", y);
-		for (int x = 0; x < intro.sur->w; x++)
-			wolf->buff[(y + 199) * SCREEN_WIDTH + (x + 249)] = intro.pixels[y * intro.sur->w  + x];
-	}
-	SDL_UpdateTexture(wolf->tex, NULL, wolf->buff, SCREEN_WIDTH * sizeof(Uint32));
-	SDL_RenderClear(wolf->ren);
-	SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
-	SDL_RenderPresent(wolf->ren);
-	SDL_Delay(1000);
-	while (count-- > 0)
-	{
-		SDL_UpdateTexture(wolf->tex, NULL, wolf->buff, SCREEN_WIDTH * sizeof(Uint32));
-		SDL_RenderClear(wolf->ren);
-		SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
-		SDL_RenderPresent(wolf->ren);
-		for (int y = 199; y < 199 + intro.sur->h; y++)
+		if (SDL_PollEvent(&event))
 		{
-			for (int x = 249; x < 249 + intro.sur->w; x++)
-			{
-				get_color(&intro, &wolf->color, x - 249, y - 199);
-				wolf->color.r = wolf->color.r > 0 ? wolf->color.r * (count / 255.0) : 0;
-				wolf->color.g = wolf->color.g > 0 ? wolf->color.g * (count / 255.0) : 0;
-				wolf->color.b = wolf->color.b > 0 ? wolf->color.b * (count / 255.0) : 0;
-				set_pixel_s(wolf, &wolf->color, x, y);
-			}
+			if (event.type == SDL_QUIT)
+				return ;
 		}
-		// SDL_Delay(5);
 	}
 }
 
@@ -55,13 +90,13 @@ int			main(int ac, char **av)
 	t_wolf *wolf = malloc(sizeof(t_wolf));
 	init(wolf);	
 
-	SDL_ShowCursor(SDL_DISABLE);
-	SDL_WarpMouseInWindow(wolf->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	//SDL_ShowCursor(SDL_DISABLE);
+	//SDL_WarpMouseInWindow(wolf->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 intro(wolf);
 	// raycast(wolf);
 
-	close_win(wolf);
+	//close_win(wolf);
 	free(wolf);
-	// system("leaks test");
+	//system("leaks test");
 	return (0);
 }

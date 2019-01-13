@@ -8,8 +8,8 @@
 
 # include "SDL.h"
 # include "SDL_image.h"
-# include "libft.h"
-# include "get_next_line.h"
+//# include "libft.h"
+//# include "get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
 # include <limits.h>
@@ -227,7 +227,8 @@ void close_win(t_wolf *wolf);
 void get_color(t_texture *tex, SDL_Color *color, int x, int y);
 void set_pixel(t_wolf *wolf, SDL_Color *color, int x, int y);
 void set_pixel_s(t_wolf *wolf, SDL_Color *color, int x, int y);
-void clear_buffer(t_wolf *wolf);
+// void clear_buffer(t_wolf *wolf);
+void	clear_buffer(t_wolf *wolf, SDL_Color *c);
 void screen_upd(t_wolf *wolf);
 int get_cardinal(t_wolf *wolf);
 

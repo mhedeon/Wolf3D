@@ -16,7 +16,7 @@ void init(t_wolf *wolf)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
-	wolf->win = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_ALWAYS_ON_TOP);
+	wolf->win = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);// | SDL_WINDOW_ALWAYS_ON_TOP);
 	//| SDL_WINDOW_FULLSCREEN);
 	wolf->ren = SDL_CreateRenderer(wolf->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	wolf->tex = SDL_CreateTexture(wolf->ren, SDL_PIXELFORMAT_ARGB8888,
@@ -31,8 +31,8 @@ void init(t_wolf *wolf)
 
 	wolf->door.opened = 0;
 
-	textures(wolf);
-	sprites(wolf);
+	/*textures(wolf);
+	sprites(wolf);*/
 
 	wolf->p_x = 31;
 	wolf->p_y = 50.5;
@@ -51,7 +51,7 @@ void init(t_wolf *wolf)
 	wolf->rs = 0;
 	wolf->fps = 0;
 }
-
+/*
 int textures(t_wolf *wolf)
 {
 	int i;
@@ -71,7 +71,8 @@ int textures(t_wolf *wolf)
 	close(fd);
 	return (1);
 }
-
+*/
+/*
 int sprites(t_wolf *wolf)
 {
 	int i;
@@ -91,7 +92,7 @@ int sprites(t_wolf *wolf)
 	close(fd);
 	return (1);
 }
-
+*/
 void load_texture(t_wolf *wolf, t_texture *tex, char *path)
 {
 	SDL_Surface *tmp;
