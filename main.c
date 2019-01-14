@@ -12,6 +12,12 @@
 
 #include "Wolf3D.h"
 
+void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
+void		intro_anim(t_wolf *wolf, t_texture *intro);
+void		intro(t_wolf *wolf);
+int pause_with_break(t_wolf *wolf, Uint32 pause);
+void ng_anim(t_wolf *wolf);
+
 void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex)
 {
 	int	x;
@@ -91,7 +97,7 @@ void		intro(t_wolf *wolf)
 	}*/
 }
 
-int pause_with_break(Uint32 pause)
+int pause_with_break(t_wolf *wolf, Uint32 pause)
 {
 	static SDL_Event	event;
 
@@ -100,28 +106,53 @@ int pause_with_break(Uint32 pause)
 		if (SDL_PollEvent(&event))
 			if (event.type == SDL_QUIT)
 				return (1);
+			else if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_N)
+			{
+				ng_anim(wolf);
+				return (1);
+			}
 		SDL_Delay(1);
 	}
 	return (0);
+}
+
+void ng_anim(t_wolf *wolf)
+{
+	t_texture ng[3];
+
+	load_texture(wolf, &ng[0], "resource/img/menu/start-1.jpg");
+	load_texture(wolf, &ng[1], "resource/img/menu/start-2.jpg");
+	load_texture(wolf, &ng[2], "resource/img/menu/start-3.jpg");
+	cp_tex_to_buff(wolf, &ng[0]);
+	screen_upd(wolf);
+	pause_with_break(wolf, 200);
+
+	cp_tex_to_buff(wolf, &ng[1]);
+	screen_upd(wolf);
+	screen_upd(wolf);
+	pause_with_break(wolf, 200);
+
+	cp_tex_to_buff(wolf, &ng[2]);
+	screen_upd(wolf);
+	screen_upd(wolf);
+	pause_with_break(wolf, 5000);
 }
 
 void menu(t_wolf *wolf)
 {
 	t_texture menu[2];
 
-	load_texture(wolf, &menu[0], "resource/img/menu/bg-1.jpg");
-	printf("1\n");
-	load_texture(wolf, &menu[1], "resource/img/menu/bg-2.jpg");
-	printf("2\n");
+	load_texture(wolf, &menu[0], "resource/img/menu/menu-1.jpg");
+	load_texture(wolf, &menu[1], "resource/img/menu/menu-2.jpg");
 	while (1)
 	{
 		cp_tex_to_buff(wolf, &menu[0]);
 		screen_upd(wolf);
-		if (pause_with_break(500))
+		if (pause_with_break(wolf, 500))
 			break ;
 		cp_tex_to_buff(wolf, &menu[1]);
 		screen_upd(wolf);
-		if (pause_with_break(500))
+		if (pause_with_break(wolf, 500))
 			break;
 	}
 }
