@@ -12,9 +12,42 @@
 
 #include "Wolf3D.h"
 
-void init(t_wolf *wolf)
+void pre_init(t_wolf *wolf)
 {
 	SDL_Init(SDL_INIT_VIDEO);
+	IMG_Init(IMG_INIT_PNG);
+	wolf->win = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	wolf->ren = SDL_CreateRenderer(wolf->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	wolf->tex = SDL_CreateTexture(wolf->ren, SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+	wolf->keyboard = SDL_GetKeyboardState(NULL);
+	wolf->buff = (Uint32 *)malloc(sizeof(Uint32) * (SCREEN_HEIGHT * SCREEN_WIDTH));
+	wolf->menu.menu[0].sur = NULL;
+	wolf->menu.menu[1].sur = NULL;
+	wolf->menu.start[0].sur = NULL;
+	wolf->menu.start[1].sur = NULL;
+	wolf->menu.start[2].sur = NULL;
+	wolf->menu.level[0].sur = NULL;
+	wolf->menu.level[1].sur = NULL;
+	wolf->menu.cursor.sur = NULL;
+}
+
+void free_garbage_1(t_wolf *wolf)
+{
+	SDL_RenderClear(wolf->ren);
+	SDL_DestroyTexture(wolf->tex);
+	SDL_DestroyRenderer(wolf->ren);
+	SDL_DestroyWindow(wolf->win);
+	IMG_Quit();
+	SDL_Quit();
+	free(wolf->buff);
+	free(wolf);
+}
+
+void init(t_wolf *wolf)
+{
+	/*SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
 	wolf->win = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);// | SDL_WINDOW_ALWAYS_ON_TOP);
 	//| SDL_WINDOW_FULLSCREEN);
@@ -22,7 +55,7 @@ void init(t_wolf *wolf)
 	wolf->tex = SDL_CreateTexture(wolf->ren, SDL_PIXELFORMAT_ARGB8888,
 		SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
 	wolf->keyboard = SDL_GetKeyboardState(NULL);
-	wolf->buff = (Uint32 *)malloc(sizeof(Uint32) * (SCREEN_HEIGHT * SCREEN_WIDTH));
+	wolf->buff = (Uint32 *)malloc(sizeof(Uint32) * (SCREEN_HEIGHT * SCREEN_WIDTH));*/
 	// clear_buffer(wolf);
 	wolf->hero = (t_stats *)malloc(sizeof(t_stats));
 	wolf->hero->healh = 50;
@@ -93,26 +126,24 @@ int sprites(t_wolf *wolf)
 	return (1);
 }
 */
-void load_texture(t_wolf *wolf, t_texture *tex, char *path)
+int load_texture(t_texture *tex, char *path)
 {
 	SDL_Surface *tmp;
-printf("%s\n", path);
+
 	tex->sur = IMG_Load(path);
 	if (tex->sur == NULL)
-		printf("null\n");
-	if (tex->sur->format->format == SDL_PIXELFORMAT_ARGB8888)
-		tex->pixels = tex->sur->pixels;
-	else
+		return (0);
+	tmp = SDL_ConvertSurfaceFormat(tex->sur, SDL_PIXELFORMAT_ARGB8888, 0);
+	if (tmp == NULL)
 	{
-		tmp = SDL_ConvertSurfaceFormat(tex->sur, SDL_PIXELFORMAT_ARGB8888, 0);
-		if (tmp == NULL)
-			printf("((((((((((((((\n");
-		SDL_FreeSurface(tex->sur);
-		tex->sur = tmp;
-		SDL_LockSurface(tex->sur);
-		if (tex->sur->format->format == SDL_PIXELFORMAT_ARGB8888)
-			tex->pixels = tex->sur->pixels;
+		destroy_texture(tex);
+		return (0);
 	}
+	SDL_FreeSurface(tex->sur);
+	tex->sur = tmp;
+	SDL_LockSurface(tex->sur);
+	tex->pixels = tex->sur->pixels;
+	return (1);
 }
 
 void destroy_texture(t_texture *tex)

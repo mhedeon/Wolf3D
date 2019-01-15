@@ -106,6 +106,14 @@ typedef struct	s_door
 	double *p_y;
 }				t_door;
 
+typedef struct	s_menu
+{
+	t_texture	menu[2];
+	t_texture	level[2];
+	t_texture	start[3];
+	t_texture	cursor;
+}				t_menu;
+
 typedef struct	s_wolf
 {
 	SDL_Window *win;
@@ -117,6 +125,7 @@ typedef struct	s_wolf
 
 	const Uint8 *keyboard;
 
+	t_menu	menu;
 	t_texture wall[WALL_NUM];
 	t_texture sprite[SPRITE_NUM];
 	SDL_Color color;
@@ -216,10 +225,12 @@ void raycast(t_wolf *wolf);
 // void		draw_d(t_wolf *wolf, int x);
 
 /*	init.c	*/
+void pre_init(t_wolf *wolf);
+void free_garbage_1(t_wolf *wolf);
 void init(t_wolf *wolf);
 int textures(t_wolf *wolf);
 int sprites(t_wolf *wolf);
-void load_texture(t_wolf *wolf, t_texture *tex, char *path);
+int load_texture(t_texture *tex, char *path);
 void destroy_texture(t_texture *tex);
 void close_win(t_wolf *wolf);
 

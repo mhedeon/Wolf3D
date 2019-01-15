@@ -17,6 +17,8 @@ void		intro_anim(t_wolf *wolf, t_texture *intro);
 void		intro(t_wolf *wolf);
 int pause_with_break(t_wolf *wolf, Uint32 pause);
 void ng_anim(t_wolf *wolf);
+int init_menu(t_menu *menu);
+int free_menu(t_menu *menu);
 
 void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex)
 {
@@ -76,11 +78,11 @@ void		intro(t_wolf *wolf)
 	t_texture intro;
 	int count = 255;
 
-	load_texture(wolf, &intro, "resource/img/menu/intro-1.jpg");
+	load_texture(&intro, "resource/img/menu/intro-1.jpg");
 	cp_tex_to_buff(wolf, &intro);
 	intro_anim(wolf, &intro);
 	destroy_texture(&intro);
-	load_texture(wolf, &intro, "resource/img/menu/intro-2.jpg");
+	load_texture(&intro, "resource/img/menu/intro-2.jpg");
 	cp_tex_to_buff(wolf, &intro);
 	intro_anim(wolf, &intro);
 	destroy_texture(&intro);
@@ -120,9 +122,9 @@ void ng_anim(t_wolf *wolf)
 {
 	t_texture ng[3];
 
-	load_texture(wolf, &ng[0], "resource/img/menu/start-1.jpg");
-	load_texture(wolf, &ng[1], "resource/img/menu/start-2.jpg");
-	load_texture(wolf, &ng[2], "resource/img/menu/start-3.jpg");
+	load_texture(&ng[0], "resource/img/menu/start-1.jpg");
+	load_texture(&ng[1], "resource/img/menu/start-2.jpg");
+	load_texture( &ng[2], "resource/img/menu/start-3.jpg");
 	cp_tex_to_buff(wolf, &ng[0]);
 	screen_upd(wolf);
 	pause_with_break(wolf, 200);
@@ -142,8 +144,8 @@ void menu(t_wolf *wolf)
 {
 	t_texture menu[2];
 
-	load_texture(wolf, &menu[0], "resource/img/menu/menu-1.jpg");
-	load_texture(wolf, &menu[1], "resource/img/menu/menu-2.jpg");
+	load_texture(&menu[0], "resource/img/menu/menu-1.jpg");
+	load_texture(&menu[1], "resource/img/menu/menu-2.jpg");
 	while (1)
 	{
 		cp_tex_to_buff(wolf, &menu[0]);
@@ -157,19 +159,58 @@ void menu(t_wolf *wolf)
 	}
 }
 
+int free_menu(t_menu *menu)
+{
+	if (menu->menu[0].sur != NULL)
+		destroy_texture(&menu->menu[0]);
+	if (menu->menu[1].sur != NULL)
+		destroy_texture(&menu->menu[1]);
+	if (menu->level[0].sur != NULL)
+		destroy_texture(&menu->level[0]);
+	if (menu->level[1].sur != NULL)
+		destroy_texture(&menu->level[1]);
+	if (menu->start[0].sur != NULL)
+		destroy_texture(&menu->start[0]);
+	if (menu->start[1].sur != NULL)
+		destroy_texture(&menu->start[1]);
+	if (menu->start[2].sur != NULL)
+		destroy_texture(&menu->start[2]);
+	if (menu->cursor.sur != NULL)
+		destroy_texture(&menu->cursor);
+	return (0);
+}
+
+int init_menu(t_menu *menu)
+{
+	if (!load_texture(&menu->menu[0], "resource/img/menu/menu-1.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->menu[1], "resource/img/menu/menu-2.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->level[0], "resource/img/menu/level-1.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->level[1], "resource/img/menu/level-2.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->start[0], "resource/img/menu/start-1.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->start[1], "resource/img/menu/start-2.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->start[2], "resource/img/menu/start-3.jpg"))
+		return (free_menu(menu));
+	if (!load_texture(&menu->cursor, "resource/img/menu/cursor.jpg"))
+		return (free_menu(menu));
+	return (1);
+}
+
 int			main(int ac, char **av)
 {
 	t_wolf *wolf = malloc(sizeof(t_wolf));
-	init(wolf);	
+	pre_init(wolf);	
 
-	//SDL_ShowCursor(SDL_DISABLE);
-	//SDL_WarpMouseInWindow(wolf->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 intro(wolf);
 menu(wolf);
-	// raycast(wolf);
 
-	//close_win(wolf);
-	free(wolf);
+
+
 	//system("leaks test");
 	return (0);
 }
