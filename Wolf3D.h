@@ -26,7 +26,7 @@
 # define WALL_NUM 58
 # define SPRITE_NUM 43
 
-
+/* for death anim? */
 # define X_BOOST SCREEN_WIDTH / 300
 # define Y_BOOST SCREEN_HEIGHT / 200
 # define SQUARE ((SCREEN_HEIGHT * SCREEN_WIDTH) >> 16)
@@ -63,6 +63,20 @@
 # define SOUTH 3
 # define WEST 0
 # define EAST 2
+
+/*
+* SDL_Rect for cursor
+*/
+# define NEW_GAME  420, 360, menu->cursor.sur->w, menu->cursor.sur->h
+# define SELECT_LEVEL 420, 428, menu->cursor.sur->w, menu->cursor.sur->h
+# define CONTROLS 420, 545, menu->cursor.sur->w, menu->cursor.sur->h
+# define EXIT 420, 625, menu->cursor.sur->w, menu->cursor.sur->h
+# define LEVEL_1 420, 360, menu->cursor.sur->w, menu->cursor.sur->h
+# define LEVEL_2 420, 421, menu->cursor.sur->w, menu->cursor.sur->h
+# define LEVEL_3 420, 483, menu->cursor.sur->w, menu->cursor.sur->h
+# define LEVEL_4 420, 545, menu->cursor.sur->w, menu->cursor.sur->h
+# define BACK 420, 625, menu->cursor.sur->w, menu->cursor.sur->h
+
 
 /*
 *	w == wall
@@ -196,9 +210,11 @@ typedef struct	s_wolf
 
 }				t_wolf;
 /*	main.c	*/
-int hbp(t_stats *hero, int s);
-void check_item(t_wolf *wolf);
-void raycast(t_wolf *wolf);
+//int hbp(t_stats *hero, int s);
+//void check_item(t_wolf *wolf);
+//void raycast(t_wolf *wolf);
+int pause_with_break(t_wolf *wolf, Uint32 pause);
+void ng_anim(t_wolf *wolf);
 
 // /*	rotation.c	*/
 // void rotate(t_wolf *wolf);
@@ -228,8 +244,8 @@ void raycast(t_wolf *wolf);
 void pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
 void init(t_wolf *wolf);
-int textures(t_wolf *wolf);
-int sprites(t_wolf *wolf);
+//int textures(t_wolf *wolf);
+//int sprites(t_wolf *wolf);
 int load_texture(t_texture *tex, char *path);
 void destroy_texture(t_texture *tex);
 void close_win(t_wolf *wolf);
@@ -259,6 +275,17 @@ int get_cardinal(t_wolf *wolf);
 // /*	animation.c	*/
 // void death_anim(t_wolf *wolf);
 // void death(t_wolf *wolf);
+
+/*	menu.c	*/
+void		draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
+void menu(t_wolf *wolf, t_menu *menu);
+int free_menu(t_menu *menu);
+int init_menu(t_menu *menu);
+
+/*	intro.c	*/
+void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
+void		intro_anim(t_wolf *wolf, t_texture *intro);
+void		intro(t_wolf *wolf);
 
 
 #endif
