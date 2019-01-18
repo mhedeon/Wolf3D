@@ -52,19 +52,19 @@ void menu(t_wolf *wolf, t_menu *menu)
 		
 		if (SDL_PollEvent(&e))
 			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN &&
-				e.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
+				e.key.keysym.sym == SDLK_SPACE))
 				break;
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_DOWN)
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_DOWN)
 			{
 				Mix_PlayChannel(-1, ch[0], 0);
 				m += m == 3 ? -3 : 1;
 			}
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_UP)
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP)
 			{
 				Mix_PlayChannel(-1, ch[0], 0);
 				m -= m == 0 ? -3 : 1;
 			}
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_RETURN)
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN)
 			{
 				if (m == 0)
 				{

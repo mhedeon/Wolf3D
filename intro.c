@@ -70,7 +70,7 @@ void		intro_anim(t_wolf *wolf, t_texture *intro)
 		intro_anim_2(wolf, intro, cur - old);
 		screen_upd(wolf);
 		if (SDL_PollEvent(&e))
-			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_SPACE)
+			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
 				break;
 	}
 }
