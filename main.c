@@ -52,16 +52,26 @@ void ng_anim(t_wolf *wolf)
 
 int			main(int ac, char **av)
 {
-	t_wolf *wolf = malloc(sizeof(t_wolf));
-	pre_init(wolf);	
-
+	t_wolf *wolf;
+	int lvl;
+	
+	wolf = malloc(sizeof(t_wolf));
+	pre_init(wolf);
 	intro(wolf);
-	if (init_menu(&wolf->menu))
+	while (1)
 	{
-		menu(wolf, &wolf->menu);
-		
+		if (init_menu_screen(&wolf->menu) &&
+			init_menu_sound(&wolf->menu))
+		{
+			lvl = menu(wolf, &wolf->menu);
+			free_menu_screen(&wolf->menu);
+			free_menu_sound(&wolf->menu);
+		}
+		else
+			break ;
+		if (lvl == 0)
+			break ;
 	}
-
 
 
 	//system("leaks test");

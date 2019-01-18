@@ -12,9 +12,16 @@
 
 #include "Wolf3D.h"
 
-void level(t_wolf *wolf, t_menu *menu)
+int show_controls(void)
 {
+	//TODO
+	return (-1);
+}
 
+int level(t_wolf *wolf, t_menu *menu)
+{
+	//TODO
+	return (-1);
 }
 
 void menu_anim(t_wolf *wolf, t_menu *menu, Uint32 new_time)
@@ -33,60 +40,47 @@ void menu_anim(t_wolf *wolf, t_menu *menu, Uint32 new_time)
 		old_time = new_time;
 }
 
-void menu(t_wolf *wolf, t_menu *menu)
+int menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
+{
+	if ((KEY == SDLK_ESCAPE) || (KEY == SDLK_DOWN) || (KEY == SDLK_UP))
+		Mix_PlayChannel(-1, menu->toggle, 0);
+	if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
+		return (0); //TODO
+	else if (KEY == SDLK_DOWN)
+		*m +=* m == 3 ? -3 : 1;
+	else if (KEY == SDLK_UP)
+		*m -=* m == 0 ? -3 : 1;
+	if (KEY == SDLK_RETURN)
+	{
+		Mix_PlayChannel(-1, menu->select, 0);
+		if (*m == 0)
+			//return (1);
+			return (-1);
+		else if (*m == 1)
+			//return (level(wolf, &wolf->menu));
+			return (-1);
+		else if (*m == 2)
+			//return (show_Controls());
+			return (-1);
+		else
+			return (0);
+	}
+	return (-1);
+}
+
+int menu(t_wolf *wolf, t_menu *menu)
 {
 	SDL_Event e;
 	int m;
-	Mix_Music *menu_m;
-	Mix_Chunk *ch[3];
+	int lvl;
 
 	m = 0;
-	ch[0] = Mix_LoadWAV("resource/sounds/chunk/Menu Toggle.wav");
-	ch[1] = Mix_LoadWAV("resource/sounds/chunk/Menu Select.wav");
-	ch[2] = Mix_LoadWAV("resource/sounds/chunk/Achtung!.wav");
-	menu_m = Mix_LoadMUS("resource/sounds/music/menu.mid");
-	if (menu_m != NULL)
-		Mix_PlayMusic(menu_m, -1);
+	lvl = -1;
+	Mix_PlayMusic(menu->music, -1);
 	while (1)
 	{
-		
 		if (SDL_PollEvent(&e))
-			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN &&
-				e.key.keysym.sym == SDLK_SPACE))
-				break;
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_DOWN)
-			{
-				Mix_PlayChannel(-1, ch[0], 0);
-				m += m == 3 ? -3 : 1;
-			}
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP)
-			{
-				Mix_PlayChannel(-1, ch[0], 0);
-				m -= m == 0 ? -3 : 1;
-			}
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN)
-			{
-				if (m == 0)
-				{
-					Mix_PlayChannel(-1, ch[1], 0);
-					SDL_Delay(150);
-					Mix_PlayChannel(-1, ch[2], 0);
-					ng_anim(wolf);
-				}
-				else if (m == 1)
-				{
-					Mix_PlayChannel(-1, ch[1], 0);
-					level(wolf, menu);
-				}
-				else if (m == 2)
-					Mix_PlayChannel(-1, ch[1], 0); //TODO
-				else if (m == 3)
-				{
-					Mix_PlayChannel(-1, ch[1], 0);
-					SDL_Delay(600);
-					break;
-				}
-			}
+			lvl = menu_event(wolf, menu, &m, e);
 		menu_anim(wolf, menu, SDL_GetTicks());
 		if (m == 0)
 			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { NEW_GAME });
@@ -96,17 +90,18 @@ void menu(t_wolf *wolf, t_menu *menu)
 			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { CONTROLS });
 		else if (m == 3)
 			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { EXIT });
-		
 		screen_upd(wolf);
+		if (lvl > -1)
+		{
+			SDL_Delay(250);
+			break;
+		}
 	}
 	Mix_HaltMusic();
-	Mix_FreeMusic(menu_m);
-	Mix_FreeChunk(ch[0]);
-	Mix_FreeChunk(ch[1]);
-	Mix_FreeChunk(ch[2]);
+	return (lvl);
 }
 
-int free_menu(t_menu *menu)
+int free_menu_screen(t_menu *menu)
 {
 	if (menu->menu[0].sur != NULL)
 		destroy_texture(&menu->menu[0]);
@@ -127,24 +122,55 @@ int free_menu(t_menu *menu)
 	return (0);
 }
 
-int init_menu(t_menu *menu)
+int init_menu_screen(t_menu *menu)
 {
 	if (!load_texture(&menu->menu[0], "resource/img/menu/menu-1.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->menu[1], "resource/img/menu/menu-2.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->level[0], "resource/img/menu/level-1.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->level[1], "resource/img/menu/level-2.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->start[0], "resource/img/menu/start-1.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->start[1], "resource/img/menu/start-2.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->start[2], "resource/img/menu/start-3.jpg"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
 	if (!load_texture(&menu->cursor, "resource/img/menu/cursor.png"))
-		return (free_menu(menu));
+		return (free_menu_screen(menu));
+	return (1);
+}
+
+int free_menu_sound(t_menu *menu)
+{
+	if (menu->music != NULL)
+		Mix_FreeMusic(menu->music);
+	if (menu->toggle != NULL)
+		Mix_FreeChunk(menu->toggle);
+	if (menu->select != NULL)
+		Mix_FreeChunk(menu->select);
+	if (menu->achtung != NULL)
+		Mix_FreeChunk(menu->achtung);
+	return (0);
+}
+
+int init_menu_sound(t_menu *menu)
+{
+	menu->music = Mix_LoadMUS("resource/sounds/music/menu.mid");
+	if (menu->music == NULL)
+		return (free_menu_sound(menu));
+	menu->toggle = Mix_LoadWAV("resource/sounds/chunk/Menu Toggle.wav");
+	if (menu->toggle == NULL)
+		return (free_menu_sound(menu));
+	menu->select = Mix_LoadWAV("resource/sounds/chunk/Menu Select.wav");
+	if (menu->select == NULL)
+		return (free_menu_sound(menu));
+	menu->achtung = Mix_LoadWAV("resource/sounds/chunk/Achtung!.wav");
+	if (menu->achtung == NULL)
+		return (free_menu_sound(menu));
+	Mix_Volume(-1, MIX_MAX_VOLUME);
 	return (1);
 }
 

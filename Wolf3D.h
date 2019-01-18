@@ -28,6 +28,11 @@
 # define WALL_NUM 58
 # define SPRITE_NUM 43
 
+/*
+* keydown
+*/
+# define KEY e.type == SDL_KEYDOWN && e.key.keysym.sym
+
 /* for death anim? */
 # define X_BOOST SCREEN_WIDTH / 300
 # define Y_BOOST SCREEN_HEIGHT / 200
@@ -128,6 +133,10 @@ typedef struct	s_menu
 	t_texture	level[2];
 	t_texture	start[3];
 	t_texture	cursor;
+	Mix_Music	*music;
+	Mix_Chunk	*toggle;
+	Mix_Chunk	*select;
+	Mix_Chunk	*achtung;
 }				t_menu;
 
 typedef struct	s_wolf
@@ -280,9 +289,11 @@ int get_cardinal(t_wolf *wolf);
 
 /*	menu.c	*/
 void		draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
-void menu(t_wolf *wolf, t_menu *menu);
-int free_menu(t_menu *menu);
-int init_menu(t_menu *menu);
+int menu(t_wolf *wolf, t_menu *menu);
+int free_menu_screen(t_menu *menu);
+int init_menu_screen(t_menu *menu);
+int init_menu_sound(t_menu *menu);
+int free_menu_sound(t_menu *menu);
 
 /*	intro.c	*/
 void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
