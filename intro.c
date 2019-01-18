@@ -39,8 +39,8 @@ static void intro_anim_2(t_wolf *wolf, t_texture *intro, Uint32 time)
 	int y;
 	double boost;
 
-	boost = (6000 - (time > 6000 ? 6000 :
-		time)) / 6000.0;
+	boost = (8000 - (time > 8000 ? 8000 :
+		time)) / 8000.0;
 	y = -1;
 	while (++y < SCREEN_HEIGHT)
 	{
@@ -64,7 +64,7 @@ void		intro_anim(t_wolf *wolf, t_texture *intro)
 
 	old = SDL_GetTicks();
 	cur = old;
-	while ((cur - old) < 6000)
+	while ((cur - old) < 8000)
 	{
 		cur = SDL_GetTicks();
 		intro_anim_2(wolf, intro, cur - old);
@@ -78,7 +78,11 @@ void		intro_anim(t_wolf *wolf, t_texture *intro)
 void		intro(t_wolf *wolf)
 {
 	t_texture intro;
+	Mix_Music *intro_m;
 
+	intro_m = Mix_LoadMUS("resource/sounds/music/intro.mid");
+	if (intro_m != NULL)
+		Mix_PlayMusic(intro_m, -1);
 	if (load_texture(&intro, "resource/img/menu/intro-1.jpg"))
 	{
 		cp_tex_to_buff(wolf, &intro);
@@ -91,4 +95,6 @@ void		intro(t_wolf *wolf)
 		intro_anim(wolf, &intro);
 		destroy_texture(&intro);
 	}
+	if (Mix_PlayingMusic())
+		Mix_HaltMusic();
 }

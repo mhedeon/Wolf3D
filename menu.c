@@ -36,12 +36,17 @@ void menu_anim(t_wolf *wolf, t_menu *menu, Uint32 new_time)
 void menu(t_wolf *wolf, t_menu *menu)
 {
 	SDL_Event e;
-	int i, m;
+	int m;
+	Mix_Music *menu_m;
+	Mix_Chunk *ch[3];
 
-	i = 0;
 	m = 0;
-	//draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { LEVEL_1 });
-
+	ch[0] = Mix_LoadWAV("resource/sounds/chunk/Menu Toggle.wav");
+	ch[1] = Mix_LoadWAV("resource/sounds/chunk/Menu Select.wav");
+	ch[2] = Mix_LoadWAV("resource/sounds/chunk/Achtung!.wav");
+	menu_m = Mix_LoadMUS("resource/sounds/music/menu.mid");
+	if (menu_m != NULL)
+		Mix_PlayMusic(menu_m, -1);
 	while (1)
 	{
 		
@@ -50,18 +55,38 @@ void menu(t_wolf *wolf, t_menu *menu)
 				e.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
 				break;
 			else if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_DOWN)
+			{
+				Mix_PlayChannel(-1, ch[0], 0);
 				m += m == 3 ? -3 : 1;
+			}
 			else if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_UP)
+			{
+				Mix_PlayChannel(-1, ch[0], 0);
 				m -= m == 0 ? -3 : 1;
+			}
 			else if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_RETURN)
+			{
 				if (m == 0)
+				{
+					Mix_PlayChannel(-1, ch[1], 0);
+					SDL_Delay(150);
+					Mix_PlayChannel(-1, ch[2], 0);
 					ng_anim(wolf);
+				}
 				else if (m == 1)
+				{
+					Mix_PlayChannel(-1, ch[1], 0);
 					level(wolf, menu);
+				}
 				else if (m == 2)
-					; //TODO
+					Mix_PlayChannel(-1, ch[1], 0); //TODO
 				else if (m == 3)
-					break ;
+				{
+					Mix_PlayChannel(-1, ch[1], 0);
+					SDL_Delay(600);
+					break;
+				}
+			}
 		menu_anim(wolf, menu, SDL_GetTicks());
 		if (m == 0)
 			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { NEW_GAME });
@@ -74,6 +99,11 @@ void menu(t_wolf *wolf, t_menu *menu)
 		
 		screen_upd(wolf);
 	}
+	Mix_HaltMusic();
+	Mix_FreeMusic(menu_m);
+	Mix_FreeChunk(ch[0]);
+	Mix_FreeChunk(ch[1]);
+	Mix_FreeChunk(ch[2]);
 }
 
 int free_menu(t_menu *menu)
