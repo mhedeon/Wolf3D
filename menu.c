@@ -18,23 +18,68 @@ int show_controls(void)
 	return (-1);
 }
 
-int level(t_wolf *wolf, t_menu *menu)
+int level_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 {
-	//TODO
+	if ((KEY == SDLK_ESCAPE) || (KEY == SDLK_DOWN) || (KEY == SDLK_UP))
+		Mix_PlayChannel(-1, menu->toggle, 0);
+	if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
+		return (-1); //TODO
+	else if (KEY == SDLK_DOWN)
+		*m += *m == 4 ? -4 : 1;
+	else if (KEY == SDLK_UP)
+		*m -= *m == 0 ? -4 : 1;
+	if (KEY == SDLK_RETURN)
+	{
+		Mix_PlayChannel(-1, menu->select, 0);
+		if (*m == 0)
+			return (1);
+		else if (*m == 1)
+			return (2);
+		else if (*m == 2)
+			return (3);
+		else if (*m == 3)
+			return (4);
+		else
+			return (0);
+	}
 	return (-1);
 }
 
-void menu_anim(t_wolf *wolf, t_menu *menu, Uint32 new_time)
+int level(t_wolf *wolf, t_menu *menu)
+{
+	SDL_Event e;
+	int m;
+	int lvl;
+
+	m = 0;
+	lvl = -1;
+	while (1)
+	{
+		if (SDL_PollEvent(&e))
+			lvl = level_event(wolf, menu, &m, e);
+		menu_anim(wolf, menu->level, SDL_GetTicks());
+		draw_cursor_in_menu(wolf, menu, m, 'l');
+		screen_upd(wolf);
+		if (lvl > -1)
+		{
+			SDL_Delay(250);
+			break;
+		}
+	}
+	return (lvl == 0 ? -1 : lvl);
+}
+
+void menu_anim(t_wolf *wolf, t_texture *menu, Uint32 new_time)
 {
 	static Uint32 old_time = 0;
 
 	if ((new_time - old_time) < 1000)
 	{
-		cp_tex_to_buff(wolf, &menu->menu[0]);
+		cp_tex_to_buff(wolf, menu);
 	}
 	else
 	{
-		cp_tex_to_buff(wolf, &menu->menu[1]);
+		cp_tex_to_buff(wolf, menu + 1);
 	}
 	if ((new_time - old_time) >= 2000)
 		old_time = new_time;
@@ -42,23 +87,25 @@ void menu_anim(t_wolf *wolf, t_menu *menu, Uint32 new_time)
 
 int menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 {
-	if ((KEY == SDLK_ESCAPE) || (KEY == SDLK_DOWN) || (KEY == SDLK_UP))
+	if ((KEY == SDLK_DOWN) || (KEY == SDLK_UP))
 		Mix_PlayChannel(-1, menu->toggle, 0);
-	if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
+	if (e.type == SDL_QUIT)// || (KEY == SDLK_ESCAPE))
 		return (0); //TODO
 	else if (KEY == SDLK_DOWN)
-		*m +=* m == 3 ? -3 : 1;
+		*m += *m == 3 ? -3 : 1;
 	else if (KEY == SDLK_UP)
-		*m -=* m == 0 ? -3 : 1;
+		*m -= *m == 0 ? -3 : 1;
 	if (KEY == SDLK_RETURN)
 	{
 		Mix_PlayChannel(-1, menu->select, 0);
 		if (*m == 0)
+		{
+			start_anim(wolf);
 			//return (1);
 			return (-1);
+		}
 		else if (*m == 1)
-			//return (level(wolf, &wolf->menu));
-			return (-1);
+			return (level(wolf, &wolf->menu));
 		else if (*m == 2)
 			//return (show_Controls());
 			return (-1);
@@ -66,6 +113,34 @@ int menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 			return (0);
 	}
 	return (-1);
+}
+
+void draw_cursor_in_menu(t_wolf *wolf, t_menu *menu, int m, char m_or_l)
+{
+	if (m_or_l == 'm')
+	{
+		if (m == 0)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { NEW_GAME });
+		else if (m == 1)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { SELECT_LEVEL });
+		else if (m == 2)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { CONTROLS });
+		else if (m == 3)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { EXIT });
+	}
+	else if (m_or_l == 'l')
+	{
+		if (m == 0)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { LEVEL_1 });
+		else if (m == 1)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { LEVEL_2 });
+		else if (m == 2)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { LEVEL_3 });
+		else if (m == 3)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { LEVEL_4 });
+		else if (m == 4)
+			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { BACK });
+	}
 }
 
 int menu(t_wolf *wolf, t_menu *menu)
@@ -81,15 +156,8 @@ int menu(t_wolf *wolf, t_menu *menu)
 	{
 		if (SDL_PollEvent(&e))
 			lvl = menu_event(wolf, menu, &m, e);
-		menu_anim(wolf, menu, SDL_GetTicks());
-		if (m == 0)
-			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { NEW_GAME });
-		else if (m == 1)
-			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { SELECT_LEVEL });
-		else if (m == 2)
-			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { CONTROLS });
-		else if (m == 3)
-			draw_cursor(wolf, &menu->cursor, &(SDL_Rect) { EXIT });
+		menu_anim(wolf, menu->menu, SDL_GetTicks());
+		draw_cursor_in_menu(wolf, menu, m, 'm');
 		screen_upd(wolf);
 		if (lvl > -1)
 		{
@@ -188,9 +256,7 @@ void draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect)
 			get_color(tex, &wolf->color, x - rect->x, y - rect->y);
 			if (!(wolf->color.r == 152 && wolf->color.g == 0 && wolf->color.b == 136))
 				wolf->buff[y * SCREEN_WIDTH + x] = (wolf->color.a << 24) |
-				wolf->color.r << 16 |
-				wolf->color.g << 8 |
-				wolf->color.b;
+				wolf->color.r << 16 | wolf->color.g << 8 | wolf->color.b;
 		}
 	}
 }

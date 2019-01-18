@@ -12,42 +12,73 @@
 
 #include "Wolf3D.h"
 
-int pause_with_break(t_wolf *wolf, Uint32 pause)
+int pause(t_wolf *wolf, Uint32 pause)
 {
-	static SDL_Event	event;
+	SDL_Event	event;
+	Uint32	time;
 
-	while (pause-- > 0)
+	time = SDL_GetTicks();
+	while ((SDL_GetTicks() - time) < pause)
 	{
 		if (SDL_PollEvent(&event))
-			if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
-				event.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
-				return (1);
+			;
 		SDL_Delay(1);
 	}
 	return (0);
 }
 
-void ng_anim(t_wolf *wolf)
+int free_start(t_texture *start, Mix_Chunk *achtung)
 {
-	t_texture ng[3];
+	if (start->sur != NULL)
+		destroy_texture(start);
+	if ((start + 1)->sur != NULL)
+		destroy_texture(start + 1);
+	if ((start + 2)->sur != NULL)
+		destroy_texture(start + 2);
+	if (achtung != NULL)
+		Mix_FreeChunk(achtung);
+	return (0);
+}
 
-	load_texture(&ng[0], "resource/img/menu/start-1.jpg");
-	load_texture(&ng[1], "resource/img/menu/start-2.jpg");
-	load_texture( &ng[2], "resource/img/menu/start-3.jpg");
-	cp_tex_to_buff(wolf, &ng[0]);
-	screen_upd(wolf);
-	screen_upd(wolf);
-	pause_with_break(wolf, 200);
+int init_start(t_texture *start, Mix_Chunk *achtung)
+{
+	start->sur = NULL;
+	(start + 1)->sur = NULL;
+	(start + 2)->sur = NULL;
+	if (!load_texture(start, "resource/img/menu/start-1.jpg"))
+		return (free_start(start, achtung));
+	if (!load_texture(start + 1, "resource/img/menu/start-2.jpg"))
+		return (free_start(start, achtung));
+	if (!load_texture(start + 2, "resource/img/menu/start-3.jpg"))
+		return (free_start(start, achtung));
+	if (achtung == NULL)
+		return (free_start(start, achtung));
+	return (1);
+}
 
-	cp_tex_to_buff(wolf, &ng[1]);
-	screen_upd(wolf);
-	screen_upd(wolf);
-	pause_with_break(wolf, 200);
+void start_anim(t_wolf *wolf)
+{
+	t_texture start[3];
+	Mix_Chunk *achtung;
 
-	cp_tex_to_buff(wolf, &ng[2]);
-	screen_upd(wolf);
-	screen_upd(wolf);
-	pause_with_break(wolf, 5000);
+	achtung = Mix_LoadWAV("resource/sounds/chunk/Achtung!.wav");
+	if (init_start(start, achtung))
+	{
+		Mix_PlayChannel(-1, achtung, 0);
+		cp_tex_to_buff(wolf, &start[0]);
+		screen_upd(wolf);
+		screen_upd(wolf);
+		pause(wolf, 200);
+		cp_tex_to_buff(wolf, &start[1]);
+		screen_upd(wolf);
+		screen_upd(wolf);
+		pause(wolf, 200);
+		cp_tex_to_buff(wolf, &start[2]);
+		screen_upd(wolf);
+		screen_upd(wolf);
+		pause(wolf, 2000);
+		free_start(start, achtung);
+	}
 }
 
 int			main(int ac, char **av)

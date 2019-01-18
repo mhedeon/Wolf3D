@@ -224,8 +224,10 @@ typedef struct	s_wolf
 //int hbp(t_stats *hero, int s);
 //void check_item(t_wolf *wolf);
 //void raycast(t_wolf *wolf);
-int pause_with_break(t_wolf *wolf, Uint32 pause);
-void ng_anim(t_wolf *wolf);
+int pause(t_wolf *wolf, Uint32 pause);
+int free_start(t_texture *start, Mix_Chunk *achtung);
+int init_start(t_texture *start, Mix_Chunk *achtung);
+void start_anim(t_wolf *wolf);
 
 // /*	rotation.c	*/
 // void rotate(t_wolf *wolf);
@@ -288,12 +290,17 @@ int get_cardinal(t_wolf *wolf);
 // void death(t_wolf *wolf);
 
 /*	menu.c	*/
-void		draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
+int show_controls(void);
+int level(t_wolf *wolf, t_menu *menu);
+void menu_anim(t_wolf *wolf, t_texture *menu, Uint32 new_time);
+int menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e);
+void draw_cursor_in_menu(t_wolf *wolf, t_menu *menu, int m, char m_or_l);
 int menu(t_wolf *wolf, t_menu *menu);
 int free_menu_screen(t_menu *menu);
 int init_menu_screen(t_menu *menu);
 int init_menu_sound(t_menu *menu);
 int free_menu_sound(t_menu *menu);
+void draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
 
 /*	intro.c	*/
 void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
