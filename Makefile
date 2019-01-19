@@ -6,13 +6,13 @@
 #    By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 16:01:48 by mhedeon           #+#    #+#              #
-#    Updated: 2019/01/10 17:21:25 by mhedeon          ###   ########.fr        #
+#    Updated: 2019/01/19 18:35:48 by mhedeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = test
 
-SRC = main.c init.c other.c
+SRC = main.c init.c other.c intro.c menu.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -20,9 +20,10 @@ FLAGS = -Wall -Werror -Wextra
 
 LDFLAGS = -I./frameworks/SDL2.framework/Headers/ \
 			-I./frameworks/SDL2_image.framework/Headers/ \
+			-I./frameworks/SDL2_mixer.framework/Headers/ \
 			-F./frameworks -I./libft
 
-FRAMEWORKS = -F./frameworks -rpath ./frameworks -framework SDL2 -framework SDL2_image
+FRAMEWORKS = -F./frameworks -rpath ./frameworks -framework SDL2 -framework SDL2_image -framework SDL2_mixer
 
 start: all clean
 	./test

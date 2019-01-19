@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/10 17:43:37 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/19 18:46:33 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void pre_init(t_wolf *wolf)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	IMG_Init(IMG_INIT_JPG);
-	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024);
 	wolf->win = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	wolf->ren = SDL_CreateRenderer(wolf->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
