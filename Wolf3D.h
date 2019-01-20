@@ -89,6 +89,7 @@
 *	w == wall
 *	s == sprite
 *	c == collision
+*	d == door
 */
 typedef struct	s_map
 {
@@ -252,13 +253,8 @@ typedef struct	s_wolf
 /*	init.c	*/
 void pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
-void init(t_wolf *wolf);
-int textures(t_wolf *wolf);
-int free_sprites(t_wolf *wolf, int i, char *path, char *line);
-int sprites(t_wolf *wolf);
-int load_texture(t_texture *tex, char *path);
-void destroy_texture(t_texture *tex);
-void close_win(t_wolf *wolf);
+void free_garbage_2(t_wolf *wolf);
+void post_init(t_wolf *wolf);
 
 /*	other.c	*/
 void get_color(t_texture *tex, SDL_Color *color, int x, int y);
@@ -316,7 +312,23 @@ int		free_start(t_texture *start, Mix_Chunk *achtung);
 int		init_start(t_texture *start, Mix_Chunk *achtung);
 void	start_anim(t_wolf *wolf);
 
+/*	texture.c	*/
+int free_textures(t_texture *texture, int i, char *path, char *line);
+int textures(t_texture *texture, int num, char *p);
+int load_texture(t_texture *tex, char *path);
+void destroy_texture(t_texture *tex);
 
+/*	map.c	*/
+int map(t_wolf *wolf, char *path);
+int	check_player_xy(t_wolf *wolf);
 
+/*	check_mp.c	*/
+int check_word(t_map *map, char *word);
+
+/*	map_trash.c	*/
+int matrix_height(char **mat);
+void matrix_del(char **m);
+int get_number(char a, char b);
+int		check_digit(char *word);
 
 #endif
