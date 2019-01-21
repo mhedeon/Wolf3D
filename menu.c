@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/19 21:27:46 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/21 22:45:13 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void			menu_anim(t_wolf *wolf, t_texture *menu, Uint32 new_time)
 
 int				menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 {
-	if ((KEY == SDLK_ESCAPE) || (KEY == SDLK_DOWN) || (KEY == SDLK_UP))
-		Mix_PlayChannel(-1, menu->toggle, 0);
-	if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
+	if ((KEY == SDLK_DOWN) || (KEY == SDLK_UP))
+		Mix_PlayChannel(1, menu->toggle, 0);
+	if (e.type == SDL_QUIT)
 		return (0);
 	else if (KEY == SDLK_DOWN)
 		*m += *m == 3 ? -3 : 1;
@@ -40,7 +40,7 @@ int				menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 		*m -= *m == 0 ? -3 : 1;
 	if (KEY == SDLK_RETURN)
 	{
-		Mix_PlayChannel(-1, menu->select, 0);
+		Mix_PlayChannel(1, menu->select, 0);
 		if (*m == 0)
 			return (1);
 		else if (*m == 1)
@@ -90,11 +90,14 @@ int				m_menu(t_wolf *wolf, t_menu *menu)
 
 	m = 0;
 	lvl = -1;
-	Mix_PlayMusic(menu->music, -1);
+	Mix_PlayMusic(menu->music, 1);
 	while (1)
 	{
 		if (SDL_PollEvent(&e))
+		{
+			changes(wolf, e);
 			lvl = menu_event(wolf, menu, &m, e);
+		}
 		menu_anim(wolf, menu->menu, SDL_GetTicks());
 		draw_cursor_in_menu(wolf, menu, m, 'm');
 		screen_upd(wolf);

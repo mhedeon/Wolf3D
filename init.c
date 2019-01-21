@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/20 18:57:40 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/21 22:32:53 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ void	pre_init(t_wolf *wolf)
 	IMG_Init(IMG_INIT_JPG);
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024);
 	wolf->win = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);// | SDL_WINDOW_FULLSCREEN_DESKTOP);
-	wolf->ren = SDL_CreateRenderer(wolf->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+				SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
+				SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+	load_texture(&wolf->icon, "./resource/img/menu/cursor.png");
+	SDL_SetWindowIcon(wolf->win, wolf->icon.sur);
+	wolf->ren = SDL_CreateRenderer(wolf->win, -1,
+				SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	wolf->tex = SDL_CreateTexture(wolf->ren, SDL_PIXELFORMAT_ARGB8888,
 		SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
 	wolf->keyboard = SDL_GetKeyboardState(NULL);
-	wolf->buff = (Uint32 *)malloc(sizeof(Uint32) * (SCREEN_HEIGHT * SCREEN_WIDTH));
+	wolf->buff = (Uint32 *)malloc(sizeof(Uint32) *
+					(SCREEN_HEIGHT * SCREEN_WIDTH));
 	wolf->menu.menu[0].sur = NULL;
 	wolf->menu.menu[1].sur = NULL;
 	wolf->menu.start[0].sur = NULL;
@@ -32,14 +37,18 @@ void	pre_init(t_wolf *wolf)
 	wolf->menu.level[0].sur = NULL;
 	wolf->menu.level[1].sur = NULL;
 	wolf->menu.cursor.sur = NULL;
+	SDL_ShowCursor(SDL_DISABLE);
+	SDL_WarpMouseInWindow(wolf->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 void	free_garbage_1(t_wolf *wolf)
 {
+	destroy_texture(&wolf->icon);
 	SDL_RenderClear(wolf->ren);
 	SDL_DestroyTexture(wolf->tex);
 	SDL_DestroyRenderer(wolf->ren);
 	SDL_DestroyWindow(wolf->win);
+	SDL_ShowCursor(SDL_ENABLE);
 	// IMG_Quit();
 	// SDL_Quit();
 	// Mix_CloseAudio();
@@ -66,6 +75,8 @@ void	post_init(t_wolf *wolf)
 	wolf->door.opened = 0;
 	textures(wolf->wall, WALL_NUM, "./resource/img/walls/");
 	textures(wolf->sprite, SPRITE_NUM, "./resource/img/sprites/");
+	wolf->p_x = 0;
+	wolf->p_y = 0;
 	wolf->dir_x = 1;
 	wolf->dir_y = 0;
 	wolf->plane_x = 0;

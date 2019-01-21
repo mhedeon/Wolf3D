@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:50:04 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/20 17:05:21 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/21 18:30:17 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int				load_texture(t_texture *tex, char *path)
 {
 	SDL_Surface	*tmp;
 
+	tex->sur = NULL;
 	tex->sur = IMG_Load(path);
 	if (tex->sur == NULL)
 		return (0);
@@ -77,8 +78,11 @@ int				load_texture(t_texture *tex, char *path)
 
 void			destroy_texture(t_texture *tex)
 {
-	SDL_UnlockSurface(tex->sur);
-	SDL_FreeSurface(tex->sur);
+	if (tex->sur != NULL)
+	{
+		SDL_UnlockSurface(tex->sur);
+		SDL_FreeSurface(tex->sur);
+	}
 	tex->sur = NULL;
 	tex->pixels = NULL;
 }

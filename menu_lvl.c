@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:43:55 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/19 20:50:53 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/21 22:46:18 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int				show_controls(void)
 int				level_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 {
 	if ((KEY == SDLK_ESCAPE) || (KEY == SDLK_DOWN) || (KEY == SDLK_UP))
-		Mix_PlayChannel(-1, menu->toggle, 0);
+		Mix_PlayChannel(1, menu->toggle, 0);
 	if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
 		return (0);
 	else if (KEY == SDLK_DOWN)
@@ -30,7 +30,7 @@ int				level_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 		*m -= *m == 0 ? -4 : 1;
 	if (KEY == SDLK_RETURN)
 	{
-		Mix_PlayChannel(-1, menu->select, 0);
+		Mix_PlayChannel(1, menu->select, 0);
 		if (*m == 0)
 			return (1);
 		else if (*m == 1)
@@ -56,7 +56,10 @@ int				level(t_wolf *wolf, t_menu *menu)
 	while (1)
 	{
 		if (SDL_PollEvent(&e))
+		{
+			changes(wolf, e);
 			lvl = level_event(wolf, menu, &m, e);
+		}
 		menu_anim(wolf, menu->level, SDL_GetTicks());
 		draw_cursor_in_menu(wolf, menu, m, 'l');
 		screen_upd(wolf);
