@@ -6,16 +6,16 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/10 17:52:40 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/19 20:35:08 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex)
+void			cp_tex_to_buff(t_wolf *wolf, t_texture *tex)
 {
-	int	x;
-	int	y;
+	int			x;
+	int			y;
 
 	y = -1;
 	while (++y < SCREEN_HEIGHT)
@@ -33,11 +33,11 @@ void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex)
 	}
 }
 
-static void intro_anim_2(t_wolf *wolf, t_texture *intro, Uint32 time)
+static void		intro_anim_2(t_wolf *wolf, t_texture *intro, Uint32 time)
 {
-	int x;
-	int y;
-	double boost;
+	int		x;
+	int		y;
+	double	boost;
 
 	boost = (8000 - (time > 8000 ? 8000 :
 		time)) / 8000.0;
@@ -56,11 +56,11 @@ static void intro_anim_2(t_wolf *wolf, t_texture *intro, Uint32 time)
 	}
 }
 
-void		intro_anim(t_wolf *wolf, t_texture *intro)
+void			intro_anim(t_wolf *wolf, t_texture *intro)
 {
-	Uint32 old;
-	Uint32 cur;
-	SDL_Event e;
+	Uint32		old;
+	Uint32		cur;
+	SDL_Event	e;
 
 	old = SDL_GetTicks();
 	cur = old;
@@ -70,15 +70,19 @@ void		intro_anim(t_wolf *wolf, t_texture *intro)
 		intro_anim_2(wolf, intro, cur - old);
 		screen_upd(wolf);
 		if (SDL_PollEvent(&e))
-			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
-				break;
+		{
+			if (KEY == SDLK_SPACE)
+				break ;
+			else if (KEY == SDLK_RETURN)
+				system("open https://github.com/mhedeon");
+		}
 	}
 }
 
-void		intro(t_wolf *wolf)
+void			intro(t_wolf *wolf)
 {
-	t_texture intro;
-	Mix_Music *intro_m;
+	t_texture	intro;
+	Mix_Music	*intro_m;
 
 	intro_m = Mix_LoadMUS("resource/sounds/music/intro.mid");
 	if (intro_m != NULL)
@@ -97,4 +101,6 @@ void		intro(t_wolf *wolf)
 	}
 	if (Mix_PlayingMusic())
 		Mix_HaltMusic();
+	if (intro_m != NULL)
+		Mix_FreeMusic(intro_m);
 }

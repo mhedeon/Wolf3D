@@ -8,10 +8,10 @@
 
 # include "SDL.h"
 # include "SDL_image.h"
-# include "SDL_ttf.h"
+//# include "SDL_ttf.h"
 # include "SDL_mixer.h"
-//# include "libft.h"
-//# include "get_next_line.h"
+# include "libft.h"
+# include "get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
 # include <limits.h>
@@ -89,6 +89,7 @@
 *	w == wall
 *	s == sprite
 *	c == collision
+*	d == door
 */
 typedef struct	s_map
 {
@@ -170,7 +171,6 @@ typedef struct	s_wolf
 	double frame;
 	double fps;
 
-	double sensitivity;
 	double p_x;
 	double p_y;
 	double dir_x;
@@ -224,10 +224,7 @@ typedef struct	s_wolf
 //int hbp(t_stats *hero, int s);
 //void check_item(t_wolf *wolf);
 //void raycast(t_wolf *wolf);
-int pause(t_wolf *wolf, Uint32 pause);
-int free_start(t_texture *start, Mix_Chunk *achtung);
-int init_start(t_texture *start, Mix_Chunk *achtung);
-void start_anim(t_wolf *wolf);
+
 
 // /*	rotation.c	*/
 // void rotate(t_wolf *wolf);
@@ -256,12 +253,8 @@ void start_anim(t_wolf *wolf);
 /*	init.c	*/
 void pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
-void init(t_wolf *wolf);
-//int textures(t_wolf *wolf);
-//int sprites(t_wolf *wolf);
-int load_texture(t_texture *tex, char *path);
-void destroy_texture(t_texture *tex);
-void close_win(t_wolf *wolf);
+void free_garbage_2(t_wolf *wolf);
+void post_init(t_wolf *wolf);
 
 /*	other.c	*/
 void get_color(t_texture *tex, SDL_Color *color, int x, int y);
@@ -290,22 +283,52 @@ int get_cardinal(t_wolf *wolf);
 // void death(t_wolf *wolf);
 
 /*	menu.c	*/
-int show_controls(void);
-int level(t_wolf *wolf, t_menu *menu);
 void menu_anim(t_wolf *wolf, t_texture *menu, Uint32 new_time);
 int menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e);
 void draw_cursor_in_menu(t_wolf *wolf, t_menu *menu, int m, char m_or_l);
-int menu(t_wolf *wolf, t_menu *menu);
-int free_menu_screen(t_menu *menu);
-int init_menu_screen(t_menu *menu);
-int init_menu_sound(t_menu *menu);
-int free_menu_sound(t_menu *menu);
-void draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
+int m_menu(t_wolf *wolf, t_menu *menu);
+
+/*	menu_lvl.c	*/
+int show_controls(void);
+int level_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e);
+int level(t_wolf *wolf, t_menu *menu);
+void	draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
+
+/*	menu_resource.c	*/
+int		free_menu_screen(t_menu *menu);
+int		init_menu_screen(t_menu *menu);
+int		init_menu_sound(t_menu *menu);
+int		free_menu_sound(t_menu *menu);
+int		start_menu(t_wolf *wolf, t_menu *menu);
 
 /*	intro.c	*/
-void		cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
-void		intro_anim(t_wolf *wolf, t_texture *intro);
-void		intro(t_wolf *wolf);
+void	cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
+void	intro_anim(t_wolf *wolf, t_texture *intro);
+void	intro(t_wolf *wolf);
 
+/*	start.c	*/
+int		pause_frame(t_wolf *wolf, Uint32 pause);
+int		free_start(t_texture *start, Mix_Chunk *achtung);
+int		init_start(t_texture *start, Mix_Chunk *achtung);
+void	start_anim(t_wolf *wolf);
+
+/*	texture.c	*/
+int free_textures(t_texture *texture, int i, char *path, char *line);
+int textures(t_texture *texture, int num, char *p);
+int load_texture(t_texture *tex, char *path);
+void destroy_texture(t_texture *tex);
+
+/*	map.c	*/
+int map(t_wolf *wolf, char *path);
+int	check_player_xy(t_wolf *wolf);
+
+/*	check_mp.c	*/
+int check_word(t_map *map, char *word);
+
+/*	map_trash.c	*/
+int matrix_height(char **mat);
+void matrix_del(char **m);
+int get_number(char a, char b);
+int		check_digit(char *word);
 
 #endif
