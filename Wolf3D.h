@@ -148,9 +148,12 @@ typedef struct	s_wolf
 	SDL_Texture *tex;
 	SDL_PixelFormat format;
 	Uint32 *buff;
+	t_texture icon;
 
 	const Uint8 *keyboard;
 
+	Mix_Music *lvl_music;
+	int volume;
 	t_menu	menu;
 	t_texture wall[WALL_NUM];
 	t_texture sprite[SPRITE_NUM];
@@ -221,34 +224,35 @@ typedef struct	s_wolf
 
 }				t_wolf;
 /*	main.c	*/
-//int hbp(t_stats *hero, int s);
-//void check_item(t_wolf *wolf);
-//void raycast(t_wolf *wolf);
+int hbp(t_stats *hero, int s);
+void check_item(t_wolf *wolf);
+void raycast(t_wolf *wolf);
 
 
-// /*	rotation.c	*/
-// void rotate(t_wolf *wolf);
-// void step(t_wolf *wolf, int dir);
-// void rot_dir(t_wolf *wolf, double rs);
-// void rot_plane(t_wolf *wolf, double rs);
-// void strafe(t_wolf *wolf, int dir);
+/*	rotation.c	*/
+void rotate(t_wolf *wolf);
+void step(t_wolf *wolf, int dir);
+void rot_dir(t_wolf *wolf, double rs);
+void rot_plane(t_wolf *wolf, double rs);
+void strafe(t_wolf *wolf, int dir);
 
-// /*	event.c	*/
-// int event(t_wolf *wolf);
-// void open_door(t_wolf *wolf);
-// void close_door(t_wolf *wolf);
+/*	event.c	*/
+int event(t_wolf *wolf);
+void open_door(t_wolf *wolf);
+void close_door(t_wolf *wolf);
+void changes(t_wolf *wolf, SDL_Event e);
 
-// /* cast.c	*/
-// void cast(t_wolf *wolf);
-// int		cast_door(t_wolf *wolf);
+/* cast.c	*/
+void cast(t_wolf *wolf);
+int		cast_door(t_wolf *wolf);
 
-// /*	draw.c	*/
-// void draw(t_wolf *wolf, int x);
-// void draw_wall(t_wolf *wolf, int x);
-// void draw_floor(t_wolf *wolf, int x);
-// void draw_x(t_wolf *wolf);
-// void draw_door(t_wolf *wolf, int x);
-// void		draw_d(t_wolf *wolf, int x);
+/*	draw.c	*/
+void draw(t_wolf *wolf, int x);
+void draw_wall(t_wolf *wolf, int x);
+void draw_floor(t_wolf *wolf, int x);
+void draw_x(t_wolf *wolf);
+void draw_door(t_wolf *wolf, int x);
+void		draw_d(t_wolf *wolf, int x);
 
 /*	init.c	*/
 void pre_init(t_wolf *wolf);
@@ -260,23 +264,13 @@ void post_init(t_wolf *wolf);
 void get_color(t_texture *tex, SDL_Color *color, int x, int y);
 void set_pixel(t_wolf *wolf, SDL_Color *color, int x, int y);
 void set_pixel_s(t_wolf *wolf, SDL_Color *color, int x, int y);
-// void clear_buffer(t_wolf *wolf);
-void	clear_buffer(t_wolf *wolf, SDL_Color *c);
+void clear_buffer(t_wolf *wolf);
+// void	clear_buffer(t_wolf *wolf, SDL_Color *c);
 void screen_upd(t_wolf *wolf);
 int get_cardinal(t_wolf *wolf);
 
-// /*	map.c	*/
-// int read_map(t_wolf *wolf, char *path);
-
-// /*	trash.c	*/
-// int matrix_height(char **mat);
-// void matrix_del(char **m);
-
-// /*	create_map.c	*/
-// int check_word(t_map *map, char *word);
-
-// /*	sprite.c	*/
-// void draw_sprite(t_wolf *wolf, int x);
+/*	sprite.c	*/
+void draw_sprite(t_wolf *wolf, int x);
 
 // /*	animation.c	*/
 // void death_anim(t_wolf *wolf);
@@ -330,5 +324,11 @@ int matrix_height(char **mat);
 void matrix_del(char **m);
 int get_number(char a, char b);
 int		check_digit(char *word);
+
+/*	loading.c	*/
+void			loading(t_wolf *wolf, int persent);
+
+/*	lvl1.c	*/
+void start_lvl_1(t_wolf *wolf);
 
 #endif

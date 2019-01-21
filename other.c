@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:22:21 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/10 17:48:26 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/21 21:24:19 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,24 @@ void	set_pixel_s(t_wolf *wolf, SDL_Color *color, int x, int y)
 										color->b;
 }
 
-void	clear_buffer(t_wolf *wolf, SDL_Color *c)
-{
-	int	x;
-	int	y;
+// void	clear_buffer(t_wolf *wolf, SDL_Color *c)
+// {
+// 	int	x;
+// 	int	y;
 
-	y = -1;
-	while (++y < SCREEN_HEIGHT)
-	{
-		x = -1;
-		while (++x < SCREEN_WIDTH)
-			wolf->buff[y * SCREEN_WIDTH + x] = (255 << c->a) |
-												152 << c->r |
-												0 << c->g |
-												c->b;
-	}
-}
+// 	y = -1;
+// 	while (++y < SCREEN_HEIGHT)
+// 	{
+// 		x = -1;
+// 		while (++x < SCREEN_WIDTH)
+// 			wolf->buff[y * SCREEN_WIDTH + x] = (255 << c->a) |
+// 												152 << c->r |
+// 												0 << c->g |
+// 												c->b;
+// 	}
+// }
 
-/*void	clear_buffer(t_wolf *wolf)
+void	clear_buffer(t_wolf *wolf)
 {
 	int	x;
 	int	y;
@@ -71,7 +71,7 @@ void	clear_buffer(t_wolf *wolf, SDL_Color *c)
 												0 << 8 |
 												136;
 	}
-}*/
+}
 
 // &((SDL_Rect){50, 50, WINDOW_WIDTH, WINDOW_HEIGHT})
 void	screen_upd(t_wolf *wolf)

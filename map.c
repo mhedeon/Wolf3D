@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:39:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/20 20:31:51 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/21 20:29:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,45 +78,13 @@ static int		parse_map(t_wolf *wolf, int i, char *line)
 	return (1);
 }
 
-void			loading(t_wolf *wolf, int persent)
-{
-	t_texture load;
-	SDL_Event e;
-
-	if (SDL_PollEvent(&e))
-		;
-	if (persent <= 10)
-		load_texture(&load, "./resource/img/loading/L10.jpg");
-	else if (persent > 10 && persent <= 20)
-		load_texture(&load, "./resource/img/loading/L20.jpg");
-	if (persent > 20 && persent <= 30)
-		load_texture(&load, "./resource/img/loading/L30.jpg");
-	if (persent > 30 && persent <= 40)
-		load_texture(&load, "./resource/img/loading/L40.jpg");
-	if (persent > 40 && persent <= 50)
-		load_texture(&load, "./resource/img/loading/L50.jpg");
-	if (persent > 50 && persent <= 60)
-		load_texture(&load, "./resource/img/loading/L60.jpg");
-	if (persent > 60 && persent <= 70)
-		load_texture(&load, "./resource/img/loading/L70.jpg");
-	if (persent > 70 && persent <= 80)
-		load_texture(&load, "./resource/img/loading/L80.jpg");
-	if (persent > 80 && persent <= 90)
-		load_texture(&load, "./resource/img/loading/L90.jpg");
-	if (persent >= 90)
-		load_texture(&load, "./resource/img/loading/L100.jpg");
-	cp_tex_to_buff(wolf, &load);
-	screen_upd(wolf);
-}
-
 int				map(t_wolf *wolf, char *path)
 {
 	int			i;
 	int			fd;
 	char		*line;
 
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
+	if ((fd = open(path, O_RDONLY)) == -1)
 		return (0);
 	if (get_wh(wolf, fd) && get_xy(wolf, fd))
 	{
@@ -132,10 +100,11 @@ int				map(t_wolf *wolf, char *path)
 				return (0);
 			}
 		}
+		close(fd);
+		return (check_player_xy(wolf));
 	}
 	close(fd);
-	printf("xy check\n");
-	return (check_player_xy(wolf));
+	return (0);
 }
 
 int				check_player_xy(t_wolf *wolf)
@@ -147,7 +116,6 @@ int				check_player_xy(t_wolf *wolf)
 		wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].c == 1 ||
 		wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].d == 1)
 	{
-		yx[0] = 0;
 		while (++(yx[0]) < (wolf->m_height - 1))
 		{
 			yx[1] = 0;
