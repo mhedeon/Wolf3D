@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 16:29:40 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 21:21:46 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/22 17:27:26 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void draw_sprite(t_wolf *wolf, int x)
 		if (tx < SPRITE_WIDTH && tx >= 0 && ty < SPRITE_HEIGHT && ty >= 0)
 		{
 			get_color(&wolf->sprite[CURRENT_SPRITE], &wolf->color, tx, ty);
-			if ((wolf->color.r != 152 || wolf->color.g != 0 || wolf->color.b != 136))
+			// if ((wolf->color.r != 152 || wolf->color.g != 0 || wolf->color.b != 136))
 				set_pixel(wolf, &wolf->color, x, y);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 22:32:53 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/22 17:16:49 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	pre_init(t_wolf *wolf)
 	wolf->win = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
 				SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
-	load_texture(&wolf->icon, "./resource/img/menu/cursor.png");
+	load_texture(&wolf->icon, "./resource/img/menu/icon.png");
 	SDL_SetWindowIcon(wolf->win, wolf->icon.sur);
 	wolf->ren = SDL_CreateRenderer(wolf->win, -1,
 				SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -87,5 +87,5 @@ void	post_init(t_wolf *wolf)
 	wolf->frame = 0;
 	wolf->ms = 0;
 	wolf->rs = 0;
-	wolf->fps = 0;
+	wolf->fps = 60;
 }

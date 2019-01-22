@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:43:55 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 22:46:18 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/22 18:09:19 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				level(t_wolf *wolf, t_menu *menu)
 	{
 		if (SDL_PollEvent(&e))
 		{
-			changes(wolf, e);
+			// changes(wolf, e);
 			lvl = level_event(wolf, menu, &m, e);
 		}
 		menu_anim(wolf, menu->level, SDL_GetTicks());

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 22:29:45 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/22 17:58:26 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,52 @@ void check_item(t_wolf *wolf)
 		hbp(wolf->hero, wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].sprite);
 }
 
+// void fps(t_wolf *wolf)
+// {
+// 	static int counter = 0;
+// 	static int i = 0;
+// 	static int average = 0;
+
+// 	counter++;
+// 	wolf->end_frame = SDL_GetTicks();
+// 	// printf("c: %f\n", wolf->end_frame - wolf->start_frame);
+// 	if ((wolf->end_frame - wolf->start_frame) >= 1000)
+// 	{
+// 		wolf->fps = counter;
+// 		// if (++i > 1)
+// 		// {
+// 		// 	wolf->fps = (average + counter) / 2;
+// 		// 	i = 0;
+// 		// 	average = 0;
+// 		// }
+// 		// else
+// 		// 	average += counter;
+// 		counter = 0;
+// 		wolf->start_frame = wolf->end_frame;
+// 		printf("FPS: %f\n", wolf->fps);
+// 	}
+// }
+
+void fps(t_wolf *wolf)
+{
+	static int counter = 0;
+
+	counter += 1;
+	wolf->end_frame = SDL_GetTicks();
+	if ((wolf->end_frame - wolf->start_frame) < 33)
+		SDL_Delay(33 - (wolf->end_frame - wolf->start_frame));
+	
+}
+
 void raycast(t_wolf *wolf)
 {
+	double ms = 1 / wolf->fps * 5.0;
+	wolf->start_frame = SDL_GetTicks();
 	while (event(wolf))
 	{
-		// if (wolf->door.opened)
-		// 	close_door(wolf);
-		// check_item(wolf);
+		if (wolf->door.opened)
+			close_door(wolf);
+		check_item(wolf);
 
 		SDL_Thread *thread[THREADS];
 		t_wolf woph[THREADS];
@@ -77,17 +116,22 @@ void raycast(t_wolf *wolf)
 		draw_x(wolf);
 		SDL_UpdateTexture(wolf->tex, NULL, wolf->buff, SCREEN_WIDTH * sizeof(Uint32));
 		screen_upd(wolf);
-		clear_buffer(wolf);
+		// clear_buffer(wolf);
 	
 
-		wolf->end_frame = SDL_GetTicks();
-		wolf->frame = (wolf->end_frame - wolf->start_frame) / 1000.0;
-		wolf->fps = 1.0 / wolf->frame;
-		wolf->ms = wolf->frame * 5.0;
-		wolf->rs = wolf->frame * 150.0;
-		printf("FPS: %f\n", wolf->fps);
+		// wolf->end_frame = SDL_GetTicks();
+		// wolf->frame = (wolf->end_frame - wolf->start_frame) / 1000.0;
+		// wolf->fps = 1.0 / wolf->frame;
+		fps(wolf);
+		wolf->ms = 1 / 30.0 * 5.0;
+		// wolf->ms = (wolf->ms + ms) / 2;
+		// ms = wolf->ms;
+		// wolf->rs = 1 / wolf->fps * 150.0;
+		// printf("FPS: %f\n", wolf->fps);
 		wolf->start_frame = wolf->end_frame;
 
+		screen_upd(wolf);
+		clear_buffer(wolf);
 	}
 	/*wolf->color.a = 0xFF;
 	wolf->color.r = 0x8D;//0x8D;

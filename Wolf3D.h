@@ -242,6 +242,7 @@ void open_door(t_wolf *wolf);
 void close_door(t_wolf *wolf);
 void changes(t_wolf *wolf, SDL_Event e);
 
+
 /* cast.c	*/
 void cast(t_wolf *wolf);
 int		cast_door(t_wolf *wolf);

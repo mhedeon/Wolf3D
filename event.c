@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 22:47:31 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/22 19:03:26 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,47 @@
 int event(t_wolf *wolf)
 {
 	SDL_Event event;
-
-	if (SDL_PollEvent(&event))
+while (SDL_PollEvent(&event))
+{
+	// if (SDL_PollEvent(&event) && event.key.repeat == 0)
 	{
 		if (event.type == SDL_QUIT)
 			return (0);
-		changes(wolf, event);
+		// changes(wolf, event);
+		if (SDL_KEYDOWN)
+		{
+			rotate(wolf);
+			wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ? wolf->ms * 1.5 : wolf->ms;
+			if (wolf->keyboard[SDL_SCANCODE_W])
+				step(wolf, GO_FORWARD);
+			if (wolf->keyboard[SDL_SCANCODE_S])
+				step(wolf, GO_BACK);
+			if (wolf->keyboard[SDL_SCANCODE_A])
+				strafe(wolf, STRAFE_LEFT);
+			if (wolf->keyboard[SDL_SCANCODE_D])
+				strafe(wolf, STRAFE_RIGHT);
+			if (wolf->keyboard[SDL_SCANCODE_SPACE])
+				open_door(wolf);
+		}
 	}
-	SDL_PumpEvents();
+	// SDL_PumpEvents();
 
 	if (wolf->keyboard[SDL_SCANCODE_ESCAPE])
 		return (0);
 	
-	rotate(wolf);
-	wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ? wolf->ms * 1.5 : wolf->ms;
-	if (wolf->keyboard[SDL_SCANCODE_W])
-		step(wolf, GO_FORWARD);
-	if (wolf->keyboard[SDL_SCANCODE_S])
-		step(wolf, GO_BACK);
-	if (wolf->keyboard[SDL_SCANCODE_A])
-		strafe(wolf, STRAFE_LEFT);
-	if (wolf->keyboard[SDL_SCANCODE_D])
-		strafe(wolf, STRAFE_RIGHT);
-	if (wolf->keyboard[SDL_SCANCODE_SPACE])
-		open_door(wolf);
-
+	// rotate(wolf);
+	// wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ? wolf->ms * 1.5 : wolf->ms;
+	// if (wolf->keyboard[SDL_SCANCODE_W])
+	// 	step(wolf, GO_FORWARD);
+	// if (wolf->keyboard[SDL_SCANCODE_S])
+	// 	step(wolf, GO_BACK);
+	// if (wolf->keyboard[SDL_SCANCODE_A])
+	// 	strafe(wolf, STRAFE_LEFT);
+	// if (wolf->keyboard[SDL_SCANCODE_D])
+	// 	strafe(wolf, STRAFE_RIGHT);
+	// if (wolf->keyboard[SDL_SCANCODE_SPACE])
+	// 	open_door(wolf);
+}
 	return (1);
 }
 
