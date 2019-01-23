@@ -6,13 +6,13 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/22 17:16:49 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:16:08 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-void	pre_init(t_wolf *wolf)
+int	pre_init(t_wolf *wolf)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	IMG_Init(IMG_INIT_JPG);
@@ -38,7 +38,11 @@ void	pre_init(t_wolf *wolf)
 	wolf->menu.level[1].sur = NULL;
 	wolf->menu.cursor.sur = NULL;
 	SDL_ShowCursor(SDL_DISABLE);
-	SDL_WarpMouseInWindow(wolf->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	if (!textures(wolf->wall, WALL_NUM, "./resource/img/walls/"))
+		return (free_textures(wolf->wall, WALL_NUM, NULL, NULL));
+	if (!textures(wolf->sprite, SPRITE_NUM, "./resource/img/sprites/"))
+		return (free_textures(wolf->sprite, SPRITE_NUM, NULL, NULL));
+	return (1);
 }
 
 void	free_garbage_1(t_wolf *wolf)
@@ -52,17 +56,19 @@ void	free_garbage_1(t_wolf *wolf)
 	// IMG_Quit();
 	// SDL_Quit();
 	// Mix_CloseAudio();
+	free_textures(wolf->wall, WALL_NUM, NULL, NULL);
+	free_textures(wolf->sprite, SPRITE_NUM, NULL, NULL);
 	free(wolf->buff);
 	free(wolf);
 }
 
-void	free_garbage_2(t_wolf *wolf)
+int	free_garbage_2(t_wolf *wolf)
 {
-	free_textures(wolf->wall, WALL_NUM, NULL, NULL);
-	free_textures(wolf->sprite, SPRITE_NUM, NULL, NULL);
 	free(wolf->hero);
 	if (wolf->map != NULL)
 		free(wolf->map);
+	wolf->map = NULL;
+	return (0);
 }
 
 void	post_init(t_wolf *wolf)
@@ -73,8 +79,6 @@ void	post_init(t_wolf *wolf)
 	wolf->hero->bullet = 8;
 	wolf->hero->score = 0;
 	wolf->door.opened = 0;
-	textures(wolf->wall, WALL_NUM, "./resource/img/walls/");
-	textures(wolf->sprite, SPRITE_NUM, "./resource/img/sprites/");
 	wolf->p_x = 0;
 	wolf->p_y = 0;
 	wolf->dir_x = 1;
@@ -88,4 +92,6 @@ void	post_init(t_wolf *wolf)
 	wolf->ms = 0;
 	wolf->rs = 0;
 	wolf->fps = 60;
+	wolf->sens = 1.0;
+	SDL_WarpMouseInWindow(wolf->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:21:14 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 18:38:07 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:31:46 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void			loading(t_wolf *wolf, int persent)
 	SDL_Event	e;
 
 	load.sur = NULL;
-	if (SDL_PollEvent(&e))
+	while (SDL_PollEvent(&e))
 		;
 	if (load_screen(&load, persent))
 	{

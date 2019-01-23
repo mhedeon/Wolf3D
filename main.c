@@ -6,15 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/22 17:58:26 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:12:14 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
-
-
-
-
 
 int hbp(t_stats *hero, int s)
 {
@@ -32,7 +28,8 @@ int hbp(t_stats *hero, int s)
 		hero->bullet = (hero->bullet > 99) ? 99 : hero->bullet;
 		return (0);
 	}
-	if ((s == 7 || s == 21 || s == 22 || s == 24 || s == 25) && hero->healh < 100)
+	if ((s == 7 || s == 21 || s == 22 || s == 24 || s == 25)
+		&& hero->healh < 100)
 	{
 		hero->healh += (s == 24) ? 10 : 0;
 		hero->healh += (s == 7) ? 4 : 0;
@@ -48,34 +45,9 @@ void check_item(t_wolf *wolf)
 	if (!wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].s)
 		return ;
 	wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].s =
-		hbp(wolf->hero, wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].sprite);
+		hbp(wolf->hero, wolf->map[(int)wolf->p_y * wolf->m_width +
+			(int)wolf->p_x].sprite);
 }
-
-// void fps(t_wolf *wolf)
-// {
-// 	static int counter = 0;
-// 	static int i = 0;
-// 	static int average = 0;
-
-// 	counter++;
-// 	wolf->end_frame = SDL_GetTicks();
-// 	// printf("c: %f\n", wolf->end_frame - wolf->start_frame);
-// 	if ((wolf->end_frame - wolf->start_frame) >= 1000)
-// 	{
-// 		wolf->fps = counter;
-// 		// if (++i > 1)
-// 		// {
-// 		// 	wolf->fps = (average + counter) / 2;
-// 		// 	i = 0;
-// 		// 	average = 0;
-// 		// }
-// 		// else
-// 		// 	average += counter;
-// 		counter = 0;
-// 		wolf->start_frame = wolf->end_frame;
-// 		printf("FPS: %f\n", wolf->fps);
-// 	}
-// }
 
 void fps(t_wolf *wolf)
 {
@@ -88,65 +60,44 @@ void fps(t_wolf *wolf)
 	
 }
 
-void raycast(t_wolf *wolf)
+void cast_loop(t_wolf *wolf)
 {
-	double ms = 1 / wolf->fps * 5.0;
-	wolf->start_frame = SDL_GetTicks();
-	while (event(wolf))
+	SDL_Thread *thread[THREADS];
+	t_wolf woph[THREADS];
+	int i;
+
+	i = -1;
+	while (++i < THREADS)
 	{
-		if (wolf->door.opened)
-			close_door(wolf);
-		check_item(wolf);
-
-		SDL_Thread *thread[THREADS];
-		t_wolf woph[THREADS];
-		
-		for (int i = 0; i < THREADS; i++)
-		{
-			woph[i] = *wolf;
-			woph[i].start = i * SCREEN_WIDTH / THREADS;
-			woph[i].end = (i + 1) * SCREEN_WIDTH / THREADS;
-			thread[i] = SDL_CreateThread((int(*)())cast, "cast", (void *)&woph[i]);
-		}
-		for (int i = 0; i < THREADS; i++)
-			SDL_WaitThread(thread[i], NULL);
-		// wolf->start = 0;
-		// wolf->end = SCREEN_WIDTH;
-		cast(wolf);
-		draw_x(wolf);
-		SDL_UpdateTexture(wolf->tex, NULL, wolf->buff, SCREEN_WIDTH * sizeof(Uint32));
-		screen_upd(wolf);
-		// clear_buffer(wolf);
-	
-
-		// wolf->end_frame = SDL_GetTicks();
-		// wolf->frame = (wolf->end_frame - wolf->start_frame) / 1000.0;
-		// wolf->fps = 1.0 / wolf->frame;
-		fps(wolf);
-		wolf->ms = 1 / 30.0 * 5.0;
-		// wolf->ms = (wolf->ms + ms) / 2;
-		// ms = wolf->ms;
-		// wolf->rs = 1 / wolf->fps * 150.0;
-		// printf("FPS: %f\n", wolf->fps);
-		wolf->start_frame = wolf->end_frame;
-
-		screen_upd(wolf);
-		clear_buffer(wolf);
+		woph[i] = *wolf;
+		woph[i].start = i * SCREEN_WIDTH / THREADS;
+		woph[i].end = (i + 1) * SCREEN_WIDTH / THREADS;
+		thread[i] = SDL_CreateThread((int(*)())cast, "cast",
+					(void *)&woph[i]);
 	}
-	/*wolf->color.a = 0xFF;
-	wolf->color.r = 0x8D;//0x8D;
-	wolf->color.g = 0;
-	wolf->color.b = 0;*/
-	// death_anim(wolf);
-	// SDL_Delay(5000);
-	// close_win(wolf);
+	while (--i >= 0)
+		SDL_WaitThread(thread[i], NULL);
 }
 
+// void game(t_wolf *wolf)
+// {
+// 	while (event(wolf))
+// 	{
+// 		cast_loop(wolf);
+// 		if (wolf->door.opened)
+// 			close_door(wolf);
+// 		check_item(wolf);
+// 		draw_x(wolf);
+// 		screen_upd(wolf);
+// 		fps(wolf);
+// 		wolf->ms = 1 / 30.0 * 5.0;
+// 		wolf->start_frame = wolf->end_frame;
+// 		screen_upd(wolf);
+// 		clear_buffer(wolf);
+// 	}
+// }
 
-
-
-
-void select_lvl(t_wolf *wolf, int lvl)
+static int select_lvl(t_wolf *wolf, int lvl)
 {
 	post_init(wolf);
 	if (lvl == 1)
@@ -161,6 +112,7 @@ void select_lvl(t_wolf *wolf, int lvl)
 		// start_lvl_4(wolf); TODO
 		;
 	free_garbage_2(wolf);
+	return (1);
 }
 
 int			main(void)
@@ -188,21 +140,3 @@ int			main(void)
 	system("leaks Wolf3D");
 	return (0);
 }
-
-
-/*
-
-SDL_Event e;
-while (1)
-{
-	if (SDL_PollEvent(&e))
-	{
-		if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
-			break;
-		else if (KEY == SDLK_f && e.key.keysym.mod != KMOD_LSHIFT)
-			SDL_SetWindowFullscreen(wolf->win, SDL_WINDOW_FULLSCREEN_DESKTOP);
-		else if (e.key.keysym.mod == KMOD_LSHIFT && KEY == SDLK_f)
-			SDL_SetWindowFullscreen(wolf->win, 0);
-	}
-}
-*/

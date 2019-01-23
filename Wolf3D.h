@@ -168,6 +168,7 @@ typedef struct	s_wolf
 	t_map *map;
 
 	int pause;
+	double sens;
 
 	double start_frame;
 	double end_frame;
@@ -199,6 +200,13 @@ typedef struct	s_wolf
 
 	int sp_start;
 	int sp_end;
+	double inv;
+	double sp_x;
+	double sp_y;
+	double spt_x;
+	double spt_y;
+	int ssx;
+	int sp_h;
 
 	int m_x;
 	int m_y;
@@ -226,7 +234,9 @@ typedef struct	s_wolf
 /*	main.c	*/
 int hbp(t_stats *hero, int s);
 void check_item(t_wolf *wolf);
-void raycast(t_wolf *wolf);
+void cast_loop(t_wolf *wolf);
+void fps(t_wolf *wolf);
+// void game(t_wolf *wolf);
 
 
 /*	rotation.c	*/
@@ -256,9 +266,9 @@ void draw_door(t_wolf *wolf, int x);
 void		draw_d(t_wolf *wolf, int x);
 
 /*	init.c	*/
-void pre_init(t_wolf *wolf);
+int pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
-void free_garbage_2(t_wolf *wolf);
+int free_garbage_2(t_wolf *wolf);
 void post_init(t_wolf *wolf);
 
 /*	other.c	*/
@@ -315,9 +325,8 @@ void destroy_texture(t_texture *tex);
 
 /*	map.c	*/
 int map(t_wolf *wolf, char *path);
-int	check_player_xy(t_wolf *wolf);
 
-/*	check_mp.c	*/
+/*	map_check.c	*/
 int check_word(t_map *map, char *word);
 
 /*	map_trash.c	*/
@@ -325,9 +334,10 @@ int matrix_height(char **mat);
 void matrix_del(char **m);
 int get_number(char a, char b);
 int		check_digit(char *word);
+int	check_player_xy(t_wolf *wolf);
 
 /*	loading.c	*/
-void			loading(t_wolf *wolf, int persent);
+void	loading(t_wolf *wolf, int persent);
 
 /*	lvl1.c	*/
 void start_lvl_1(t_wolf *wolf);

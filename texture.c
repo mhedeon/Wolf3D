@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:50:04 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 18:30:17 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 19:31:20 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int				textures(t_texture *texture, int num, char *p)
 		while (++i < num && get_next_line(fd, &line))
 		{
 			path = ft_strjoin(p, line);
+			printf("line: %s\n", line);
 			if (!load_texture(texture + i, path))
 			{
+				printf("error 1\n");
 				close(fd);
 				return (free_textures(texture, i, path, line));
 			}
@@ -50,8 +52,13 @@ int				textures(t_texture *texture, int num, char *p)
 			free(line);
 		}
 		close(fd);
+		if (i != num)
+		{
+			printf("error 2, num: %d\n", i);
+		}
 		return (i == num ? 1 : 0);
 	}
+	printf("cant open file\n");
 	return (0);
 }
 
@@ -60,9 +67,13 @@ int				load_texture(t_texture *tex, char *path)
 	SDL_Surface	*tmp;
 
 	tex->sur = NULL;
+	// printf("%s\n", path);
 	tex->sur = IMG_Load(path);
 	if (tex->sur == NULL)
+	{
+		printf("cant load texture\n");
 		return (0);
+	}
 	tmp = SDL_ConvertSurfaceFormat(tex->sur, SDL_PIXELFORMAT_ARGB8888, 0);
 	if (tmp == NULL)
 	{

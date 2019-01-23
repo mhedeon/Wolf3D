@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:39:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 20:29:51 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:30:05 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,29 @@ static int		parse_map(t_wolf *wolf, int i, char *line)
 	return (1);
 }
 
+static void			check_perimeter(t_wolf *wolf)
+{
+	int y;
+	int x;
+
+	y = -1;
+	while (++y < wolf->m_height)
+	{
+		if (wolf->map[y * wolf->m_width + 0].w != 1)
+			wolf->map[y * wolf->m_width + 0].w = 1;
+		if (wolf->map[y * wolf->m_width + (wolf->m_width - 1)].w != 1)
+			wolf->map[y * wolf->m_width + (wolf->m_width - 1)].w = 1;
+	}
+	x = -1;
+	while (++x < wolf->m_width)
+	{
+		if (wolf->map[0 * wolf->m_width + x].w != 1)
+			wolf->map[0 * wolf->m_width + x].w = 1;
+		if (wolf->map[(wolf->m_height - 1) * wolf->m_width + x].w != 1)
+			wolf->map[(wolf->m_height - 1) * wolf->m_width + x].w = 1;
+	}
+}
+
 int				map(t_wolf *wolf, char *path)
 {
 	int			i;
@@ -101,36 +124,9 @@ int				map(t_wolf *wolf, char *path)
 			}
 		}
 		close(fd);
+		check_perimeter(wolf);
 		return (check_player_xy(wolf));
 	}
 	close(fd);
 	return (0);
-}
-
-int				check_player_xy(t_wolf *wolf)
-{
-	static int	yx[2] = { 0, 0 };
-
-	if (wolf->p_x <= 0 || wolf->p_x >= (wolf->m_width - 1) ||
-		wolf->p_y <= 0 || wolf->p_y >= (wolf->m_height - 1) ||
-		wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].c == 1 ||
-		wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].d == 1)
-	{
-		while (++(yx[0]) < (wolf->m_height - 1))
-		{
-			yx[1] = 0;
-			while (++(yx[1]) < (wolf->m_width - 1))
-				if (wolf->map[yx[0] * wolf->m_width + yx[1]].c != 1
-					&& wolf->map[yx[0] * wolf->m_width + yx[1]].d != 1)
-				{
-					wolf->p_x = (double)(yx[1]) + 0.5;
-					wolf->p_y = (double)(yx[0]) + 0.5;
-					return (1);
-				}
-		}
-		return (0);
-	}
-	wolf->p_x += 0.5;
-	wolf->p_y += 0.5;
-	return (1);
 }

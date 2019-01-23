@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/22 19:03:26 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:08:08 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,44 @@
 
 int event(t_wolf *wolf)
 {
-	SDL_Event event;
-while (SDL_PollEvent(&event))
-{
-	// if (SDL_PollEvent(&event) && event.key.repeat == 0)
-	{
-		if (event.type == SDL_QUIT)
-			return (0);
-		// changes(wolf, event);
-		if (SDL_KEYDOWN)
-		{
-			rotate(wolf);
-			wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ? wolf->ms * 1.5 : wolf->ms;
-			if (wolf->keyboard[SDL_SCANCODE_W])
-				step(wolf, GO_FORWARD);
-			if (wolf->keyboard[SDL_SCANCODE_S])
-				step(wolf, GO_BACK);
-			if (wolf->keyboard[SDL_SCANCODE_A])
-				strafe(wolf, STRAFE_LEFT);
-			if (wolf->keyboard[SDL_SCANCODE_D])
-				strafe(wolf, STRAFE_RIGHT);
-			if (wolf->keyboard[SDL_SCANCODE_SPACE])
-				open_door(wolf);
-		}
-	}
-	// SDL_PumpEvents();
+	SDL_Event e;
 
-	if (wolf->keyboard[SDL_SCANCODE_ESCAPE])
-		return (0);
-	
-	// rotate(wolf);
-	// wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ? wolf->ms * 1.5 : wolf->ms;
-	// if (wolf->keyboard[SDL_SCANCODE_W])
-	// 	step(wolf, GO_FORWARD);
-	// if (wolf->keyboard[SDL_SCANCODE_S])
-	// 	step(wolf, GO_BACK);
-	// if (wolf->keyboard[SDL_SCANCODE_A])
-	// 	strafe(wolf, STRAFE_LEFT);
-	// if (wolf->keyboard[SDL_SCANCODE_D])
-	// 	strafe(wolf, STRAFE_RIGHT);
-	// if (wolf->keyboard[SDL_SCANCODE_SPACE])
-	// 	open_door(wolf);
-}
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
+			return (0);
+		if (e.type == SDL_MOUSEWHEEL && e.wheel.y > 0)
+			wolf->sens += (wolf->sens + 0.05) <= 1.0
+									? 0.05 : 0;
+		if (e.type == SDL_MOUSEWHEEL && e.wheel.y < 0)
+			wolf->sens -= (wolf->sens - 0.05) > 0
+									? 0.05 : 0;
+		changes(wolf, e);
+	}
+	rotate(wolf);
+	changes(wolf, e);
+	wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ?
+				wolf->ms * 1.5 : wolf->ms;
+	if (wolf->keyboard[SDL_SCANCODE_W])
+		step(wolf, GO_FORWARD);
+	if (wolf->keyboard[SDL_SCANCODE_S])
+		step(wolf, GO_BACK);
+	if (wolf->keyboard[SDL_SCANCODE_A])
+		strafe(wolf, STRAFE_LEFT);
+	if (wolf->keyboard[SDL_SCANCODE_D])
+		strafe(wolf, STRAFE_RIGHT);
+	if (wolf->keyboard[SDL_SCANCODE_SPACE])
+		open_door(wolf);
 	return (1);
 }
 
 void open_door(t_wolf *wolf)
 {
 	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
-			abs((int)wolf->p_y - wolf->m_y)) <= 2.0)
+			abs((int)wolf->p_y - wolf->m_y)) <= 2.0 &&
+			wolf->door.opened == 0)
 		{
+			printf("qwe\n");
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].c = 0;
 			wolf->door.x = wolf->m_x;

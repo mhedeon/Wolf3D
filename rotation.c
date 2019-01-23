@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:10:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/21 21:20:45 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 17:26:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		rotate(t_wolf *wolf)
 	wolf->rs = wolf->new_mouse_x - wolf->old_mouse_x;
 	sign = wolf->rs < 0.0 ? -1 : 1;
 	wolf->rs = (double)(abs((int)wolf->rs) > 200 ? sign * 20.0 :
-				wolf->rs / 10.0);
+				wolf->rs / 10.0) * wolf->sens;
 	rot_dir(wolf, wolf->rs);
 	rot_plane(wolf, wolf->rs);
 	if (wolf->new_mouse_x < 1)

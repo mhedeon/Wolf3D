@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 16:58:00 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/22 16:49:13 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:09:40 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,6 @@ void		draw_wall(t_wolf *wolf, int x)
 	if (wolf->side % 2 && !(wolf->ray_dir_y < 0))
 		wolf->t_x = WALL_WIDTH - wolf->t_x - 1;
 	y = wolf->draw_start - 1;
-	// wolf->d = y * 256 - SCREEN_HEIGHT * 128 + wolf->draw_h * 128;
-	// wolf->t_y = wolf->draw_h == 0 ? 0 : ((wolf->d * (WALL_HEIGHT)) / wolf->draw_h) >> 8;
-	// printf("x: %d\ny: %d\n", wolf->t_x, wolf->t_y);
-	// SDL_Delay(3000);
 	while (++y <= wolf->draw_end)
 	{
 		wolf->d = y * 256 - SCREEN_HEIGHT * 128 + wolf->draw_h * 128;
@@ -91,7 +87,7 @@ void		draw_floor(t_wolf *wolf, int x)
 	double	f1_y;
 
 	y = wolf->draw_end - 1;
-	while (++y < SCREEN_HEIGHT)
+	while (++y <= SCREEN_HEIGHT)
 	{
 		wolf->w = SCREEN_HEIGHT / (2.0 * y - SCREEN_HEIGHT);
 		wolf->w = wolf->w / wolf->dist;

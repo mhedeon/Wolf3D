@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 19:35:31 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/20 19:41:52 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:30:08 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,32 @@ int		check_digit(char *word)
 			return (0);
 	return (1);
 }
+
+int				check_player_xy(t_wolf *wolf)
+{
+	static int	yx[2] = { 0, 0 };
+
+	if (wolf->p_x <= 0 || wolf->p_x >= (wolf->m_width - 1) ||
+		wolf->p_y <= 0 || wolf->p_y >= (wolf->m_height - 1) ||
+		wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].c == 1 ||
+		wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].d == 1)
+	{
+		while (++(yx[0]) < (wolf->m_height - 1))
+		{
+			yx[1] = 0;
+			while (++(yx[1]) < (wolf->m_width - 1))
+				if (wolf->map[yx[0] * wolf->m_width + yx[1]].c != 1
+					&& wolf->map[yx[0] * wolf->m_width + yx[1]].d != 1)
+				{
+					wolf->p_x = (double)(yx[1]) + 0.5;
+					wolf->p_y = (double)(yx[0]) + 0.5;
+					return (1);
+				}
+		}
+		return (0);
+	}
+	wolf->p_x += 0.5;
+	wolf->p_y += 0.5;
+	return (1);
+}
+

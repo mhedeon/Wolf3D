@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 16:49:49 by mhedeon           #+#    #+#             */
-/*   Updated: 2018/12/18 14:59:07 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/23 21:01:22 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ static void	prepare(t_wolf *wolf, int x)
 		((double)wolf->m_y + 1.0 - wolf->p_y));
 }
 
+static void	ty_for_norm(t_wolf *wolf)
+{
+	if (wolf->side_x < wolf->side_y)
+	{
+		wolf->side_x += wolf->d_x;
+		wolf->m_x += wolf->step_x;
+		wolf->side = wolf->ray_dir_x < 0 ? EAST : WEST;
+	}
+	else
+	{
+		wolf->side_y += wolf->d_y;
+		wolf->m_y += wolf->step_y;
+		wolf->side = wolf->ray_dir_y < 0 ? NORTH : SOUTH;
+	}
+}
+
 void		cast(t_wolf *wolf)
 {
 	int		x;
@@ -42,18 +58,7 @@ void		cast(t_wolf *wolf)
 		prepare(wolf, x);
 		while (1)
 		{
-			if (wolf->side_x < wolf->side_y)
-			{
-				wolf->side_x += wolf->d_x;
-				wolf->m_x += wolf->step_x;
-				wolf->side = wolf->ray_dir_x < 0 ? EAST : WEST;
-			}
-			else
-			{
-				wolf->side_y += wolf->d_y;
-				wolf->m_y += wolf->step_y;
-				wolf->side = wolf->ray_dir_y < 0 ? NORTH : SOUTH;
-			}
+			ty_for_norm(wolf);
 			if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].w)
 			{
 				draw(wolf, x);
@@ -71,7 +76,7 @@ void		cast(t_wolf *wolf)
 	}
 }
 
-int		cast_door(t_wolf *wolf)
+int			cast_door(t_wolf *wolf)
 {
 	int		x;
 
