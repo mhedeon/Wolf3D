@@ -6,7 +6,7 @@
 #    By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 16:01:48 by mhedeon           #+#    #+#              #
-#    Updated: 2019/01/23 21:31:09 by mhedeon          ###   ########.fr        #
+#    Updated: 2019/01/24 22:20:38 by mhedeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,10 @@ FLAGS = -Wall -Werror -Wextra
 LDFLAGS = -I./frameworks/SDL2.framework/Headers/ \
 			-I./frameworks/SDL2_image.framework/Headers/ \
 			-I./frameworks/SDL2_mixer.framework/Headers/ \
+			-I./frameworks/SDL2_ttf.framework/Headers/ \
 			-F./frameworks -I./libft
 
-FRAMEWORKS = -F./frameworks -rpath ./frameworks -framework SDL2 -framework SDL2_image -framework SDL2_mixer
+FRAMEWORKS = -F./frameworks -rpath ./frameworks -framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework SDL2_ttf
 
 start: all clean
 	./Wolf3D

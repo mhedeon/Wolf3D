@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
+/*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 19:33:27 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/20 19:46:56 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 21:44:38 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	wall(t_map *map, char *word)
 	map->floor = 0;
 	map->ceil = 0;
 	if (map->north < 0 || map->south < 0 || map->west < 0 ||
-		map->east < 0 || map->north > WALL_NUM ||
-		map->south > WALL_NUM || map->west > WALL_NUM ||
-		map->east > WALL_NUM)
+		map->east < 0 || map->north >= WALL_NUM ||
+		map->south >= WALL_NUM || map->west >= WALL_NUM ||
+		map->east >= WALL_NUM)
 		return (0);
 	return (1);
 }
@@ -46,9 +46,9 @@ static int	sprite(t_map *map, char *word)
 	map->sprite = get_number(word[1], word[2]);
 	map->floor = get_number(word[3], word[4]);
 	map->ceil = get_number(word[5], word[6]);
-	if (map->sprite < 0 || map->sprite > SPRITE_NUM ||
-		map->floor < 0 || map->floor > WALL_NUM ||
-		map->ceil < 0 || map->ceil > WALL_NUM)
+	if (map->sprite < 0 || map->sprite >= SPRITE_NUM ||
+		map->floor < 0 || map->floor >= WALL_NUM ||
+		map->ceil < 0 || map->ceil >= WALL_NUM)
 		return (0);
 	return (1);
 }
@@ -66,8 +66,8 @@ static int	floor_cell(t_map *map, char *word)
 	map->sprite = 0;
 	map->floor = get_number(word[0], word[1]);
 	map->ceil = get_number(word[2], word[3]);
-	if (map->floor < 0 || map->floor > WALL_NUM ||
-		map->ceil < 0 || map->ceil > WALL_NUM)
+	if (map->floor < 0 || map->floor >= WALL_NUM ||
+		map->ceil < 0 || map->ceil >= WALL_NUM)
 		return (0);
 	return (1);
 }
@@ -86,10 +86,10 @@ static int	door(t_map *map, char *word)
 	map->floor = get_number(word[3], word[4]);
 	map->ceil = get_number(word[5], word[6]);
 	if (map->north < 0 || map->south < 0 || map->west < 0 ||
-		map->east < 0 || map->north > WALL_NUM ||
-		map->south > WALL_NUM || map->west > WALL_NUM ||
-		map->east > WALL_NUM || map->floor < 0 || map->floor > WALL_NUM
-		|| map->ceil < 0 || map->ceil > WALL_NUM)
+		map->east < 0 || map->north >= WALL_NUM ||
+		map->south >= WALL_NUM || map->west >= WALL_NUM ||
+		map->east >= WALL_NUM || map->floor < 0 || map->floor >= WALL_NUM
+		|| map->ceil < 0 || map->ceil >= WALL_NUM)
 		return (0);
 	return (1);
 }

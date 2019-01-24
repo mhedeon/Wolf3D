@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 20:49:20 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 22:28:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	pre_init(t_wolf *wolf)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	IMG_Init(IMG_INIT_JPG);
+	TTF_Init();
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024);
 	wolf->win = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -44,12 +45,12 @@ printf("walls done\n");
 	if (!textures(wolf->sprite, SPRITE_NUM, "./resource/img/sprites/"))
 		return (free_textures(wolf->sprite, SPRITE_NUM, NULL, NULL));
 printf("sprites done\n");
-// 	if (!textures(wolf->knife, WEAPON_NUM, "./resource/img/knife/"))
-// 		return (free_textures(wolf->knife, WEAPON_NUM, NULL, NULL));
-// printf("knife done\n");
-// 	if (!textures(wolf->pistol, WEAPON_NUM, "./resource/img/pistol/"))
-// 		return (free_textures(wolf->pistol, WEAPON_NUM, NULL, NULL));
-// printf("pistol done\n");
+	if (!textures(wolf->knife, WEAPON_NUM, "./resource/img/knife/"))
+		return (free_textures(wolf->knife, WEAPON_NUM, NULL, NULL));
+printf("knife done\n");
+	if (!textures(wolf->pistol, WEAPON_NUM, "./resource/img/pistol/"))
+		return (free_textures(wolf->pistol, WEAPON_NUM, NULL, NULL));
+printf("pistol done\n");
 	return (1);
 }
 

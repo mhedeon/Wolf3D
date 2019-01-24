@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:46:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 19:57:02 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 23:06:53 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,30 @@ static void game(t_wolf *wolf)
 					"./resource/sounds/chunk/Pistol.wav");
 		else
 			weapon(wolf);
-		screen_upd(wolf);
+		// screen_upd(wolf);
 		fps(wolf);
 		wolf->ms = 1 / 30.0 * 5.0;
 		wolf->start_frame = wolf->end_frame;
-		screen_upd(wolf);
+		// screen_upd(wolf);
+
+
+		TTF_Font *font = TTF_OpenFont("wolfenstein.ttf", 24);
+		SDL_Surface *sm = TTF_RenderText_Solid(font, ft_itoa(wolf->hero->healh), (SDL_Color) {255, 255, 255, 255});
+		SDL_Texture *message = SDL_CreateTextureFromSurface(wolf->ren, sm);
+		SDL_RenderClear(wolf->ren);
+		SDL_UpdateTexture(wolf->tex, NULL, wolf->buff, SCREEN_WIDTH * sizeof(Uint32));
+		SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
+		int x, y;
+		SDL_GetWindowSize(wolf->win, &x, &y);
+		SDL_RenderCopy(wolf->ren, message, NULL, &(SDL_Rect) {50, y - 100, 100, 100});
+		SDL_RenderPresent(wolf->ren);
+	
+		SDL_FreeSurface(sm);
+		SDL_DestroyTexture(message);
+		TTF_CloseFont(font);
+
+
+
 		clear_buffer(wolf);
 	}
 }

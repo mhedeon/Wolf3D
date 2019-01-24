@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:50:04 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 20:51:38 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 21:29:46 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 static void		ty_for_25_lines(char *path, char *line)
 {
 	if (path != NULL)
+	{
+		printf("freed path\n");
 		free(path);
+	}
 	if (line != NULL)
+	{
+		printf("freed path\n");
 		free(line);
+	}
 }
 
 int				free_textures(t_texture *texture, int i, char *path, char *line)
@@ -27,6 +33,7 @@ int				free_textures(t_texture *texture, int i, char *path, char *line)
 	{
 		if ((texture + i)->sur != NULL)
 			destroy_texture(texture + i);
+		printf("destroyed[%d]\n", i);
 	}
 	return (0);
 }
