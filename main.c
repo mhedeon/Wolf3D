@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 21:12:14 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 17:18:21 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,6 @@ void cast_loop(t_wolf *wolf)
 		SDL_WaitThread(thread[i], NULL);
 }
 
-// void game(t_wolf *wolf)
-// {
-// 	while (event(wolf))
-// 	{
-// 		cast_loop(wolf);
-// 		if (wolf->door.opened)
-// 			close_door(wolf);
-// 		check_item(wolf);
-// 		draw_x(wolf);
-// 		screen_upd(wolf);
-// 		fps(wolf);
-// 		wolf->ms = 1 / 30.0 * 5.0;
-// 		wolf->start_frame = wolf->end_frame;
-// 		screen_upd(wolf);
-// 		clear_buffer(wolf);
-// 	}
-// }
-
 static int select_lvl(t_wolf *wolf, int lvl)
 {
 	post_init(wolf);
@@ -121,21 +103,20 @@ int			main(void)
 	int lvl;
 	
 	wolf = malloc(sizeof(t_wolf));
-	pre_init(wolf);
-	Mix_Volume(1, SDL_MIX_MAXVOLUME / 2);
-	Mix_VolumeMusic(SDL_MIX_MAXVOLUME / 2);
-	wolf->volume = (SDL_MIX_MAXVOLUME / 2) - 4;
-	printf("%d\n", wolf->volume);
-	intro(wolf);
-	while (1)
+	if (pre_init(wolf))
 	{
-		lvl = start_menu(wolf, &wolf->menu);
-		select_lvl(wolf, lvl);
-		if (lvl < 1)
-			break ;
+		Mix_Volume(1, SDL_MIX_MAXVOLUME / 2);
+		Mix_VolumeMusic(SDL_MIX_MAXVOLUME / 2);
+		wolf->volume = (SDL_MIX_MAXVOLUME / 2) - 4;
+		intro(wolf);
+		while (1)
+		{
+			lvl = start_menu(wolf, &wolf->menu);
+			select_lvl(wolf, lvl);
+			if (lvl < 1)
+				break ;
+		}
 	}
-	
-
 	free_garbage_1(wolf);
 	system("leaks Wolf3D");
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:43:55 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 20:23:33 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 16:59:23 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				level(t_wolf *wolf, t_menu *menu)
 	lvl = -1;
 	while (1)
 	{
-		while (SDL_PollEvent(&e))
+		if (SDL_PollEvent(&e))
 		{
 			changes(wolf, e);
 			lvl = level_event(wolf, menu, &m, e);

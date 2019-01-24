@@ -6,13 +6,69 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:46:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 21:29:06 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 19:57:02 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static int  prepare_lvl(t_wolf *wolf)
+static void shooot(t_wolf *wolf, t_texture *weapon, int start, int time)
+{
+	if ((time - start) < 75)
+		draw_cursor(wolf, weapon + 1, &(SDL_Rect){ (SCREEN_WIDTH - (weapon +
+					1)->sur->w) / 2, SCREEN_HEIGHT - (weapon + 1)->sur->h,
+					(weapon + 1)->sur->w, (weapon + 1)->sur->h });
+	else if ((time - start) < 150)
+		draw_cursor(wolf, weapon + 2, &(SDL_Rect){ (SCREEN_WIDTH - (weapon +
+					2)->sur->w) / 2, SCREEN_HEIGHT - (weapon + 2)->sur->h,
+					(weapon + 2)->sur->w, (weapon + 2)->sur->h });
+	else if ((time - start) < 225)
+		draw_cursor(wolf, weapon + 3, &(SDL_Rect){ (SCREEN_WIDTH - (weapon +
+					3)->sur->w) / 2, SCREEN_HEIGHT - (weapon + 3)->sur->h,
+					(weapon + 3)->sur->w, (weapon + 3)->sur->h });
+	else if ((time - start) < 300)
+		draw_cursor(wolf, weapon + 4, &(SDL_Rect){ (SCREEN_WIDTH - (weapon +
+					4)->sur->w) / 2, SCREEN_HEIGHT - (weapon + 4)->sur->h,
+					(weapon + 4)->sur->w, (weapon + 4)->sur->h });
+}
+
+void shoot(t_wolf *wolf, t_texture *weapon, int time, char *path)
+{
+	static int start = 0;
+
+	if (start == 0 && wolf->shot)
+	{
+		wolf->left_click = Mix_LoadWAV(path);
+		if (wolf->left_click != NULL)
+			Mix_PlayChannel(1, wolf->left_click, 0);
+		start = SDL_GetTicks();
+	}
+	else
+	{
+		shooot(wolf, weapon, start, time);
+		if ((time - start) >= 300)
+		{
+			wolf->shot = 0;
+			start = 0;
+			if (wolf->left_click != NULL)
+				Mix_FreeChunk(wolf->left_click);
+		}
+	}
+}
+
+void weapon(t_wolf *wolf)
+{
+	if (wolf->weapon == 1)
+		draw_cursor(wolf, &wolf->knife[0], &(SDL_Rect){ SCREEN_WIDTH / 2 -
+					wolf->knife[0].sur->w / 2, SCREEN_HEIGHT - wolf->knife
+					[0].sur->h, wolf->knife[0].sur->w, wolf->knife[0].sur->h });
+	else if (wolf->weapon == 2)
+		draw_cursor(wolf, &wolf->pistol[0], &(SDL_Rect){ SCREEN_WIDTH / 2 -
+					wolf->pistol[0].sur->w / 2, SCREEN_HEIGHT - wolf->pistol
+				[0].sur->h, wolf->pistol[0].sur->w, wolf->pistol[0].sur->h });
+}
+
+static int prepare_lvl(t_wolf *wolf)
 {
 	wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/lvl1.mid");
 	if (wolf->lvl_music != NULL)
@@ -32,12 +88,19 @@ static void game(t_wolf *wolf)
 {
 	while (event(wolf))
 	{
-		
 		if (wolf->door.opened)
 			close_door(wolf);
 		check_item(wolf);
 		cast_loop(wolf);
 		draw_x(wolf);
+		if (wolf->shot && wolf->weapon == 1)
+			shoot(wolf, wolf->knife, SDL_GetTicks(),
+					"./resource/sounds/chunk/Knife.wav");
+		else if (wolf->shot && wolf->weapon == 2)
+			shoot(wolf, wolf->pistol, SDL_GetTicks(),
+					"./resource/sounds/chunk/Pistol.wav");
+		else
+			weapon(wolf);
 		screen_upd(wolf);
 		fps(wolf);
 		wolf->ms = 1 / 30.0 * 5.0;

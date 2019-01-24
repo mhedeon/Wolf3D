@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 20:23:26 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 17:19:10 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int				m_menu(t_wolf *wolf, t_menu *menu)
 	Mix_PlayMusic(menu->music, -1);
 	while (1)
 	{
-		while (SDL_PollEvent(&e))
+		if (SDL_PollEvent(&e))
 		{
 			changes(wolf, e);
 			lvl = menu_event(wolf, menu, &m, e);

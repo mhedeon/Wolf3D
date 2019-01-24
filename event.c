@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 21:08:08 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 19:34:01 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ int event(t_wolf *wolf)
 		if (e.type == SDL_MOUSEWHEEL && e.wheel.y < 0)
 			wolf->sens -= (wolf->sens - 0.05) > 0
 									? 0.05 : 0;
+		if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+			wolf->shot = 1;
+		if (KEY == SDLK_1)
+			wolf->weapon = 1;
+		if (KEY == SDLK_2)
+			wolf->weapon = 2;
 		changes(wolf, e);
 	}
 	rotate(wolf);
@@ -51,7 +57,6 @@ void open_door(t_wolf *wolf)
 			abs((int)wolf->p_y - wolf->m_y)) <= 2.0 &&
 			wolf->door.opened == 0)
 		{
-			printf("qwe\n");
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].c = 0;
 			wolf->door.x = wolf->m_x;
@@ -68,7 +73,6 @@ void close_door(t_wolf *wolf)
 	if ((wolf->p_x > (wolf->door.x - 1.0) && wolf->p_x < (wolf->door.x + 2.0)) &&
 		(wolf->p_y > (wolf->door.y - 1.0) && wolf->p_y < (wolf->door.y + 2.0)))
 		return ;
-	printf("p_x: %f | p_y: %f\nx: %d | y: %d\n", wolf->p_x, wolf->p_y, wolf->door.x, wolf->door.y);
 	wolf->map[wolf->door.y * wolf->m_width + wolf->door.x].d = 1;
 	wolf->map[wolf->door.y * wolf->m_width + wolf->door.x].c = 1;
 	wolf->door.opened = 0;
@@ -83,7 +87,6 @@ void changes(t_wolf *wolf, SDL_Event e)
 	else if (KEY == SDLK_KP_PLUS)
 	{
 		wolf->volume += (wolf->volume + 5) > 128 ? 0 : 5;
-		printf("%d\n", wolf->volume);
 		Mix_Volume(1, wolf->volume);
 		Mix_VolumeMusic(wolf->volume);
 
@@ -91,7 +94,6 @@ void changes(t_wolf *wolf, SDL_Event e)
 	else if (KEY == SDLK_KP_MINUS)
 	{
 		wolf->volume -= (wolf->volume - 5) < 0 ? 0 : 5;
-		printf("%d\n", wolf->volume);
 		Mix_Volume(1, wolf->volume);
 		Mix_VolumeMusic(wolf->volume);
 	}

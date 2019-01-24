@@ -27,6 +27,7 @@
 # define THREADS 8
 # define WALL_NUM 58
 # define SPRITE_NUM 43
+# define WEAPON_NUM 5
 
 /*
 * keydown
@@ -157,6 +158,8 @@ typedef struct	s_wolf
 	t_menu	menu;
 	t_texture wall[WALL_NUM];
 	t_texture sprite[SPRITE_NUM];
+	t_texture pistol[WEAPON_NUM];
+	t_texture knife[WEAPON_NUM];
 	SDL_Color color;
 
 	t_stats *hero;
@@ -168,6 +171,9 @@ typedef struct	s_wolf
 	t_map *map;
 
 	int pause;
+	int weapon;
+	int shot;
+	Mix_Chunk *left_click;
 	double sens;
 
 	double start_frame;

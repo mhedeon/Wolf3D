@@ -6,18 +6,23 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:50:04 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 19:31:20 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/24 20:51:38 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int				free_textures(t_texture *texture, int i, char *path, char *line)
+static void		ty_for_25_lines(char *path, char *line)
 {
 	if (path != NULL)
 		free(path);
 	if (line != NULL)
 		free(line);
+}
+
+int				free_textures(t_texture *texture, int i, char *path, char *line)
+{
+	ty_for_25_lines(path, line);
 	while (--i >= 0)
 	{
 		if ((texture + i)->sur != NULL)
@@ -33,32 +38,26 @@ int				textures(t_texture *texture, int num, char *p)
 	char		*line;
 	char		*path;
 
-	fd = open((num == WALL_NUM ? "./resource/img/walls/walls" :
-		"./resource/img/sprites/sprites"), O_RDONLY);
+	path = ft_strjoin(p, "load");
+	fd = open(path, O_RDONLY);
+	free(path);
 	if (fd != -1)
 	{
 		i = -1;
 		while (++i < num && get_next_line(fd, &line))
 		{
 			path = ft_strjoin(p, line);
-			printf("line: %s\n", line);
+			printf("path: %s\n", path);
 			if (!load_texture(texture + i, path))
 			{
-				printf("error 1\n");
 				close(fd);
 				return (free_textures(texture, i, path, line));
 			}
-			free(path);
-			free(line);
+			ty_for_25_lines(path, line);
 		}
 		close(fd);
-		if (i != num)
-		{
-			printf("error 2, num: %d\n", i);
-		}
 		return (i == num ? 1 : 0);
 	}
-	printf("cant open file\n");
 	return (0);
 }
 
@@ -67,13 +66,9 @@ int				load_texture(t_texture *tex, char *path)
 	SDL_Surface	*tmp;
 
 	tex->sur = NULL;
-	// printf("%s\n", path);
 	tex->sur = IMG_Load(path);
 	if (tex->sur == NULL)
-	{
-		printf("cant load texture\n");
 		return (0);
-	}
 	tmp = SDL_ConvertSurfaceFormat(tex->sur, SDL_PIXELFORMAT_ARGB8888, 0);
 	if (tmp == NULL)
 	{
