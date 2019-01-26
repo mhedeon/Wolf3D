@@ -6,16 +6,17 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 17:18:21 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/26 22:29:02 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int hbp(t_stats *hero, int s)
+int hbp(t_wolf *wolf, t_stats *hero, int s)
 {
 	if (s >= 27 && s <= 30)
 	{
+		Mix_PlayChannel(-1, wolf->chunk[1], 0);
 		hero->score += (s == 27) ? 100 : 0;
 		hero->score += (s == 28) ? 500 : 0;
 		hero->score += (s == 29) ? 1000 : 0;
@@ -24,17 +25,19 @@ int hbp(t_stats *hero, int s)
 	}
 	if (s == 26 && hero->bullet < 99)
 	{
+		Mix_PlayChannel(-1, wolf->chunk[0], 0);
 		hero->bullet += (s == 26) ? 8 : 0;
 		hero->bullet = (hero->bullet > 99) ? 99 : hero->bullet;
 		return (0);
 	}
 	if ((s == 7 || s == 21 || s == 22 || s == 24 || s == 25)
-		&& hero->healh < 100)
+		&& hero->health < 100)
 	{
-		hero->healh += (s == 24) ? 10 : 0;
-		hero->healh += (s == 7) ? 4 : 0;
-		hero->healh += (s == 25) ? 25 : 0;
-		hero->healh = (hero->healh > 100) ? 100 : hero->healh;
+		Mix_PlayChannel(-1, wolf->chunk[2], 0);
+		hero->health += (s == 24) ? 10 : 0;
+		hero->health += (s == 7) ? 4 : 0;
+		hero->health += (s == 25) ? 25 : 0;
+		hero->health = (hero->health > 100) ? 100 : hero->health;
 		return (0);
 	}
 	return (1);
@@ -45,7 +48,7 @@ void check_item(t_wolf *wolf)
 	if (!wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].s)
 		return ;
 	wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].s =
-		hbp(wolf->hero, wolf->map[(int)wolf->p_y * wolf->m_width +
+		hbp(wolf, wolf->hero, wolf->map[(int)wolf->p_y * wolf->m_width +
 			(int)wolf->p_x].sprite);
 }
 
@@ -103,6 +106,8 @@ int			main(void)
 	int lvl;
 	
 	wolf = malloc(sizeof(t_wolf));
+	
+	
 	if (pre_init(wolf))
 	{
 		Mix_Volume(1, SDL_MIX_MAXVOLUME / 2);
@@ -117,6 +122,7 @@ int			main(void)
 				break ;
 		}
 	}
+	
 	free_garbage_1(wolf);
 	system("leaks Wolf3D");
 	return (0);

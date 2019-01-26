@@ -26,7 +26,7 @@
 # define TEXTURES 10
 # define THREADS 8
 # define WALL_NUM 58
-# define SPRITE_NUM 43
+# define SPRITE_NUM 46
 # define WEAPON_NUM 5
 
 /*
@@ -115,7 +115,7 @@ typedef struct	s_texture
 
 typedef struct	s_stats
 {
-	int			healh;
+	int			health;
 	int			score;
 	int			bullet;
 }				t_stats;
@@ -150,16 +150,19 @@ typedef struct	s_wolf
 	SDL_PixelFormat format;
 	Uint32 *buff;
 	t_texture icon;
+	TTF_Font *font;
 
 	const Uint8 *keyboard;
 
 	Mix_Music *lvl_music;
 	int volume;
 	t_menu	menu;
+	Mix_Chunk *chunk[5];
 	t_texture wall[WALL_NUM];
 	t_texture sprite[SPRITE_NUM];
 	t_texture pistol[WEAPON_NUM];
 	t_texture knife[WEAPON_NUM];
+	t_texture face[80];
 	SDL_Color color;
 
 	t_stats *hero;
@@ -238,7 +241,7 @@ typedef struct	s_wolf
 
 }				t_wolf;
 /*	main.c	*/
-int hbp(t_stats *hero, int s);
+int hbp(t_wolf *wolf, t_stats *hero, int s);
 void check_item(t_wolf *wolf);
 void cast_loop(t_wolf *wolf);
 void fps(t_wolf *wolf);
@@ -276,6 +279,9 @@ int pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
 int free_garbage_2(t_wolf *wolf);
 void post_init(t_wolf *wolf);
+int load_face(t_texture *face);
+int free_face(t_texture *face);
+void prepare_face(t_texture *face);
 
 /*	other.c	*/
 void get_color(t_texture *tex, SDL_Color *color, int x, int y);
@@ -324,7 +330,7 @@ int		init_start(t_texture *start, Mix_Chunk *achtung);
 void	start_anim(t_wolf *wolf);
 
 /*	texture.c	*/
-int free_textures(t_texture *texture, int i, char *path, char *line);
+int free_textures(t_texture *texture, int num);
 int textures(t_texture *texture, int num, char *p);
 int load_texture(t_texture *tex, char *path);
 void destroy_texture(t_texture *tex);

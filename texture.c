@@ -6,34 +6,21 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:50:04 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 21:29:46 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/26 18:24:28 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static void		ty_for_25_lines(char *path, char *line)
+int				free_textures(t_texture *texture, int num)
 {
-	if (path != NULL)
-	{
-		printf("freed path\n");
-		free(path);
-	}
-	if (line != NULL)
-	{
-		printf("freed path\n");
-		free(line);
-	}
-}
+	int			i;
 
-int				free_textures(t_texture *texture, int i, char *path, char *line)
-{
-	ty_for_25_lines(path, line);
-	while (--i >= 0)
+	i = -1;
+	while (++i < num)
 	{
 		if ((texture + i)->sur != NULL)
 			destroy_texture(texture + i);
-		printf("destroyed[%d]\n", i);
 	}
 	return (0);
 }
@@ -41,31 +28,25 @@ int				free_textures(t_texture *texture, int i, char *path, char *line)
 int				textures(t_texture *texture, int num, char *p)
 {
 	int			i;
-	int			fd;
-	char		*line;
 	char		*path;
+	char		*tmp;
 
-	path = ft_strjoin(p, "load");
-	fd = open(path, O_RDONLY);
-	free(path);
-	if (fd != -1)
+	i = -1;
+	while (++i < num)
 	{
-		i = -1;
-		while (++i < num && get_next_line(fd, &line))
+		path = ft_itoa(i);
+		tmp = ft_strjoin(path, ".png");
+		free(path);
+		path = ft_strjoin(p, tmp);
+		free(tmp);
+		if (!load_texture(texture + i, path))
 		{
-			path = ft_strjoin(p, line);
-			printf("path: %s\n", path);
-			if (!load_texture(texture + i, path))
-			{
-				close(fd);
-				return (free_textures(texture, i, path, line));
-			}
-			ty_for_25_lines(path, line);
+			free(path);
+			return (0);
 		}
-		close(fd);
-		return (i == num ? 1 : 0);
+		free(path);
 	}
-	return (0);
+	return (1);
 }
 
 int				load_texture(t_texture *tex, char *path)
