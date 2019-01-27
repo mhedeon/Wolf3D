@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 16:49:49 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 21:01:22 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/27 20:09:19 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,36 @@ int			cast_door(t_wolf *wolf)
 		else if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d)
 			return (1);
 	}
+	return (0);
+}
+
+int			cast_enemy(t_wolf *wolf)
+{
+	int		x;
+
+	x = SCREEN_WIDTH / 2;
+	prepare(wolf, x);
+	while (1)
+	{
+		if (wolf->side_x < wolf->side_y)
+		{
+			wolf->side_x += wolf->d_x;
+			wolf->m_x += wolf->step_x;
+		}
+		else
+		{
+			wolf->side_y += wolf->d_y;
+			wolf->m_y += wolf->step_y;
+		}
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].w ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d)
+			return (0);
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].s)
+		{
+			if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite == 43 ||
+				wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite == 44)
+				return (1);
+		}
+	}
+	return (0);
 }

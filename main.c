@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/26 22:29:02 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/27 21:51:39 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int hbp(t_wolf *wolf, t_stats *hero, int s)
 	if (s == 26 && hero->bullet < 99)
 	{
 		Mix_PlayChannel(-1, wolf->chunk[0], 0);
-		hero->bullet += (s == 26) ? 8 : 0;
+		hero->bullet += (s == 26) ? 6 : 0;
 		hero->bullet = (hero->bullet > 99) ? 99 : hero->bullet;
 		return (0);
 	}
@@ -110,7 +110,7 @@ int			main(void)
 	
 	if (pre_init(wolf))
 	{
-		Mix_Volume(1, SDL_MIX_MAXVOLUME / 2);
+		Mix_Volume(-1, SDL_MIX_MAXVOLUME / 2);
 		Mix_VolumeMusic(SDL_MIX_MAXVOLUME / 2);
 		wolf->volume = (SDL_MIX_MAXVOLUME / 2) - 4;
 		intro(wolf);

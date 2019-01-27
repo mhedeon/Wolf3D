@@ -25,7 +25,7 @@
 
 # define TEXTURES 10
 # define THREADS 8
-# define WALL_NUM 58
+# define WALL_NUM 59
 # define SPRITE_NUM 46
 # define WEAPON_NUM 5
 
@@ -157,7 +157,7 @@ typedef struct	s_wolf
 	Mix_Music *lvl_music;
 	int volume;
 	t_menu	menu;
-	Mix_Chunk *chunk[5];
+	Mix_Chunk *chunk[9];
 	t_texture wall[WALL_NUM];
 	t_texture sprite[SPRITE_NUM];
 	t_texture pistol[WEAPON_NUM];
@@ -265,6 +265,7 @@ void changes(t_wolf *wolf, SDL_Event e);
 /* cast.c	*/
 void cast(t_wolf *wolf);
 int		cast_door(t_wolf *wolf);
+int			cast_enemy(t_wolf *wolf);
 
 /*	draw.c	*/
 void draw(t_wolf *wolf, int x);
@@ -351,7 +352,15 @@ int	check_player_xy(t_wolf *wolf);
 /*	loading.c	*/
 void	loading(t_wolf *wolf, int persent);
 
+/*	face.c	*/
+void			face(t_wolf *wolf);
+
+/*	hud.c	*/
+void			draw_hud(t_wolf *wolf);
+
 /*	lvl1.c	*/
 void start_lvl_1(t_wolf *wolf);
+
+
 
 #endif

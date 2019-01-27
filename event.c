@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/26 22:29:41 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/27 18:12:40 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int event(t_wolf *wolf)
 		changes(wolf, e);
 	}
 	rotate(wolf);
-	changes(wolf, e);
+	// changes(wolf, e);
 	wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ?
 				wolf->ms * 1.5 : wolf->ms;
 	if (wolf->keyboard[SDL_SCANCODE_W])
@@ -62,23 +62,23 @@ int event(t_wolf *wolf)
 void open_door(t_wolf *wolf)
 {
 	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
-			abs((int)wolf->p_y - wolf->m_y)) <= 2.0 &&
+			abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
 			wolf->door.opened == 0)
-		{
-			if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
-				wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3)
-				Mix_PlayChannel(-1, wolf->chunk[4], 0);
-			else
-				Mix_PlayChannel(-1, wolf->chunk[3], 0);
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].c = 0;
-			wolf->door.x = wolf->m_x;
-			wolf->door.y = wolf->m_y;
-			if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 52 ||
-				wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 54 ||
-				wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 55)
-			wolf->door.opened = 1;
-		}
+	{
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3)
+			Mix_PlayChannel(-1, wolf->chunk[4], 0);
+		else
+			Mix_PlayChannel(-1, wolf->chunk[3], 0);
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].c = 0;
+		wolf->door.x = wolf->m_x;
+		wolf->door.y = wolf->m_y;
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 52 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 54 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 55)
+		wolf->door.opened = 1;
+	}
 }
 
 void close_door(t_wolf *wolf)
@@ -113,14 +113,14 @@ void changes(t_wolf *wolf, SDL_Event e)
 	}
 	else if (KEY == SDLK_m && e.key.keysym.mod != KMOD_LSHIFT && e.key.keysym.mod != KMOD_RSHIFT)
 	{
-		if (Mix_Volume(1, -1) || Mix_VolumeMusic(-1))
+		if (Mix_Volume(-1, -1) || Mix_VolumeMusic(-1))
 		{
-			Mix_Volume(1, 0);
+			Mix_Volume(-1, 0);
 			Mix_VolumeMusic(0);
 		}
 		else
 		{
-			Mix_Volume(1, wolf->volume);
+			Mix_Volume(-1, wolf->volume);
 			Mix_VolumeMusic(wolf->volume);
 		}
 	}
@@ -133,9 +133,9 @@ void changes(t_wolf *wolf, SDL_Event e)
 	}
 	else if (KEY == SDLK_m && e.key.keysym.mod == KMOD_RSHIFT && e.key.keysym.mod != KMOD_LSHIFT)
 	{
-		if (Mix_Volume(1, -1))
-			Mix_Volume(1, 0);
+		if (Mix_Volume(-1, -1))
+			Mix_Volume(-1, 0);
 		else
-			Mix_Volume(1, wolf->volume);
+			Mix_Volume(-1, wolf->volume);
 	}
 }

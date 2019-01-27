@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/26 22:15:06 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/27 22:17:34 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void load_chunk(t_wolf *wolf)
 	wolf->chunk[2] = Mix_LoadWAV("resource/sounds/chunk/Health.wav");
 	wolf->chunk[3] = Mix_LoadWAV("resource/sounds/chunk/Door.wav");
 	wolf->chunk[4] = Mix_LoadWAV("resource/sounds/chunk/Secret Entrance.wav");
+	wolf->chunk[5] = Mix_LoadWAV("resource/sounds/chunk/Enemy Pain.wav");
+	wolf->chunk[6] = Mix_LoadWAV("resource/sounds/chunk/Death 1.wav");
+	wolf->chunk[7] = Mix_LoadWAV("resource/sounds/chunk/Pistol.wav");
+	wolf->chunk[8] = Mix_LoadWAV("resource/sounds/chunk/Knife.wav");
 }
 
 void free_chunk(t_wolf *wolf)
@@ -28,6 +32,10 @@ void free_chunk(t_wolf *wolf)
 	Mix_FreeChunk(wolf->chunk[2]);
 	Mix_FreeChunk(wolf->chunk[3]);
 	Mix_FreeChunk(wolf->chunk[4]);
+	Mix_FreeChunk(wolf->chunk[5]);
+	Mix_FreeChunk(wolf->chunk[6]);
+	Mix_FreeChunk(wolf->chunk[7]);
+	Mix_FreeChunk(wolf->chunk[8]);
 }
 
 void prepare_texture(t_wolf *wolf)
@@ -117,9 +125,9 @@ void	free_garbage_1(t_wolf *wolf)
 int	free_garbage_2(t_wolf *wolf)
 {
 	free(wolf->hero);
-	if (wolf->map != NULL)
-		free(wolf->map);
-	wolf->map = NULL;
+	// if (wolf->map != NULL)
+	// 	free(wolf->map);
+	// wolf->map = NULL;
 	return (0);
 }
 
@@ -127,9 +135,9 @@ void	post_init(t_wolf *wolf)
 {
 	wolf->map = NULL;
 	wolf->hero = (t_stats *)malloc(sizeof(t_stats));
-	wolf->hero->health = 50;
+	wolf->hero->health = 60;
 	wolf->hero->bullet = 8;
-	wolf->hero->score = 45000;
+	wolf->hero->score = 0;
 	wolf->door.opened = 0;
 	wolf->p_x = 0;
 	wolf->p_y = 0;

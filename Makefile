@@ -6,7 +6,7 @@
 #    By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 16:01:48 by mhedeon           #+#    #+#              #
-#    Updated: 2019/01/24 22:20:38 by mhedeon          ###   ########.fr        #
+#    Updated: 2019/01/27 22:18:46 by mhedeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = Wolf3D
 
 SRC = main.c init.c other.c intro.c menu.c start.c menu_resource.c menu_lvl.c \
 		texture.c map.c map_check.c map_trash.c loading.c lvl1.c cast.c \
-		draw.c event.c rotation.c sprite.c
+		draw.c event.c rotation.c sprite.c hud.c face.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -47,9 +47,3 @@ fclean: clean
 	@rm -f $(OBJ)
 
 re: fclean all
-
-
-
-# PA6OTAIT
-# e3r7p2:test mhedeon$ gcc  main.c  -I./frameworks/SDL2.framework/Headers/ -I./frameworks/SDL2_image.framework/Headers/   -F./frameworks -rpath ./frameworks -framework SDL2 -framework SDL2_image
-

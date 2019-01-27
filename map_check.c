@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 19:33:27 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 21:44:38 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/27 19:51:30 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	sprite(t_map *map, char *word)
 		map->floor < 0 || map->floor >= WALL_NUM ||
 		map->ceil < 0 || map->ceil >= WALL_NUM)
 		return (0);
+	map->north = map->sprite == 43 ? 6 : 0;
 	return (1);
 }
 
