@@ -6,13 +6,13 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/27 18:12:40 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 17:41:20 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int event(t_wolf *wolf)
+int event(t_wolf *wolf, int (*end)(t_wolf *wolf))
 {
 	SDL_Event e;
 
@@ -55,7 +55,12 @@ int event(t_wolf *wolf)
 	if (wolf->keyboard[SDL_SCANCODE_D])
 		strafe(wolf, STRAFE_RIGHT);
 	if (wolf->keyboard[SDL_SCANCODE_SPACE])
-		open_door(wolf);
+	{
+		if ((*end)(wolf))
+			return (0);
+		else
+			open_door(wolf);
+	}
 	return (1);
 }
 

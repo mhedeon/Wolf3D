@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 17:19:10 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:06:35 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int				menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 	{
 		Mix_PlayChannel(1, menu->select, 0);
 		if (*m == 0)
-			return (1);
+			return (LVL1);
 		else if (*m == 1)
 			return (level(wolf, &wolf->menu));
 		else if (*m == 2)

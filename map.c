@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:39:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/24 20:31:46 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 19:02:44 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int				map(t_wolf *wolf, char *path)
 			if (!parse_map(wolf, i, line))
 			{
 				close(fd);
-				return (0);
+				return (get_error(MAP));
 			}
 		}
 		close(fd);
@@ -128,5 +128,5 @@ int				map(t_wolf *wolf, char *path)
 		return (check_player_xy(wolf));
 	}
 	close(fd);
-	return (0);
+	return (get_error(MAP_FILE));
 }

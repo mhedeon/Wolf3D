@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lvl1.c                                             :+:      :+:    :+:   */
+/*   lvl2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/21 18:46:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:16:13 by mhedeon          ###   ########.fr       */
+/*   Created: 2019/01/28 17:00:46 by mhedeon           #+#    #+#             */
+/*   Updated: 2019/01/28 20:10:21 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static int prepare_lvl1(t_wolf *wolf)
+int end_lvl2(t_wolf *wolf)
+{
+	return (0);
+}
+
+static int prepare_lvl2(t_wolf *wolf)
 {
 	wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/lvl1.mid");
 	if (wolf->lvl_music != NULL)
@@ -20,7 +25,7 @@ static int prepare_lvl1(t_wolf *wolf)
 	return (1);
 }
 
-static void clear_lvl1(t_wolf *wolf)
+static void clear_lvl2(t_wolf *wolf)
 {
 	if (Mix_PlayingMusic())
 		Mix_HaltMusic();
@@ -30,24 +35,9 @@ static void clear_lvl1(t_wolf *wolf)
 	wolf->map = NULL;
 }
 
-static int end_lvl1(t_wolf *wolf)
+static int game_lvl2(t_wolf *wolf)
 {
-	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
-		abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 57)
-	{
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north = 58;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].south = 58;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].west = 58;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].east = 58;
-		return (1);
-	}
-	return (0);
-}
-
-static int game_lvl1(t_wolf *wolf)
-{
-	while (event(wolf, end_lvl1))
+	while (event(wolf, end_lvl2))
 	{
 		if (wolf->door.opened)
 			close_door(wolf);
@@ -59,30 +49,24 @@ static int game_lvl1(t_wolf *wolf)
 		wolf->ms = 1 / 45.0 * 5.0;
 		wolf->start_frame = wolf->end_frame;
 		draw_hud(wolf);
+		SDL_RenderPresent(wolf->ren);
 		if (wolf->hero->health <= 0)
 			return (death(wolf));
 		clear_buffer(wolf);
 	}
-	cast_loop(wolf);
-	screen_upd(wolf);
-	if ((int)wolf->p_x == 26 && (int)wolf->p_y == 41)
-		return (LVL2);
-	if ((int)wolf->p_x == 9 && (int)wolf->p_y == 49)
-		return (BONUS1);
+	// if (wolf->p_x == 26 && wolf->p_y == 41)
+	// 	return (2);
 	return (0);
 }
 
-void start_lvl_1(t_wolf *wolf)
+void start_lvl_2(t_wolf *wolf)
 {
 	int next;
 
 	wolf->lvl_music = NULL;
-	next = 0;
-	if (map(wolf, "resource/maps/01lvl.wolfmap") && prepare_lvl1(wolf))
-		next = game_lvl1(wolf);
-	printf("%d\n", next);
-	clear_lvl1(wolf);
-	pause_frame(wolf, 1000);
-	if (next == 2)
-		start_lvl_2(wolf);
+	if (map(wolf, "resource/maps/map1.wolfmap") && prepare_lvl2(wolf))
+	{
+		next = game_lvl2(wolf);
+	}
+	clear_lvl2(wolf);
 }

@@ -4,6 +4,7 @@
 /////////////////////DEL////
 # include <stdio.h>/////////
 ////////////////////////////
+# include <errno.h> // ??????????
 
 
 # include "SDL.h"
@@ -85,6 +86,34 @@
 # define LEVEL_4 420, 545, menu->cursor.sur->w, menu->cursor.sur->h
 # define BACK 420, 625, menu->cursor.sur->w, menu->cursor.sur->h
 
+/*
+* errors
+*/
+# define MAP_FILE 1
+# define MAP 2
+# define POSITION_ERR 3
+# define SDL_INIT_ERR 4
+# define WALL_ERR 5
+# define SPRITE_ERR 6
+# define PISTOL_ERR 7
+# define KNIFE_ERR 8
+# define WIN_ERR 9
+# define REN_ERR 10
+# define TEX_ERR 11
+# define FONT_ERR 12
+# define BUFF_ERR 13
+# define HERO_ERR 14
+# define FACE_ERR 15
+# define WOLF_ERR 16
+
+/*
+* lvl
+*/
+# define LVL1 1
+# define LVL2 2
+# define LVL3 3
+# define LVL4 4
+# define BONUS1 5
 
 /*
 *	w == wall
@@ -242,11 +271,6 @@ typedef struct	s_wolf
 }				t_wolf;
 /*	main.c	*/
 int hbp(t_wolf *wolf, t_stats *hero, int s);
-void check_item(t_wolf *wolf);
-void cast_loop(t_wolf *wolf);
-void fps(t_wolf *wolf);
-// void game(t_wolf *wolf);
-
 
 /*	rotation.c	*/
 void rotate(t_wolf *wolf);
@@ -256,7 +280,7 @@ void rot_plane(t_wolf *wolf, double rs);
 void strafe(t_wolf *wolf, int dir);
 
 /*	event.c	*/
-int event(t_wolf *wolf);
+int event(t_wolf *wolf, int (*end)(t_wolf *wolf));
 void open_door(t_wolf *wolf);
 void close_door(t_wolf *wolf);
 void changes(t_wolf *wolf, SDL_Event e);
@@ -278,7 +302,6 @@ void		draw_d(t_wolf *wolf, int x);
 /*	init.c	*/
 int pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
-int free_garbage_2(t_wolf *wolf);
 void post_init(t_wolf *wolf);
 int load_face(t_texture *face);
 int free_face(t_texture *face);
@@ -324,12 +347,6 @@ void	cp_tex_to_buff(t_wolf *wolf, t_texture *tex);
 void	intro_anim(t_wolf *wolf, t_texture *intro);
 void	intro(t_wolf *wolf);
 
-/*	start.c	*/
-int		pause_frame(t_wolf *wolf, Uint32 pause);
-int		free_start(t_texture *start, Mix_Chunk *achtung);
-int		init_start(t_texture *start, Mix_Chunk *achtung);
-void	start_anim(t_wolf *wolf);
-
 /*	texture.c	*/
 int free_textures(t_texture *texture, int num);
 int textures(t_texture *texture, int num, char *p);
@@ -361,6 +378,23 @@ void			draw_hud(t_wolf *wolf);
 /*	lvl1.c	*/
 void start_lvl_1(t_wolf *wolf);
 
+/*	lvl2.c	*/
+int end_lvl2(t_wolf *wolf);
+void start_lvl_2(t_wolf *wolf);
 
+/*	death.c	*/
+int death(t_wolf *wolf);
+
+/*	get_error.c	*/
+int get_error(int error);
+
+/*	fight	*/
+void weapon(t_wolf *wolf);
+
+/*	game.c	*/
+void check_item(t_wolf *wolf);
+void cast_loop(t_wolf *wolf);
+void fps(t_wolf *wolf);
+int		pause_frame(t_wolf *wolf, Uint32 pause);
 
 #endif

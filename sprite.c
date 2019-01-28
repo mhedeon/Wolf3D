@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 16:29:40 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/27 22:24:50 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 16:45:25 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void			enemy_shot(t_wolf *wolf, int time)
 		Mix_PlayChannel(-1, wolf->chunk[7], 0);
 		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite = 44;
 		wolf->hero->health -= 6;
+		if (wolf->hero->health < 0)
+			wolf->hero->health = 0;
 	}
 	else if ((time - start) > 200 && (time - start) < 2500)
 		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite = 43;

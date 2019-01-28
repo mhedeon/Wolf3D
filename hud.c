@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 22:00:22 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/27 22:13:29 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:02:40 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ void			draw_hud(t_wolf *wolf)
 	show_score(wolf);
 	show_bullet(wolf);
 	show_health(wolf);
+	SDL_RenderPresent(wolf->ren);
 }

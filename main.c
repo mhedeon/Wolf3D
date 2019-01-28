@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/27 21:51:39 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:27:15 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,60 +43,20 @@ int hbp(t_wolf *wolf, t_stats *hero, int s)
 	return (1);
 }
 
-void check_item(t_wolf *wolf)
-{
-	if (!wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].s)
-		return ;
-	wolf->map[(int)wolf->p_y * wolf->m_width + (int)wolf->p_x].s =
-		hbp(wolf, wolf->hero, wolf->map[(int)wolf->p_y * wolf->m_width +
-			(int)wolf->p_x].sprite);
-}
-
-void fps(t_wolf *wolf)
-{
-	static int counter = 0;
-
-	counter += 1;
-	wolf->end_frame = SDL_GetTicks();
-	if ((wolf->end_frame - wolf->start_frame) < 33)
-		SDL_Delay(33 - (wolf->end_frame - wolf->start_frame));
-	
-}
-
-void cast_loop(t_wolf *wolf)
-{
-	SDL_Thread *thread[THREADS];
-	t_wolf woph[THREADS];
-	int i;
-
-	i = -1;
-	while (++i < THREADS)
-	{
-		woph[i] = *wolf;
-		woph[i].start = i * SCREEN_WIDTH / THREADS;
-		woph[i].end = (i + 1) * SCREEN_WIDTH / THREADS;
-		thread[i] = SDL_CreateThread((int(*)())cast, "cast",
-					(void *)&woph[i]);
-	}
-	while (--i >= 0)
-		SDL_WaitThread(thread[i], NULL);
-}
-
 static int select_lvl(t_wolf *wolf, int lvl)
 {
 	post_init(wolf);
-	if (lvl == 1)
+	if (lvl == LVL1)
 		start_lvl_1(wolf);
-	else if (lvl == 2)
-		// start_lvl_2(wolf); TODO
-		;
-	else if(lvl == 3)
+	else if (lvl == LVL2)
+		start_lvl_2(wolf);
+	else if(lvl == LVL3)
 		// start_lvl_3(wolf); TODO
 		;
-	else if (lvl == 4)
+	else if (lvl == LVL4)
 		// start_lvl_4(wolf); TODO
 		;
-	free_garbage_2(wolf);
+	printf("qwe\n");
 	return (1);
 }
 
@@ -106,8 +66,8 @@ int			main(void)
 	int lvl;
 	
 	wolf = malloc(sizeof(t_wolf));
-	
-	
+	if (wolf == NULL)
+		return (get_error(WOLF_ERR));
 	if (pre_init(wolf))
 	{
 		Mix_Volume(-1, SDL_MIX_MAXVOLUME / 2);
@@ -122,7 +82,6 @@ int			main(void)
 				break ;
 		}
 	}
-	
 	free_garbage_1(wolf);
 	system("leaks Wolf3D");
 	return (0);

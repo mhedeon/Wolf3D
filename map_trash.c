@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 19:35:31 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 21:30:08 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 19:02:53 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int				check_player_xy(t_wolf *wolf)
 					return (1);
 				}
 		}
-		return (0);
+		return (get_error(POSITION_ERR));
 	}
 	wolf->p_x += 0.5;
 	wolf->p_y += 0.5;
