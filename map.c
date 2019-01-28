@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:39:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 19:02:44 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:49:17 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ static int		parse_map(t_wolf *wolf, int i, char *line)
 	return (1);
 }
 
-static void			check_perimeter(t_wolf *wolf)
+static void		check_perimeter(t_wolf *wolf)
 {
-	int y;
-	int x;
+	int			y;
+	int			x;
 
 	y = -1;
 	while (++y < wolf->m_height)
@@ -107,9 +107,8 @@ int				map(t_wolf *wolf, char *path)
 	int			fd;
 	char		*line;
 
-	if ((fd = open(path, O_RDONLY)) == -1)
-		return (0);
-	if (get_wh(wolf, fd) && get_xy(wolf, fd))
+	if ((fd = open(path, O_RDONLY)) != -1 &&
+		get_wh(wolf, fd) && get_xy(wolf, fd))
 	{
 		wolf->map = (t_map *)malloc(sizeof(t_map) *
 					wolf->m_width * wolf->m_height);

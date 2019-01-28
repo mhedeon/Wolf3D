@@ -6,13 +6,13 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 19:35:31 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 19:02:53 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:46:14 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int		matrix_height(char **mat)
+int				matrix_height(char **mat)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int		matrix_height(char **mat)
 	return (i);
 }
 
-void	matrix_del(char **m)
+void			matrix_del(char **m)
 {
 	int	i;
 
@@ -33,12 +33,12 @@ void	matrix_del(char **m)
 	free(m);
 }
 
-int		get_number(char a, char b)
+int				get_number(char a, char b)
 {
 	return ((a - '0') * 10 + (b - '0'));
 }
 
-int		check_digit(char *word)
+int				check_digit(char *word)
 {
 	int i;
 
@@ -76,4 +76,3 @@ int				check_player_xy(t_wolf *wolf)
 	wolf->p_y += 0.5;
 	return (1);
 }
-

@@ -6,42 +6,27 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:27:15 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:33:45 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int hbp(t_wolf *wolf, t_stats *hero, int s)
+int				pause_frame(t_wolf *wolf, Uint32 pause)
 {
-	if (s >= 27 && s <= 30)
+	SDL_Event	event;
+	Uint32		time;
+
+	time = SDL_GetTicks();
+	while ((SDL_GetTicks() - time) < pause)
 	{
-		Mix_PlayChannel(-1, wolf->chunk[1], 0);
-		hero->score += (s == 27) ? 100 : 0;
-		hero->score += (s == 28) ? 500 : 0;
-		hero->score += (s == 29) ? 1000 : 0;
-		hero->score += (s == 30) ? 5000 : 0;
-		return (0);
+		if (SDL_PollEvent(&event))
+			;
+		SDL_Delay(1);
 	}
-	if (s == 26 && hero->bullet < 99)
-	{
-		Mix_PlayChannel(-1, wolf->chunk[0], 0);
-		hero->bullet += (s == 26) ? 6 : 0;
-		hero->bullet = (hero->bullet > 99) ? 99 : hero->bullet;
-		return (0);
-	}
-	if ((s == 7 || s == 21 || s == 22 || s == 24 || s == 25)
-		&& hero->health < 100)
-	{
-		Mix_PlayChannel(-1, wolf->chunk[2], 0);
-		hero->health += (s == 24) ? 10 : 0;
-		hero->health += (s == 7) ? 4 : 0;
-		hero->health += (s == 25) ? 25 : 0;
-		hero->health = (hero->health > 100) ? 100 : hero->health;
-		return (0);
-	}
-	return (1);
+	return (0);
 }
+
 
 static int select_lvl(t_wolf *wolf, int lvl)
 {

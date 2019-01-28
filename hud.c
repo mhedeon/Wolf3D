@@ -5,16 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/27 22:00:22 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:02:40 by mhedeon          ###   ########.fr       */
+/*   Created: 2019/01/28 21:05:26 by mhedeon           #+#    #+#             */
+/*   Updated: 2019/01/28 21:06:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static void		show_health(t_wolf *wolf)
+static void		show_health(t_wolf *wolf, SDL_Rect r)
 {
-	SDL_Rect	r;
 	char		*tmp;
 	char		*tmp2;
 	SDL_Surface	*sur;
@@ -36,9 +35,8 @@ static void		show_health(t_wolf *wolf)
 	SDL_DestroyTexture(message);
 }
 
-static void		show_bullet(t_wolf *wolf)
+static void		show_bullet(t_wolf *wolf, SDL_Rect r)
 {
-	SDL_Rect	r;
 	char		*tmp;
 	char		*tmp2;
 	SDL_Surface	*sur;
@@ -60,9 +58,8 @@ static void		show_bullet(t_wolf *wolf)
 	SDL_DestroyTexture(message);
 }
 
-static void		show_score(t_wolf *wolf)
+static void		show_score(t_wolf *wolf, SDL_Rect r)
 {
-	SDL_Rect	r;
 	char		*tmp;
 	SDL_Surface	*sur;
 	SDL_Texture	*message;
@@ -88,8 +85,8 @@ void			draw_hud(t_wolf *wolf)
 					SCREEN_WIDTH * sizeof(Uint32));
 	SDL_RenderClear(wolf->ren);
 	SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
-	show_score(wolf);
-	show_bullet(wolf);
-	show_health(wolf);
+	show_score(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+	show_bullet(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+	show_health(wolf, (SDL_Rect) { 0, 0, 0, 0 });
 	SDL_RenderPresent(wolf->ren);
 }

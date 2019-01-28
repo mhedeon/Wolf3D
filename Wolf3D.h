@@ -167,7 +167,6 @@ typedef struct	s_menu
 	Mix_Music	*music;
 	Mix_Chunk	*toggle;
 	Mix_Chunk	*select;
-	Mix_Chunk	*achtung;
 }				t_menu;
 
 typedef struct	s_wolf
@@ -270,7 +269,7 @@ typedef struct	s_wolf
 
 }				t_wolf;
 /*	main.c	*/
-int hbp(t_wolf *wolf, t_stats *hero, int s);
+int		pause_frame(t_wolf *wolf, Uint32 pause);
 
 /*	rotation.c	*/
 void rotate(t_wolf *wolf);
@@ -281,8 +280,6 @@ void strafe(t_wolf *wolf, int dir);
 
 /*	event.c	*/
 int event(t_wolf *wolf, int (*end)(t_wolf *wolf));
-void open_door(t_wolf *wolf);
-void close_door(t_wolf *wolf);
 void changes(t_wolf *wolf, SDL_Event e);
 
 
@@ -295,33 +292,16 @@ int			cast_enemy(t_wolf *wolf);
 void draw(t_wolf *wolf, int x);
 void draw_wall(t_wolf *wolf, int x);
 void draw_floor(t_wolf *wolf, int x);
-void draw_x(t_wolf *wolf);
 void draw_door(t_wolf *wolf, int x);
-void		draw_d(t_wolf *wolf, int x);
 
 /*	init.c	*/
 int pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
 void post_init(t_wolf *wolf);
-int load_face(t_texture *face);
-int free_face(t_texture *face);
 void prepare_face(t_texture *face);
-
-/*	other.c	*/
-void get_color(t_texture *tex, SDL_Color *color, int x, int y);
-void set_pixel(t_wolf *wolf, SDL_Color *color, int x, int y);
-void set_pixel_s(t_wolf *wolf, SDL_Color *color, int x, int y);
-void clear_buffer(t_wolf *wolf);
-// void	clear_buffer(t_wolf *wolf, SDL_Color *c);
-void screen_upd(t_wolf *wolf);
-int get_cardinal(t_wolf *wolf);
 
 /*	sprite.c	*/
 void draw_sprite(t_wolf *wolf, int x);
-
-// /*	animation.c	*/
-// void death_anim(t_wolf *wolf);
-// void death(t_wolf *wolf);
 
 /*	menu.c	*/
 void menu_anim(t_wolf *wolf, t_texture *menu, Uint32 new_time);
@@ -371,6 +351,8 @@ void	loading(t_wolf *wolf, int persent);
 
 /*	face.c	*/
 void			face(t_wolf *wolf);
+int load_face(t_texture *face);
+int free_face(t_texture *face);
 
 /*	hud.c	*/
 void			draw_hud(t_wolf *wolf);
@@ -392,9 +374,25 @@ int get_error(int error);
 void weapon(t_wolf *wolf);
 
 /*	game.c	*/
+int pick_up(t_wolf *wolf, t_stats *hero, int s);
 void check_item(t_wolf *wolf);
 void cast_loop(t_wolf *wolf);
 void fps(t_wolf *wolf);
-int		pause_frame(t_wolf *wolf, Uint32 pause);
+
+/*	door.c	*/
+void		draw_d(t_wolf *wolf, int x);
+void open_door(t_wolf *wolf);
+void close_door(t_wolf *wolf);
+
+/*	other_1.c	*/
+void get_color(t_texture *tex, SDL_Color *color, int x, int y);
+void set_pixel(t_wolf *wolf, SDL_Color *color, int x, int y);
+void set_pixel_s(t_wolf *wolf, SDL_Color *color, int x, int y);
+void clear_buffer(t_wolf *wolf);
+void screen_upd(t_wolf *wolf);
+
+/*	other.c	*/
+int get_cardinal(t_wolf *wolf);
+void draw_x(t_wolf *wolf);;
 
 #endif

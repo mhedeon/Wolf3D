@@ -6,44 +6,37 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 17:41:20 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:38:56 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int event(t_wolf *wolf, int (*end)(t_wolf *wolf))
+static void		poll_event(t_wolf *wolf, SDL_Event e)
 {
-	SDL_Event e;
-
-	while (SDL_PollEvent(&e))
+	if (e.type == SDL_MOUSEWHEEL && e.wheel.y > 0)
+		wolf->sens += (wolf->sens + 0.05) <= 1.0 ? 0.05 : 0;
+	if (e.type == SDL_MOUSEWHEEL && e.wheel.y < 0)
+		wolf->sens -= (wolf->sens - 0.05) > 0 ? 0.05 : 0;
+	if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
 	{
-		if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
-			return (0);
-		if (e.type == SDL_MOUSEWHEEL && e.wheel.y > 0)
-			wolf->sens += (wolf->sens + 0.05) <= 1.0
-									? 0.05 : 0;
-		if (e.type == SDL_MOUSEWHEEL && e.wheel.y < 0)
-			wolf->sens -= (wolf->sens - 0.05) > 0
-									? 0.05 : 0;
-		if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+		if (wolf->weapon == 2 && wolf->hero->bullet > 0 && !wolf->shot)
 		{
-			if (wolf->weapon == 2 && wolf->hero->bullet > 0 && !wolf->shot)
-			{
-				wolf->shot = 1;
-				wolf->hero->bullet -= 1;
-			}
-			else if (wolf->weapon == 1)
-				wolf->shot = 1;
+			wolf->shot = 1;
+			wolf->hero->bullet -= 1;
 		}
-		if (KEY == SDLK_1 && !wolf->shot)
-			wolf->weapon = 1;
-		if (KEY == SDLK_2 && !wolf->shot)
-			wolf->weapon = 2;
-		changes(wolf, e);
+		else if (wolf->weapon == 1 && !wolf->shot)
+			wolf->shot = 1;
 	}
-	rotate(wolf);
-	// changes(wolf, e);
+	if (KEY == SDLK_1 && !wolf->shot)
+		wolf->weapon = 1;
+	if (KEY == SDLK_2 && !wolf->shot)
+		wolf->weapon = 2;
+	changes(wolf, e);
+}
+
+static void		pump_event(t_wolf *wolf)
+{
 	wolf->ms = (wolf->keyboard[SDL_SCANCODE_LSHIFT]) ?
 				wolf->ms * 1.5 : wolf->ms;
 	if (wolf->keyboard[SDL_SCANCODE_W])
@@ -54,6 +47,20 @@ int event(t_wolf *wolf, int (*end)(t_wolf *wolf))
 		strafe(wolf, STRAFE_LEFT);
 	if (wolf->keyboard[SDL_SCANCODE_D])
 		strafe(wolf, STRAFE_RIGHT);
+}
+
+int				event(t_wolf *wolf, int (*end)(t_wolf *wolf))
+{
+	SDL_Event	e;
+
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
+			return (0);
+		poll_event(wolf, e);
+	}
+	rotate(wolf);
+	pump_event(wolf);
 	if (wolf->keyboard[SDL_SCANCODE_SPACE])
 	{
 		if ((*end)(wolf))
@@ -64,40 +71,7 @@ int event(t_wolf *wolf, int (*end)(t_wolf *wolf))
 	return (1);
 }
 
-void open_door(t_wolf *wolf)
-{
-	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
-			abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
-			wolf->door.opened == 0)
-	{
-		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3)
-			Mix_PlayChannel(-1, wolf->chunk[4], 0);
-		else
-			Mix_PlayChannel(-1, wolf->chunk[3], 0);
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].c = 0;
-		wolf->door.x = wolf->m_x;
-		wolf->door.y = wolf->m_y;
-		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 52 ||
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 54 ||
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 55)
-		wolf->door.opened = 1;
-	}
-}
-
-void close_door(t_wolf *wolf)
-{
-	if ((wolf->p_x > (wolf->door.x - 1.0) && wolf->p_x < (wolf->door.x + 2.0)) &&
-		(wolf->p_y > (wolf->door.y - 1.0) && wolf->p_y < (wolf->door.y + 2.0)))
-		return ;
-	Mix_PlayChannel(-1, wolf->chunk[3], 0);
-	wolf->map[wolf->door.y * wolf->m_width + wolf->door.x].d = 1;
-	wolf->map[wolf->door.y * wolf->m_width + wolf->door.x].c = 1;
-	wolf->door.opened = 0;
-}
-
-void changes(t_wolf *wolf, SDL_Event e)
+static void		changes_norm(t_wolf *wolf, SDL_Event e)
 {
 	if (KEY == SDLK_f && e.key.keysym.mod != KMOD_LSHIFT)
 		SDL_SetWindowFullscreen(wolf->win, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -108,7 +82,6 @@ void changes(t_wolf *wolf, SDL_Event e)
 		wolf->volume += (wolf->volume + 5) > 128 ? 0 : 5;
 		Mix_Volume(-1, wolf->volume);
 		Mix_VolumeMusic(wolf->volume);
-
 	}
 	else if (KEY == SDLK_KP_MINUS)
 	{
@@ -116,7 +89,28 @@ void changes(t_wolf *wolf, SDL_Event e)
 		Mix_Volume(-1, wolf->volume);
 		Mix_VolumeMusic(wolf->volume);
 	}
-	else if (KEY == SDLK_m && e.key.keysym.mod != KMOD_LSHIFT && e.key.keysym.mod != KMOD_RSHIFT)
+	else if (KEY == SDLK_m && e.key.keysym.mod == KMOD_LSHIFT
+			&& e.key.keysym.mod != KMOD_RSHIFT)
+	{
+		if (Mix_VolumeMusic(-1))
+			Mix_VolumeMusic(0);
+		else
+			Mix_VolumeMusic(wolf->volume);
+	}
+}
+
+void			changes(t_wolf *wolf, SDL_Event e)
+{
+	if (KEY == SDLK_m && e.key.keysym.mod == KMOD_RSHIFT
+			&& e.key.keysym.mod != KMOD_LSHIFT)
+	{
+		if (Mix_Volume(-1, -1))
+			Mix_Volume(-1, 0);
+		else
+			Mix_Volume(-1, wolf->volume);
+	}
+	else if (KEY == SDLK_m && e.key.keysym.mod != KMOD_LSHIFT
+			&& e.key.keysym.mod != KMOD_RSHIFT)
 	{
 		if (Mix_Volume(-1, -1) || Mix_VolumeMusic(-1))
 		{
@@ -129,18 +123,6 @@ void changes(t_wolf *wolf, SDL_Event e)
 			Mix_VolumeMusic(wolf->volume);
 		}
 	}
-	else if (KEY == SDLK_m && e.key.keysym.mod == KMOD_LSHIFT && e.key.keysym.mod != KMOD_RSHIFT)
-	{
-		if (Mix_VolumeMusic(-1))
-			Mix_VolumeMusic(0);
-		else
-			Mix_VolumeMusic(wolf->volume);
-	}
-	else if (KEY == SDLK_m && e.key.keysym.mod == KMOD_RSHIFT && e.key.keysym.mod != KMOD_LSHIFT)
-	{
-		if (Mix_Volume(-1, -1))
-			Mix_Volume(-1, 0);
-		else
-			Mix_Volume(-1, wolf->volume);
-	}
+	else
+		changes_norm(wolf, e);
 }

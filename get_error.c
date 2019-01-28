@@ -6,13 +6,27 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 18:33:41 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:20:31 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:44:01 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int get_error(int error)
+static void	get_error_norm(int error)
+{
+	if (error == FONT_ERR)
+		write(1, "Cannot create font\n", 20);
+	else if (error == BUFF_ERR)
+		write(1, "Cannot allocate memory for buffer\n", 35);
+	else if (error == HERO_ERR)
+		write(1, "Cannot allocate memory for hero\n", 33);
+	else if (error == FACE_ERR)
+		write(1, "Cannot load face files\n", 24);
+	else if (error == WOLF_ERR)
+		write(1, "Cannot allocate memory for game\n", 33);
+}
+
+int			get_error(int error)
 {
 	if (error == MAP_FILE)
 		write(1, "Cannot load map file\n", 22);
@@ -36,16 +50,7 @@ int get_error(int error)
 		write(1, "Cannot create renderer\n", 24);
 	else if (error == TEX_ERR)
 		write(1, "Cannot create texture\n", 23);
-	else if (error == FONT_ERR)
-		write(1, "Cannot create font\n", 20);
-	else if (error == BUFF_ERR)
-		write(1, "Cannot allocate memory for buffer\n", 35);
-	else if (error == HERO_ERR)
-		write(1, "Cannot allocate memory for hero\n", 33);
-	else if (error == FACE_ERR)
-		write(1, "Cannot load face files\n", 24);
-	else if (error == WOLF_ERR)
-		write(1, "Cannot allocate memory for game\n", 33);
-
+	else
+		get_error_norm(error);
 	return (0);
 }

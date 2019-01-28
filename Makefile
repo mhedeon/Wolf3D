@@ -6,16 +6,16 @@
 #    By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 16:01:48 by mhedeon           #+#    #+#              #
-#    Updated: 2019/01/28 20:28:18 by mhedeon          ###   ########.fr        #
+#    Updated: 2019/01/28 22:55:38 by mhedeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = Wolf3D
 
-SRC = main.c init.c other.c intro.c menu.c menu_resource.c menu_lvl.c \
+SRC = main.c init.c intro.c menu.c menu_resource.c menu_lvl.c \
 		texture.c map.c map_check.c map_trash.c loading.c lvl1.c cast.c \
 		draw.c event.c rotation.c sprite.c hud.c face.c death.c lvl2.c get_error.c \
-		fight.c game.c
+		fight.c game.c door.c other_1.c other_2.c
 
 OBJ = $(SRC:.c=.o)
 

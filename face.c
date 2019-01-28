@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 22:02:18 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/27 22:12:24 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:08:38 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,52 @@ void			face(t_wolf *wolf)
 		draw_face(wolf, wolf->face + 10, SDL_GetTicks());
 	else if (wolf->hero->health > 90)
 		draw_face(wolf, wolf->face + 0, SDL_GetTicks());
+}
+
+int				load_face(t_texture *face)
+{
+	int			i;
+	int			j;
+	char		*tmp[2];
+
+	j = 10;
+	while (j <= 70)
+	{
+		i = 0;
+		while (++i <= 8)
+		{
+			tmp[0] = ft_itoa(j + i);
+			tmp[1] = ft_strjoin(tmp[0], ".png");
+			free(tmp[0]);
+			tmp[0] = ft_strjoin("resource/img/face/", tmp[1]);
+			free(tmp[1]);
+			if (!load_texture(&face[j - 10 + i], tmp[0]))
+			{
+				free(tmp[0]);
+				return (0);
+			}
+			free(tmp[0]);
+		}
+		j += 10;
+	}
+	return (1);
+}
+
+int				free_face(t_texture *face)
+{
+	int			i;
+	int			j;
+
+	j = 10;
+	while (j <= 70)
+	{
+		i = 0;
+		while (++i <= 8)
+		{
+			if (face[j - 10 + i].sur != NULL)
+				destroy_texture(&face[j - 10 + i]);
+		}
+		j += 10;
+	}
+	return (0);
 }

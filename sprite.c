@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 16:29:40 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 16:45:25 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:15:34 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static void		prepare_sprite(t_wolf *wolf, int x)
 	wolf->ssx = (int)((SCREEN_WIDTH / 2) * (1 + wolf->spt_x /
 				wolf->spt_y));
 	wolf->sp_h = abs((int)(SCREEN_HEIGHT / wolf->spt_y));
-	wolf->sp_start = -wolf->sp_h / 2 + SCREEN_HEIGHT / 2;
-	wolf->sp_end = wolf->sp_h / 2 + SCREEN_HEIGHT / 2;
+	wolf->sp_start = (SCREEN_HEIGHT - wolf->sp_h) / 2;
+	wolf->sp_end = (SCREEN_HEIGHT + wolf->sp_h) / 2;
 	if (wolf->sp_end >= SCREEN_HEIGHT)
 		wolf->sp_end = SCREEN_HEIGHT - 1;
 	if (wolf->sp_start <= 0)
 		wolf->sp_start = 0;
-	wolf->t_x = (int)(256 * (x - (-abs((int)(SCREEN_HEIGHT /
+	wolf->t_x = (int)(256 * (x - (-fabs((SCREEN_HEIGHT /
 				(wolf->spt_y))) / 2 + wolf->ssx)) * SPRITE_WIDTH /
-				abs((int)(SCREEN_HEIGHT / (wolf->spt_y)))) / 256;
+				fabs((SCREEN_HEIGHT / (wolf->spt_y)))) / 256;
 }
 
 void			enemy_shot(t_wolf *wolf, int time)

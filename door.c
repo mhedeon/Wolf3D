@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/04 16:58:00 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:27:10 by mhedeon          ###   ########.fr       */
+/*   Created: 2019/01/28 22:18:00 by mhedeon           #+#    #+#             */
+/*   Updated: 2019/01/28 22:35:40 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	prepare(t_wolf *wolf, int x)
 		SCREEN_HEIGHT : wolf->draw_end;
 }
 
-void		draw(t_wolf *wolf, int x)
+void		draw_door(t_wolf *wolf, int x)
 {
-	draw_wall(wolf, x);
+	draw_d(wolf, x);
 	if (!(wolf->side % 2) && wolf->ray_dir_x > 0)
 	{
 		wolf->f_x = wolf->m_x;
@@ -52,7 +52,7 @@ void		draw(t_wolf *wolf, int x)
 	draw_floor(wolf, x);
 }
 
-void		draw_wall(t_wolf *wolf, int x)
+void		draw_d(t_wolf *wolf, int x)
 {
 	int		y;
 
@@ -69,8 +69,7 @@ void		draw_wall(t_wolf *wolf, int x)
 	while (++y <= wolf->draw_end)
 	{
 		wolf->d = y * 256 - SCREEN_HEIGHT * 128 + wolf->draw_h * 128;
-		wolf->t_y = wolf->draw_h == 0 ? 0 : ((wolf->d * WALL_HEIGHT)
-			/ wolf->draw_h) >> 8;
+		wolf->t_y = ((wolf->d * WALL_HEIGHT) / wolf->draw_h) >> 8;
 		wolf->t_y = wolf->t_y < 0 ? 0 : wolf->t_y;
 		wolf->t_y = wolf->t_y >= WALL_HEIGHT ? WALL_HEIGHT - 1 : wolf->t_y;
 		get_color(&wolf->wall[get_cardinal(wolf)],
@@ -79,28 +78,36 @@ void		draw_wall(t_wolf *wolf, int x)
 	}
 }
 
-void		draw_floor(t_wolf *wolf, int x)
+void		open_door(t_wolf *wolf)
 {
-	int		y;
-	double	f1_x;
-	double	f1_y;
-
-	y = wolf->draw_end;
-	while (++y <= SCREEN_HEIGHT)
+	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
+			abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
+			wolf->door.opened == 0)
 	{
-		wolf->w = SCREEN_HEIGHT / (2.0 * y - SCREEN_HEIGHT);
-		wolf->w = wolf->w / wolf->dist;
-		f1_x = wolf->w * wolf->f_x + (1.0 - wolf->w) * wolf->p_x;
-		f1_y = wolf->w * wolf->f_y + (1.0 - wolf->w) * wolf->p_y;
-		wolf->fc_x = (int)(f1_x * FLOOR_WIDTH) % FLOOR_WIDTH;
-		wolf->fc_y = (int)(f1_y * FLOOR_HEIGHT) % FLOOR_HEIGHT;
-		get_color(&wolf->wall[CURRENT_FLOOR],
-				&wolf->color, wolf->fc_x, wolf->fc_y);
-		set_pixel(wolf, &wolf->color, x, y);
-		wolf->fc_x = (int)(f1_x * CEIL_WIDTH) % CEIL_WIDTH;
-		wolf->fc_y = (int)(f1_y * CEIL_HEIGHT) % CEIL_HEIGHT;
-		get_color(&wolf->wall[CURRENT_CEIL],
-				&wolf->color, wolf->fc_x, wolf->fc_y);
-		set_pixel(wolf, &wolf->color, x, SCREEN_HEIGHT - y);
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3)
+			Mix_PlayChannel(-1, wolf->chunk[4], 0);
+		else
+			Mix_PlayChannel(-1, wolf->chunk[3], 0);
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].c = 0;
+		wolf->door.x = wolf->m_x;
+		wolf->door.y = wolf->m_y;
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 52 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 54 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 55)
+			wolf->door.opened = 1;
 	}
+}
+
+void		close_door(t_wolf *wolf)
+{
+	if ((wolf->p_x > (wolf->door.x - 1.0) && wolf->p_x < (wolf->door.x + 2.0))
+		&&
+		(wolf->p_y > (wolf->door.y - 1.0) && wolf->p_y < (wolf->door.y + 2.0)))
+		return ;
+	Mix_PlayChannel(-1, wolf->chunk[3], 0);
+	wolf->map[wolf->door.y * wolf->m_width + wolf->door.x].d = 1;
+	wolf->map[wolf->door.y * wolf->m_width + wolf->door.x].c = 1;
+	wolf->door.opened = 0;
 }

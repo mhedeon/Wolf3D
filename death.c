@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 21:01:29 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 16:53:43 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 21:11:12 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ static void				draw_death(t_wolf *wolf, unsigned x, unsigned y)
 					set_pixel_s(wolf, &tmp, x + j, y + i);
 				}
 				else
-					set_pixel_s(wolf, /*&wolf->color*/&tmp, x + j, y + i);
+					set_pixel_s(wolf, &tmp, x + j, y + i);
 			}
 	}
 	if (!(++a % 500))
 		screen_upd(wolf);
 }
 
-static void					death_anim(t_wolf *wolf)
+static void				death_anim(t_wolf *wolf)
 {
 	unsigned			x;
 	unsigned			y;
@@ -68,10 +68,8 @@ static void					death_anim(t_wolf *wolf)
 	}
 }
 
-int  death(t_wolf *wolf)
+int						death(t_wolf *wolf)
 {
-	// wolf->start = 0;
-	// wolf->end = SCREEN_WIDTH - 1;
 	cast(wolf);
 	death_anim(wolf);
 	return (0);

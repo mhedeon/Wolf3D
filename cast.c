@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 16:49:49 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/27 20:09:19 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:16:42 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,9 @@ int			cast_enemy(t_wolf *wolf)
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d)
 			return (0);
 		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].s)
-		{
 			if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite == 43 ||
 				wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite == 44)
 				return (1);
-		}
 	}
 	return (0);
 }

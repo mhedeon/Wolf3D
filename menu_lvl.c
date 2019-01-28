@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:43:55 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:06:25 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:50:39 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,23 @@
 
 int				show_controls(void)
 {
-	//TODO
+	write(1, "\n", 2);
+	write(1, "\t|||||||||||||||||||||||||||||||||||||||||||\n", 46);
+	write(1, "\t||   Move - WASD                         ||\n", 46);
+	write(1, "\t||   Turn - mouse                        ||\n", 46);
+	write(1, "\t||   Mouse sensitivity - mouse wheel     ||\n", 46);
+	write(1, "\t||   Shoot - Left mouse key              ||\n", 46);
+	write(1, "\t||   Run - LShift                        ||\n", 46);
+	write(1, "\t||   Open door / use elevator - Space    ||\n", 46);
+	write(1, "\t||   Fullscreen ON - F                   ||\n", 46);
+	write(1, "\t||   Fullscreen OFF - LShift + F         ||\n", 46);
+	write(1, "\t||   Mute / unmute music - LShift + M    ||\n", 46);
+	write(1, "\t||   Mute / unmute chunks - RShift + M   ||\n", 46);
+	write(1, "\t||   Mute / unmute all - M               ||\n", 46);
+	write(1, "\t||   Sounds plus - +(keypad)             ||\n", 46);
+	write(1, "\t||   Sounds minus - -(keypad)            ||\n", 46);
+	write(1, "\t|||||||||||||||||||||||||||||||||||||||||||\n", 46);
+	write(1, "\n", 2);
 	return (-1);
 }
 
@@ -72,10 +88,10 @@ int				level(t_wolf *wolf, t_menu *menu)
 	return (lvl == 0 ? -1 : lvl);
 }
 
-void	draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect)
+void			draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect)
 {
-	int x;
-	int y;
+	int			x;
+	int			y;
 
 	y = rect->y - 1;
 	while (++y < rect->y + rect->h)

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 17:00:46 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:10:21 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 21:11:50 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int game_lvl2(t_wolf *wolf)
 		wolf->ms = 1 / 45.0 * 5.0;
 		wolf->start_frame = wolf->end_frame;
 		draw_hud(wolf);
-		SDL_RenderPresent(wolf->ren);
 		if (wolf->hero->health <= 0)
 			return (death(wolf));
 		clear_buffer(wolf);

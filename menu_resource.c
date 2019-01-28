@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:27:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/26 22:12:13 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:39:57 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int		free_menu_sound(t_menu *menu)
 		Mix_FreeChunk(menu->toggle);
 	if (menu->select != NULL)
 		Mix_FreeChunk(menu->select);
-	if (menu->achtung != NULL)
-		Mix_FreeChunk(menu->achtung);
 	return (0);
 }
 
@@ -80,12 +78,6 @@ int		init_menu_sound(t_menu *menu)
 	}
 	menu->select = Mix_LoadWAV("resource/sounds/chunk/Menu Select.wav");
 	if (menu->select == NULL)
-	{
-		printf("1\n");
-		return (free_menu_sound(menu));
-	}
-	menu->achtung = Mix_LoadWAV("resource/sounds/chunk/Achtung!.wav");
-	if (menu->achtung == NULL)
 	{
 		printf("1\n");
 		return (free_menu_sound(menu));

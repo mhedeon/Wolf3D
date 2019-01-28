@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:10:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 17:26:51 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 22:51:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,6 @@ void		rotate(t_wolf *wolf)
 
 void		step(t_wolf *wolf, int dir)
 {
-	// if (wolf->map[(int)wolf->p_y * wolf->m_width +
-	// 		(int)(wolf->p_x + dir * wolf->dir_x * (wolf->ms + 0.25))].w == 0 &&
-	// 	wolf->map[(int)wolf->p_y * wolf->m_width +
-	// 		(int)(wolf->p_x + dir * wolf->dir_x * (wolf->ms + 0.25))].s == 0)
-	// 	wolf->p_x += dir * wolf->dir_x * wolf->ms;
-	// if (wolf->map[(int)(wolf->p_y + dir * wolf->dir_y * (wolf->ms + 0.25)) *
-	// 		wolf->m_width + (int)wolf->p_x].w == 0 &&
-	// 	wolf->map[(int)(wolf->p_y + dir * wolf->dir_y * (wolf->ms + 0.25)) *
-	// 		wolf->m_width + (int)wolf->p_x].s == 0)
-	// 	wolf->p_y += dir * wolf->dir_y * wolf->ms;
 	if (wolf->map[(int)wolf->p_y * wolf->m_width +
 			(int)(wolf->p_x + dir * wolf->dir_x * (wolf->ms + 0.25))].c == 0)
 		wolf->p_x += dir * wolf->dir_x * wolf->ms;
