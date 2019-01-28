@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:46:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:15:05 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:21:20 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		start_lvl_1(t_wolf *wolf)
 	if (map(wolf, "resource/maps/01lvl.wolfmap") && prepare_lvl1(wolf))
 		next = game_lvl1(wolf);
 	clear_lvl1(wolf);
-	pause_frame(wolf, 1000);
+	pause_frame(1000);
 	if (next == 2)
 		start_lvl_2(wolf);
 }

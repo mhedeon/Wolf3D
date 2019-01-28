@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 16:29:40 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:15:34 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:22:07 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void		prepare_sprite(t_wolf *wolf, int x)
 void			enemy_shot(t_wolf *wolf, int time)
 {
 	static int	start = 0;
-	static int	shot = 0;
 
 	if (start == 0)
 	{

@@ -269,7 +269,7 @@ typedef struct	s_wolf
 
 }				t_wolf;
 /*	main.c	*/
-int		pause_frame(t_wolf *wolf, Uint32 pause);
+int		pause_frame(Uint32 pause);
 
 /*	rotation.c	*/
 void rotate(t_wolf *wolf);
@@ -298,6 +298,12 @@ void draw_door(t_wolf *wolf, int x);
 int pre_init(t_wolf *wolf);
 void free_garbage_1(t_wolf *wolf);
 void post_init(t_wolf *wolf);
+
+/*	init_trash.c	*/
+void	load_chunk(t_wolf *wolf);
+void	free_chunk(t_wolf *wolf);
+void	prepare_chunk(t_wolf *wolf);
+void	prepare_texture(t_wolf *wolf);
 void prepare_face(t_texture *face);
 
 /*	sprite.c	*/
@@ -311,7 +317,7 @@ int m_menu(t_wolf *wolf, t_menu *menu);
 
 /*	menu_lvl.c	*/
 int show_controls(void);
-int level_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e);
+int level_event(t_menu *menu, int *m, SDL_Event e);
 int level(t_wolf *wolf, t_menu *menu);
 void	draw_cursor(t_wolf *wolf, t_texture *tex, SDL_Rect *rect);
 

@@ -6,13 +6,13 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 16:58:00 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:27:10 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:21:45 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static void	prepare(t_wolf *wolf, int x)
+static void	prepare(t_wolf *wolf)
 {
 	wolf->dist = !(wolf->side % 2) ? (((double)wolf->m_x - wolf->p_x +
 		(1 - wolf->step_x) / 2) / wolf->ray_dir_x) :
@@ -56,7 +56,7 @@ void		draw_wall(t_wolf *wolf, int x)
 {
 	int		y;
 
-	prepare(wolf, x);
+	prepare(wolf);
 	wolf->w_x = !(wolf->side % 2) ? (wolf->p_y + wolf->dist * wolf->ray_dir_y) :
 		(wolf->p_x + wolf->dist * wolf->ray_dir_x);
 	wolf->w_x -= floor(wolf->w_x);

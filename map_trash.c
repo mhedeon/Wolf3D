@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 19:35:31 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:46:14 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:20:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int				check_digit(char *word)
 	int i;
 
 	i = 0;
-	while (++i < ft_strlen(word))
+	while (++i < (int)ft_strlen(word))
 		if (word[i] < '0' || word[i] > '9')
 			return (0);
 	return (1);

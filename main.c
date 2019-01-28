@@ -6,13 +6,13 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:33:45 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:25:33 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-int				pause_frame(t_wolf *wolf, Uint32 pause)
+int				pause_frame(Uint32 pause)
 {
 	SDL_Event	event;
 	Uint32		time;
@@ -41,7 +41,6 @@ static int select_lvl(t_wolf *wolf, int lvl)
 	else if (lvl == LVL4)
 		// start_lvl_4(wolf); TODO
 		;
-	printf("qwe\n");
 	return (1);
 }
 

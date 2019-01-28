@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:43:55 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:50:39 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:20:08 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int				show_controls(void)
 	return (-1);
 }
 
-int				level_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
+int				level_event(t_menu *menu, int *m, SDL_Event e)
 {
 	if ((KEY == SDLK_ESCAPE) || (KEY == SDLK_DOWN) || (KEY == SDLK_UP))
 		Mix_PlayChannel(1, menu->toggle, 0);
@@ -74,7 +74,7 @@ int				level(t_wolf *wolf, t_menu *menu)
 		if (SDL_PollEvent(&e))
 		{
 			changes(wolf, e);
-			lvl = level_event(wolf, menu, &m, e);
+			lvl = level_event(menu, &m, e);
 		}
 		menu_anim(wolf, menu->level, SDL_GetTicks());
 		draw_cursor_in_menu(wolf, menu, m, 'l');

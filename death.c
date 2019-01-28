@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 21:01:29 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 21:11:12 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:23:18 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static void				draw_death(t_wolf *wolf, unsigned x, unsigned y)
 	int					j;
 
 	i = y - 1;
-	while (++i < y + SQUARE)
+	while (++i < (int)(y + SQUARE))
 	{
 		j = x - 1;
-		while (++j < x + SQUARE)
+		while (++j < (int)(x + SQUARE))
 			if (((x + j) < SCREEN_WIDTH) && ((y + i) < SCREEN_HEIGHT))
 			{
 				if ((Uint8)(wolf->buff[y * SCREEN_WIDTH + x]

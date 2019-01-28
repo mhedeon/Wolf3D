@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:27:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:39:57 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:25:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,10 @@ int		init_menu_sound(t_menu *menu)
 		return (free_menu_sound(menu));
 	menu->toggle = Mix_LoadWAV("resource/sounds/chunk/Menu Toggle.wav");
 	if (menu->toggle == NULL)
-	{
-		printf("1\n");
 		return (free_menu_sound(menu));
-	}
 	menu->select = Mix_LoadWAV("resource/sounds/chunk/Menu Select.wav");
 	if (menu->select == NULL)
-	{
-		printf("1\n");
 		return (free_menu_sound(menu));
-	}
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 17:00:46 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 21:11:50 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/28 23:24:07 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int end_lvl2(t_wolf *wolf)
 {
+	wolf->shot = wolf->shot;
 	return (0);
 }
 
