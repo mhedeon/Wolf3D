@@ -6,13 +6,13 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 16:29:40 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/23 20:13:39 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/27 22:24:50 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static void	prepare_sprite(t_wolf *wolf, int x)
+static void		prepare_sprite(t_wolf *wolf, int x)
 {
 	wolf->sp_x = wolf->m_x + 0.5 - wolf->p_x;
 	wolf->sp_y = wolf->m_y + 0.5 - wolf->p_y;
@@ -36,11 +36,32 @@ static void	prepare_sprite(t_wolf *wolf, int x)
 				abs((int)(SCREEN_HEIGHT / (wolf->spt_y)))) / 256;
 }
 
-void		draw_sprite(t_wolf *wolf, int x)
+void			enemy_shot(t_wolf *wolf, int time)
 {
-	int		y;
+	static int	start = 0;
+	static int	shot = 0;
+
+	if (start == 0)
+	{
+		start = SDL_GetTicks();
+		Mix_PlayChannel(-1, wolf->chunk[7], 0);
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite = 44;
+		wolf->hero->health -= 6;
+	}
+	else if ((time - start) > 200 && (time - start) < 2500)
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite = 43;
+	else if ((time - start) >= 2500)
+		start = 0;
+}
+
+void			draw_sprite(t_wolf *wolf, int x)
+{
+	int			y;
 
 	prepare_sprite(wolf, x);
+	if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite == 43 ||
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].sprite == 44)
+		enemy_shot(wolf, SDL_GetTicks());
 	y = wolf->sp_start - 1;
 	while (++y < wolf->sp_end)
 	{
