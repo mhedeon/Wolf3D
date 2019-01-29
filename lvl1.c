@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:46:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:21:20 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 22:02:17 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void		start_lvl_1(t_wolf *wolf)
 	int		next;
 
 	wolf->lvl_music = NULL;
+	post_init(wolf);
 	next = 0;
 	if (map(wolf, "resource/maps/01lvl.wolfmap") && prepare_lvl1(wolf))
 		next = game_lvl1(wolf);

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:25:33 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 22:05:16 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int				pause_frame(Uint32 pause)
 
 static int select_lvl(t_wolf *wolf, int lvl)
 {
-	post_init(wolf);
+	wolf->hero->health = 60;
+	wolf->hero->bullet = 8;
+	wolf->hero->score = 0;
 	if (lvl == LVL1)
 		start_lvl_1(wolf);
 	else if (lvl == LVL2)

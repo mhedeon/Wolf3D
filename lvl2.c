@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 17:00:46 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:24:07 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 22:18:05 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 
 int end_lvl2(t_wolf *wolf)
 {
-	wolf->shot = wolf->shot;
+	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
+		abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 57)
+	{
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north = 58;
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].south = 58;
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].west = 58;
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].east = 58;
+		return (1);
+	}
 	return (0);
 }
 
 static int prepare_lvl2(t_wolf *wolf)
 {
-	wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/lvl1.mid");
+	wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/lvl2.mid");
 	if (wolf->lvl_music != NULL)
 		Mix_PlayMusic(wolf->lvl_music, -1);
 	return (1);
@@ -54,8 +63,10 @@ static int game_lvl2(t_wolf *wolf)
 			return (death(wolf));
 		clear_buffer(wolf);
 	}
-	// if (wolf->p_x == 26 && wolf->p_y == 41)
-	// 	return (2);
+	cast_loop(wolf);
+	screen_upd(wolf);
+	if (wolf->p_x == 2 && wolf->p_y == 49)
+		return (LVL3);
 	return (0);
 }
 
@@ -64,9 +75,14 @@ void start_lvl_2(t_wolf *wolf)
 	int next;
 
 	wolf->lvl_music = NULL;
-	if (map(wolf, "resource/maps/map1.wolfmap") && prepare_lvl2(wolf))
+	post_init(wolf);
+	next = 0;
+	if (map(wolf, "resource/maps/02lvl.wolfmap") && prepare_lvl2(wolf))
 	{
+		rot_dir(wolf, -90);
+		rot_plane(wolf, -90);
 		next = game_lvl2(wolf);
 	}
 	clear_lvl2(wolf);
+	pause_frame(1000);
 }

@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:11:52 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 22:03:35 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static int	pre_init_2(t_wolf *wolf)
 	wolf->hero = (t_stats *)malloc(sizeof(t_stats));
 	if (wolf->hero == NULL)
 		return (get_error(HERO_ERR));
+	wolf->hero->health = 60;
+	wolf->hero->bullet = 8;
+	wolf->hero->score = 0;
 	SDL_ShowCursor(SDL_DISABLE);
 	load_texture(&wolf->icon, "./resource/img/menu/icon.png");
 	SDL_SetWindowIcon(wolf->win, wolf->icon.sur);
@@ -114,9 +117,6 @@ void		free_garbage_1(t_wolf *wolf)
 void		post_init(t_wolf *wolf)
 {
 	wolf->map = NULL;
-	wolf->hero->health = 60;
-	wolf->hero->bullet = 8;
-	wolf->hero->score = 0;
 	wolf->door.opened = 0;
 	wolf->p_x = 0;
 	wolf->p_y = 0;

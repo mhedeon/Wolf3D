@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 22:18:00 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:24:39 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 22:14:38 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,11 @@ void		open_door(t_wolf *wolf)
 			abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
 			wolf->door.opened == 0)
 	{
-		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3)
+		if (wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 1 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 7 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 11)
 			Mix_PlayChannel(-1, wolf->chunk[4], 0);
 		else
 			Mix_PlayChannel(-1, wolf->chunk[3], 0);

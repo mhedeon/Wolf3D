@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:38:56 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 18:47:27 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ int				event(t_wolf *wolf, int (*end)(t_wolf *wolf))
 	{
 		if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
 			return (0);
+		////////////////////
+		if (KEY == SDLK_p)
+			printf("x: %d | y: %d\n", (int)wolf->p_x, (int)wolf->p_y);
+		///////////////////
 		poll_event(wolf, e);
 	}
 	rotate(wolf);
