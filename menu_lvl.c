@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:43:55 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:20:08 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/29 23:19:24 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int				show_controls(void)
 	write(1, "\t||   Mute / unmute all - M               ||\n", 46);
 	write(1, "\t||   Sounds plus - +(keypad)             ||\n", 46);
 	write(1, "\t||   Sounds minus - -(keypad)            ||\n", 46);
+	write(1, "\t||   Show Controls - H                   ||\n", 46);
 	write(1, "\t|||||||||||||||||||||||||||||||||||||||||||\n", 46);
 	write(1, "\n", 2);
 	return (-1);
