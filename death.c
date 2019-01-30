@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 21:01:29 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:23:18 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/30 21:27:26 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static void				draw_death(t_wolf *wolf, unsigned x, unsigned y)
 {
 	static SDL_Color	tmp = {0x8D, 0, 0, 0xFF};
 	static unsigned		a = 0;
-	int					i;
-	int					j;
+	unsigned			i;
+	unsigned			j;
 
 	i = y - 1;
-	while (++i < (int)(y + SQUARE))
+	while (++i < (y + SQUARE))
 	{
 		j = x - 1;
-		while (++j < (int)(x + SQUARE))
+		while (++j < (x + SQUARE))
 			if (((x + j) < SCREEN_WIDTH) && ((y + i) < SCREEN_HEIGHT))
 			{
 				if ((Uint8)(wolf->buff[y * SCREEN_WIDTH + x]

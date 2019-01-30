@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 20:06:35 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/30 22:10:11 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int				menu_event(t_wolf *wolf, t_menu *menu, int *m, SDL_Event e)
 {
 	if ((KEY == SDLK_DOWN) || (KEY == SDLK_UP))
 		Mix_PlayChannel(1, menu->toggle, 0);
-	if (e.type == SDL_QUIT)
+	if (e.type == SDL_QUIT || (KEY == SDLK_ESCAPE))
 		return (0);
 	else if (KEY == SDLK_DOWN)
 		*m += *m == 3 ? -3 : 1;

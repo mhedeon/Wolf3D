@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/29 22:05:16 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/30 21:47:44 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int				pause_frame(Uint32 pause)
 	return (0);
 }
 
-
-static int select_lvl(t_wolf *wolf, int lvl)
+static int		select_lvl(t_wolf *wolf, int lvl)
 {
 	wolf->hero->health = 60;
 	wolf->hero->bullet = 8;
@@ -37,20 +36,18 @@ static int select_lvl(t_wolf *wolf, int lvl)
 		start_lvl_1(wolf);
 	else if (lvl == LVL2)
 		start_lvl_2(wolf);
-	else if(lvl == LVL3)
-		// start_lvl_3(wolf); TODO
-		;
+	else if (lvl == LVL3)
+		start_lvl_3(wolf);
 	else if (lvl == LVL4)
-		// start_lvl_4(wolf); TODO
-		;
+		start_lvl_4(wolf);
 	return (1);
 }
 
-int			main(void)
+int				main(void)
 {
-	t_wolf *wolf;
-	int lvl;
-	
+	t_wolf		*wolf;
+	int			lvl;
+
 	wolf = malloc(sizeof(t_wolf));
 	if (wolf == NULL)
 		return (get_error(WOLF_ERR));
@@ -69,6 +66,5 @@ int			main(void)
 		}
 	}
 	free_garbage_1(wolf);
-	system("leaks Wolf3D");
 	return (0);
 }

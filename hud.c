@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 21:05:26 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 21:06:51 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/30 19:36:14 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,19 @@ void			draw_hud(t_wolf *wolf)
 	show_score(wolf, (SDL_Rect) { 0, 0, 0, 0 });
 	show_bullet(wolf, (SDL_Rect) { 0, 0, 0, 0 });
 	show_health(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+	SDL_RenderPresent(wolf->ren);
+}
+
+void			draw_hud_lvl3(t_wolf *wolf)
+{
+	face(wolf);
+	SDL_UpdateTexture(wolf->tex, NULL, wolf->buff,
+					SCREEN_WIDTH * sizeof(Uint32));
+	SDL_RenderClear(wolf->ren);
+	SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
+	show_score(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+	show_bullet(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+	show_health(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+	dist_lvl_3(wolf, (SDL_Rect) { 0, 0, 0, 0 });
 	SDL_RenderPresent(wolf->ren);
 }

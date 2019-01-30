@@ -1,41 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lvl2.c                                             :+:      :+:    :+:   */
+/*   lvl4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 17:00:46 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 21:52:44 by mhedeon          ###   ########.fr       */
+/*   Created: 2019/01/30 18:05:27 by mhedeon           #+#    #+#             */
+/*   Updated: 2019/01/30 21:25:15 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Wolf3D.h"
 
-static int	end_lvl2(t_wolf *wolf)
+static int		end_lvl4(t_wolf *wolf)
 {
+	SDL_Event	e;
+
 	if (cast_door(wolf) && (abs((int)wolf->p_x - wolf->m_x) +
 		abs((int)wolf->p_y - wolf->m_y)) <= 1.5 &&
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 57)
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 54)
 	{
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north = 58;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].south = 58;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].west = 58;
-		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].east = 58;
+		if (Mix_PlayingMusic())
+			Mix_HaltMusic();
+		if (wolf->lvl_music != NULL)
+			Mix_FreeMusic(wolf->lvl_music);
+		wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/end.mid");
+		if (wolf->lvl_music != NULL)
+			Mix_PlayMusic(wolf->lvl_music, -1);
+		wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].d = 0;
+		cast_loop(wolf);
+		end_game(wolf, (SDL_Rect) { 0, 0, 0, 0 });
+		while (1)
+			while (SDL_PollEvent(&e))
+				if ((KEY == SDLK_RETURN) || (KEY == SDLK_ESCAPE))
+					return (1);
 		return (1);
 	}
 	return (0);
 }
 
-static int	prepare_lvl2(t_wolf *wolf)
+static int		prepare_lvl4(t_wolf *wolf)
 {
-	wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/lvl2.mid");
+	wolf->lvl_music = Mix_LoadMUS("./resource/sounds/music/lvl4.mid");
 	if (wolf->lvl_music != NULL)
 		Mix_PlayMusic(wolf->lvl_music, -1);
 	return (1);
 }
 
-static void	clear_lvl2(t_wolf *wolf)
+static void		clear_lvl4(t_wolf *wolf)
 {
 	if (Mix_PlayingMusic())
 		Mix_HaltMusic();
@@ -45,9 +57,9 @@ static void	clear_lvl2(t_wolf *wolf)
 	wolf->map = NULL;
 }
 
-static int	game_lvl2(t_wolf *wolf)
+static int		game_lvl4(t_wolf *wolf)
 {
-	while (event(wolf, end_lvl2))
+	while (event(wolf, end_lvl4))
 	{
 		if (wolf->door.opened)
 			close_door(wolf);
@@ -63,29 +75,22 @@ static int	game_lvl2(t_wolf *wolf)
 			return (death(wolf));
 		clear_buffer(wolf);
 	}
-	cast_loop(wolf);
-	screen_upd(wolf);
-	if ((int)wolf->p_x == 2 && (int)wolf->p_y == 49)
-		return (LVL3);
 	return (0);
 }
 
-void		start_lvl_2(t_wolf *wolf)
+void			start_lvl_4(t_wolf *wolf)
 {
-	int		next;
+	int			next;
 
 	wolf->lvl_music = NULL;
 	post_init(wolf);
 	next = 0;
-	if (map(wolf, "resource/maps/02lvl.wolfmap") && prepare_lvl2(wolf))
+	if (map(wolf, "resource/maps/04lvl.wolfmap") && prepare_lvl4(wolf))
 	{
-		rot_dir(wolf, -91);
-		rot_plane(wolf, -91);
-		next = game_lvl2(wolf);
+		rot_dir(wolf, -90);
+		rot_plane(wolf, -90);
+		next = game_lvl4(wolf);
 	}
-	clear_lvl2(wolf);
+	clear_lvl4(wolf);
 	pause_frame(1000);
-	printf("lvl: %d\n", next);
-	if (next == LVL3)
-		start_lvl_3(wolf);
 }

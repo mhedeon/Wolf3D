@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 22:18:00 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/29 22:14:38 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/30 19:51:09 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void		draw_d(t_wolf *wolf, int x)
 	while (++y <= wolf->draw_end)
 	{
 		wolf->d = y * 256 - SCREEN_HEIGHT * 128 + wolf->draw_h * 128;
-		wolf->t_y = ((wolf->d * WALL_HEIGHT) / wolf->draw_h) >> 8;
+		wolf->t_y = wolf->draw_h == 0 ? 0 : ((wolf->d * WALL_HEIGHT)
+			/ wolf->draw_h) >> 8;
 		wolf->t_y = wolf->t_y < 0 ? 0 : wolf->t_y;
 		wolf->t_y = wolf->t_y >= WALL_HEIGHT ? WALL_HEIGHT - 1 : wolf->t_y;
 		get_color(&wolf->wall[get_cardinal(wolf)],
