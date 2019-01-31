@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:39:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:49:17 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:32 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static int		get_wh(t_wolf *wolf, int fd)
 {

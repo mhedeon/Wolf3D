@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:50:04 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/26 18:24:28 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:55 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 int				free_textures(t_texture *texture, int num)
 {

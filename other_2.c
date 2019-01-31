@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 22:54:21 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 21:24:03 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:47 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 int				get_cardinal(t_wolf *wolf)
 {

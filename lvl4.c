@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 18:05:27 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 21:25:15 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:20 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static int		end_lvl4(t_wolf *wolf)
 {

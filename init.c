@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 18:19:45 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 22:10:35 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:03 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static int	pre_init_2(t_wolf *wolf)
 {
@@ -38,7 +38,7 @@ static int	pre_init_1(t_wolf *wolf)
 {
 	wolf->win = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
-				SDL_WINDOW_SHOWN);// | SDL_WINDOW_BORDERLESS);
+				SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
 	if (wolf->win == NULL)
 		return (get_error(WIN_ERR));
 	wolf->ren = SDL_CreateRenderer(wolf->win, -1,

@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 16:49:49 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:16:42 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:25:20 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static void	prepare(t_wolf *wolf, int x)
 {

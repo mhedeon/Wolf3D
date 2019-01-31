@@ -6,11 +6,11 @@
 #    By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 16:01:48 by mhedeon           #+#    #+#              #
-#    Updated: 2019/01/30 21:47:17 by mhedeon          ###   ########.fr        #
+#    Updated: 2019/01/31 17:46:57 by mhedeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Wolf3D
+NAME = wolf3d
 
 SRC = main.c init.c intro.c menu.c menu_resource.c menu_lvl.c \
 		texture.c map.c map_check.c map_trash.c loading.c lvl1.c cast.c \

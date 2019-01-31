@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 21:01:29 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 21:27:26 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:25:26 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static void				draw_death(t_wolf *wolf, unsigned x, unsigned y)
 {

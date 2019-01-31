@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 17:00:46 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 21:52:44 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:30:23 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static int	end_lvl2(t_wolf *wolf)
 {
@@ -85,7 +85,6 @@ void		start_lvl_2(t_wolf *wolf)
 	}
 	clear_lvl2(wolf);
 	pause_frame(1000);
-	printf("lvl: %d\n", next);
 	if (next == LVL3)
 		start_lvl_3(wolf);
 }

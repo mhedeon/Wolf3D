@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 21:05:26 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 19:36:14 by mhedeon          ###   ########.fr       */
+/*   Created: 2019/01/31 16:33:46 by mhedeon           #+#    #+#             */
+/*   Updated: 2019/01/31 17:29:22 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static void		show_health(t_wolf *wolf, SDL_Rect r)
 {
@@ -81,8 +81,7 @@ static void		show_score(t_wolf *wolf, SDL_Rect r)
 void			draw_hud(t_wolf *wolf)
 {
 	face(wolf);
-	SDL_UpdateTexture(wolf->tex, NULL, wolf->buff,
-					SCREEN_WIDTH * sizeof(Uint32));
+	SDL_UpdateTexture(HUD);
 	SDL_RenderClear(wolf->ren);
 	SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
 	show_score(wolf, (SDL_Rect) { 0, 0, 0, 0 });
@@ -94,8 +93,7 @@ void			draw_hud(t_wolf *wolf)
 void			draw_hud_lvl3(t_wolf *wolf)
 {
 	face(wolf);
-	SDL_UpdateTexture(wolf->tex, NULL, wolf->buff,
-					SCREEN_WIDTH * sizeof(Uint32));
+	SDL_UpdateTexture(HUD);
 	SDL_RenderClear(wolf->ren);
 	SDL_RenderCopy(wolf->ren, wolf->tex, NULL, NULL);
 	show_score(wolf, (SDL_Rect) { 0, 0, 0, 0 });

@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 22:02:18 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:08:38 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:25:44 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static void		draw_face_2(t_wolf *wolf, t_texture *face, int time, int ticks)
 {

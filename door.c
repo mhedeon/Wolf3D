@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 22:18:00 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 19:51:09 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:45:36 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static void	prepare(t_wolf *wolf)
 {
@@ -89,7 +89,8 @@ void		open_door(t_wolf *wolf)
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 3 ||
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 7 ||
 			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 9 ||
-			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 11)
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 11 ||
+			wolf->map[wolf->m_y * wolf->m_width + wolf->m_x].north == 18)
 			Mix_PlayChannel(-1, wolf->chunk[4], 0);
 		else
 			Mix_PlayChannel(-1, wolf->chunk[3], 0);

@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:05:06 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 21:27:30 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:25:41 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static void		poll_event(t_wolf *wolf, SDL_Event e)
 {

@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/30 22:10:11 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:41 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 void			menu_anim(t_wolf *wolf, t_texture *menu, Uint32 new_time)
 {

@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 13:10:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 22:51:51 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:50 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 void		rotate(t_wolf *wolf)
 {

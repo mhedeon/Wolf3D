@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 20:27:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:25:51 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:38 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 int		free_menu_screen(t_menu *menu)
 {

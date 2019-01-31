@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:26:10 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 21:00:30 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:25:51 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 static int		pick_up_norme(t_wolf *wolf, t_stats *hero, int s)
 {

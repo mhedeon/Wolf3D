@@ -6,11 +6,11 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 23:09:54 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/28 23:10:55 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:26:00 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Wolf3D.h"
+#include "wolf3d.h"
 
 void	load_chunk(t_wolf *wolf)
 {
