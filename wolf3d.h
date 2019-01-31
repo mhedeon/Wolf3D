@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 17:10:39 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/31 17:29:08 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 19:03:07 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,6 +395,7 @@ int					check_player_xy(t_wolf *wolf);
 /*
 ** map.c
 */
+void				check_vertical(t_wolf *wolf, int fd);
 int					map(t_wolf *wolf, char *path);
 
 /*
@@ -439,6 +440,7 @@ int					get_cardinal(t_wolf *wolf);
 void				draw_x(t_wolf *wolf);
 void				end_game(t_wolf *wolf, SDL_Rect r);
 void				dist_lvl_3(t_wolf *wolf, SDL_Rect r);
+void				check_horizontal(t_wolf *wolf);
 
 /*
 ** rotation.c

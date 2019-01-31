@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:39:47 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/31 17:26:32 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 19:03:25 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,28 @@ static int		parse_map(t_wolf *wolf, int i, char *line)
 	return (1);
 }
 
-static void		check_perimeter(t_wolf *wolf)
+void			check_vertical(t_wolf *wolf, int fd)
 {
 	int			y;
-	int			x;
 
+	close(fd);
 	y = -1;
 	while (++y < wolf->m_height)
 	{
-		if (wolf->map[y * wolf->m_width + 0].w != 1)
+		if (wolf->map[y * wolf->m_width + 0].w != 1 ||
+			wolf->map[y * wolf->m_width + 0].c != 1)
+		{
 			wolf->map[y * wolf->m_width + 0].w = 1;
-		if (wolf->map[y * wolf->m_width + (wolf->m_width - 1)].w != 1)
+			wolf->map[y * wolf->m_width + 0].c = 1;
+		}
+		if (wolf->map[y * wolf->m_width + (wolf->m_width - 1)].w != 1 ||
+			wolf->map[y * wolf->m_width + (wolf->m_width - 1)].c != 1)
+		{
 			wolf->map[y * wolf->m_width + (wolf->m_width - 1)].w = 1;
+			wolf->map[y * wolf->m_width + (wolf->m_width - 1)].c = 1;
+		}
 	}
-	x = -1;
-	while (++x < wolf->m_width)
-	{
-		if (wolf->map[0 * wolf->m_width + x].w != 1)
-			wolf->map[0 * wolf->m_width + x].w = 1;
-		if (wolf->map[(wolf->m_height - 1) * wolf->m_width + x].w != 1)
-			wolf->map[(wolf->m_height - 1) * wolf->m_width + x].w = 1;
-	}
+	check_horizontal(wolf);
 }
 
 int				map(t_wolf *wolf, char *path)
@@ -107,8 +108,9 @@ int				map(t_wolf *wolf, char *path)
 	int			fd;
 	char		*line;
 
-	if ((fd = open(path, O_RDONLY)) != -1 &&
-		get_wh(wolf, fd) && get_xy(wolf, fd))
+	if ((fd = open(path, O_RDONLY)) == -1)
+		return (get_error(MAP_FILE));
+	if (get_wh(wolf, fd) && get_xy(wolf, fd))
 	{
 		wolf->map = (t_map *)malloc(sizeof(t_map) *
 					wolf->m_width * wolf->m_height);
@@ -122,10 +124,9 @@ int				map(t_wolf *wolf, char *path)
 				return (get_error(MAP));
 			}
 		}
-		close(fd);
-		check_perimeter(wolf);
+		check_vertical(wolf, fd);
 		return (check_player_xy(wolf));
 	}
 	close(fd);
-	return (get_error(MAP_FILE));
+	return (get_error(MAP));
 }

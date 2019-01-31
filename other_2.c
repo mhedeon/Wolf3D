@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 22:54:21 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/31 17:26:47 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 19:03:48 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,26 @@ void			dist_lvl_3(t_wolf *wolf, SDL_Rect r)
 	free(tmp);
 	SDL_FreeSurface(sur);
 	SDL_DestroyTexture(message);
+}
+
+void			check_horizontal(t_wolf *wolf)
+{
+	int			x;
+
+	x = -1;
+	while (++x < wolf->m_width)
+	{
+		if (wolf->map[0 * wolf->m_width + x].w != 1 ||
+			wolf->map[0 * wolf->m_width + x].c != 1)
+		{
+			wolf->map[0 * wolf->m_width + x].w = 1;
+			wolf->map[0 * wolf->m_width + x].c = 1;
+		}
+		if (wolf->map[(wolf->m_height - 1) * wolf->m_width + x].w != 1 ||
+			wolf->map[(wolf->m_height - 1) * wolf->m_width + x].c != 1)
+		{
+			wolf->map[(wolf->m_height - 1) * wolf->m_width + x].w = 1;
+			wolf->map[(wolf->m_height - 1) * wolf->m_width + x].c = 1;
+		}
+	}
 }

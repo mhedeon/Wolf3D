@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:15:24 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/31 17:42:11 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/01/31 20:02:40 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				pause_frame(Uint32 pause)
 
 static int		select_lvl(t_wolf *wolf, int lvl)
 {
-	wolf->hero->health = 40;
+	wolf->hero->health = 60;
 	wolf->hero->bullet = 8;
 	wolf->hero->score = 0;
 	if (lvl == LVL1)
@@ -66,6 +66,5 @@ int				main(void)
 		}
 	}
 	free_garbage_1(wolf);
-	system("leaks Wolf3D");
 	return (0);
 }
