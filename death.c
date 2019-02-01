@@ -6,7 +6,7 @@
 /*   By: mhedeon <mhedeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 21:01:29 by mhedeon           #+#    #+#             */
-/*   Updated: 2019/01/31 17:25:26 by mhedeon          ###   ########.fr       */
+/*   Updated: 2019/02/01 20:05:32 by mhedeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void				death_anim(t_wolf *wolf)
 
 int						death(t_wolf *wolf)
 {
-	cast(wolf);
+	cast_loop(wolf);
 	death_anim(wolf);
 	return (0);
 }
